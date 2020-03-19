@@ -1,0 +1,28 @@
+void foo(int a = 0, int b) // Ne moze ovako, jer je default argument lijevo od ovog koji ce biti inicijaliziran
+void foo(int b, int a =0) // OK
+
+string a = "sinisa" OK
+string a = 's' NE
+string a{'s'} OK
+string a('s') NE
+
+Kad konstruises objekat sa {} poziva se konstruktor koji prima std::initializer_list
+
+{ } ne dozvoljava gubljenje informacije - samo za primitivne tipove, ne moze to u nasim klasama
+
+  
+
+void foo(const A& a){
+  gor je prethodno imo neku class A
+}
+ foo(7); - nije naso pravu funkciju, nije naso template, pa je naso tu funkciju koja mu je dozvolila da kreira objekat tipa A od broja 7
+ e sad da je konstruktor u A bio explicit, ovo ne bi moglo jer mu ne da implicitnu konverziju
+
+ A a(A{7});
+ima slikano
+
+-fno-elide-constructors -O0 da ignorise te neke tam optimizacije sa konstruktorima (najbolje vako testiraj kad ce se koji pozivati )
+
+
+
+
