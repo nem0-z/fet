@@ -11,11 +11,13 @@ ARCH
 -go through book
 -call functions
 * -printf
+-homework 1
 
 SP
 -array, iterator, const_iterator
 * -complexity
 * -go through presentations
+-linked list, check online, try implementation
 
 PISP
 -basic revision (try more patterns)
