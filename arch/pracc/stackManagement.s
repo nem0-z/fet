@@ -22,7 +22,7 @@ main:
 
   la $a0, mystr1
   addu $a1,$0,$t2
-  jal printf          #
+  jal printf          #basic printf calls
 
   la $a0, mystr2
   addu $a1,$0,$t3

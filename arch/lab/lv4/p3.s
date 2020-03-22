@@ -13,7 +13,7 @@ myabs:
   #po konvenciji funkcija moze da koristi 16 nasih bajta
   #znaci uvijek zauzimamo koliko nam treba bajta+16
 
-  addiu $sp, $sp, -20 #treba nam 4 bajta za pointer na mystr + 16 bajta
+  addiu $sp, $sp, -20 #treba nam 4 bajta za $ra + 16 bajta
   sw $ra, 16($sp) #sacuvali $ra na steku
   
   slti $t0, $a1, 0

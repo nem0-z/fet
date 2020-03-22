@@ -3,13 +3,13 @@ TO DO:
 ARCH
 * -stack pointer and variables
 * -basic functions from C to assembly
--more flow control practice -> flowControl3.c, get it done!
--return values
--loops
--arrays and load/store stuff from/in array
+*-more flow control practice -> flowControl3.c, get it done!
+*-return values
+*-loops
+*-arrays and load/store stuff from/in array
 * -wtf .bss (when is it initialized)
--go through book
--call functions
+*-go through book
+*-call functions
 * -printf
 -homework 1
 

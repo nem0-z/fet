@@ -34,7 +34,7 @@ class MojNiz {
   iterator end() { return iterator(data_ + size_); }
   void resize(size_t new_size);
   iterator erase(iterator pos);
-  iterator erase(iterator begin, iterator end);
+  iterator erase(iterator rangeStart, iterator rangeEnd);
 };
 
 template <typename T>
@@ -172,24 +172,23 @@ void MojNiz<T>::resize(size_t new_size) {
 
 template <typename T>
 typename MojNiz<T>::iterator MojNiz<T>::erase(MojNiz<T>::iterator pos) {
-  // moze i da uzmes zadnji clan stavis na tu poziciju i smanjis size
-  // ali onda relativna pozicija elemenata nece biti sustained
-  // pazi na corner caseove
   iterator it1(pos), it2(pos + 1);
-  while (it1 != end()) {
-    std::swap(*it1++, *it2++);
-  }
+  while (it1 != end()) *it1++ = *it2++;
   --size_;
   return iterator(pos);
 }
+
 // moramo dodati typename ispred jer vracamo objekat unutar klase koja je
 // genericka -> compiler requirement
 
 template <typename T>
-typename MojNiz<T>::iterator MojNiz<T>::erase(MojNiz<T>::iterator begin,
-                                              MojNiz<T>::iterator end) {
-  //TODO
+typename MojNiz<T>::iterator MojNiz<T>::erase(MojNiz<T>::iterator rangeStart,
+                                              MojNiz<T>::iterator rangeEnd) {
+  const int itemsToDelete = rangeEnd - rangeStart;
+  for (auto i = 0; i < itemsToDelete; ++i) *rangeStart++ = *rangeEnd++;
+  for (auto it = rangeStart; it != this->end();) *it++ = *rangeEnd++;
+  size_ -= itemsToDelete;
+  return iterator(rangeStart - itemsToDelete);
 }
-
 
 #endif

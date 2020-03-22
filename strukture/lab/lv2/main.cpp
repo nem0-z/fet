@@ -60,11 +60,15 @@ int main(int argc, char* argv[]) {
   std::cout << "*** PART 5 ***" << std::endl;
   auto to_delete = numbers.begin() + 4;
   numbers.erase(to_delete);
+  //auto it = numbers.erase(to_delete);
+  //*it = 10; //test
   for (auto& element : numbers) {
     std::cout << element << std::endl;
   }
   std::cout << '\n' << std::endl;
-  numbers.erase(numbers.begin() + 2, numbers.begin() + 4);
+  numbers.erase(numbers.begin() + 2, numbers.end());
+  // auto it = numbers.erase(numbers.begin() + 2, numbers.begin() + 4);
+  // *it = 10; //test
   for (auto& element : numbers) {
     std::cout << element << std::endl;
   }
