@@ -11,25 +11,18 @@ ARCH
 *-go through book
 *-call functions
 * -printf
+-more arrays through loops practice
 -homework 1
 
 SP
--array, iterator, const_iterator
+* -array, iterator, const_iterator
 * -complexity
 * -go through presentations
 -linked list, check online, try implementation
 
 PISP
 -basic revision (try more patterns)
+-professor's examples from lectures
 
 
-void foo(){
-int a;
-}
-
-int main(){
-foo();
-}
-
-//po izlazu iz foo je oslobodjen stek tj vracen sp nazad ok, je li to znaci da mi iz maina(po izlazu iz foo()) mozemo pristupiti toj varijabli ako znamo na kojem je mjestu na steku ona ili se nekako obrise?
 
