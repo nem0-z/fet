@@ -11,8 +11,11 @@ ARCH
 *-go through book
 *-call functions
 * -printf
--more arrays through loops practice
--homework 1
+* -more arrays through loops practice
+* -homework 1
+-wtf trebam cuvati na steku kad sam u funkcijama, nekad bude problem kad ne sacuvam npr neki $a ili $s iako ga tako nisam
+-(jel ga dotice mmmm neko drugi??)
+-ono za sp sto se gdb buni, heuristic nesto sta vec
 
 SP
 * -array, iterator, const_iterator
@@ -21,8 +24,9 @@ SP
 -linked list, check online, try implementation
 
 PISP
--basic revision (try more patterns)
--professor's examples from lectures
+* -basic revision (try more patterns)
+* -professor's examples from lectures
+- 4th lecture
 
 
 

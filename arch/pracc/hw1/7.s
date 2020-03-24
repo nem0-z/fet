@@ -42,9 +42,9 @@ sw $a2,28($sp)
 sw $a0,24($sp)
 sw $a1,20($sp)
 
-#$a0 je adresa prvog niza
-#$a1 je adresa drugog niza
-#$a2 je size*sizeof(int)
+#$a0 first array
+#$a1 second array
+#$a2 array_size*sizeof(int)
 
 sra $t0,$a2,2 # $t0 limit
 li $t1,0  #$t1 counter
@@ -54,9 +54,9 @@ addu $t3,$0,$a1
 size:
 sll $t5,$t1,2
 addu $t2,$a0,$t5
-addu $t3,$a1,$t5
+addu $t3,$a1,$t5 #incrementing stuff -> fancy way which I don't like
 
-beq $t1,$t0,out
+beq $t1,$t0,out #loop condition
 
 lw $t4,($t2)
 lw $t5,($t3)
@@ -72,7 +72,6 @@ lw $a1,20($sp)
 lw $a2,28($sp)
 lw $ra,16($sp)
 addiu $sp,$sp,32
-
 jr $ra
 
 
