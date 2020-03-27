@@ -13,11 +13,7 @@ sw $ra,16($sp)
 
 la $t0,str
 la $t8,result
-li $t1,0  #we will save string size here
-# we count from 1 so we save here size-1 value
-#because we want to jump to last character in string
-
-#ok forget about that 
+li $t1,0  
 
 get_size:
 lb $t2,($t0)

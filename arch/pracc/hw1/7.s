@@ -16,13 +16,13 @@ sw $a1,20($sp)
 sw $ra,16($sp)
 
 la $t1,arrSize
-lw $t1,($t1)
-la $t2,arr1
-la $t3,arr2
+lw $a2,($t1)
+la $a0,arr1
+la $a1,arr2
 
-addu $a2,$0,$t1
-addu $a0,$0,$t2
-addu $a1,$0,$t3
+#addu $a2,$0,$t1
+#addu $a0,$0,$t2
+#addu $a1,$0,$t3
 
 jal swap
 
@@ -38,9 +38,9 @@ jr $ra
 swap:
 addiu $sp,$sp,-32
 sw $ra,16($sp)
-sw $a2,28($sp)
-sw $a0,24($sp)
-sw $a1,20($sp)
+#sw $a2,28($sp)
+#sw $a0,24($sp)
+#sw $a1,20($sp)
 
 #$a0 first array
 #$a1 second array
@@ -67,9 +67,9 @@ j size
 
 
 out:
-lw $a0,24($sp)
-lw $a1,20($sp)
-lw $a2,28($sp)
+#lw $a0,24($sp)
+#lw $a1,20($sp)
+#lw $a2,28($sp)
 lw $ra,16($sp)
 addiu $sp,$sp,32
 jr $ra

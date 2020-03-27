@@ -2,8 +2,8 @@
 dummy: .space 32
 buffer: .space 32
 stream1: .string "It took me %d iterations to convert %d to binary!\n"
-stream2: .string "Number %d in binary equals to: "
-num: .word 7    #testing stuff
+stream2: .string "Number %d in binary equals to "
+num: .word 2351    #testing stuff
 
 .text
 .globl toBinary
