@@ -1,7 +1,8 @@
 #include "ArrayList.hpp"
 #include <iostream>
 
-int main(void) {
+int main(void)
+{
   std::cout << "Push back:" << std::endl;
   ArrayList<int> list1;
   list1.push_back(2).push_back(4).push_back(6);
@@ -37,9 +38,21 @@ int main(void) {
   list1.replace(25, 0);
   list1.print();
 
-  for (auto it = list1.begin(); it != list1.end(); ++it)
-    std::cout << *it << " ";
-  std::cout << '\n';
+  std::cout << "Erase:" << std::endl;
+  auto it = list1.begin() + 2;
+  list1.erase(it + 1);
+  list1.print();
+
+  // for (auto it = list1.begin(); it != list1.end(); ++it)
+  //   std::cout << *it << " ";
+  // std::cout << '\n';
+
+  // ArrayList<int> lista1;
+  // std::cout << lista1.capacity() << std::endl;
+  // lista1.insert(0, 5);
+  // lista1.push_back(5).push_front(7).replace(5, 3);
+  // lista1.print();
+  // ArrayList<int>::iterator it = lista1.begin();
 
   return 0;
 }
