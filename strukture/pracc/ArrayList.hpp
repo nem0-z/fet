@@ -10,18 +10,54 @@ class ArrayList {
   size_t capacity_;
 
   public:
-  ArrayList(int size = 100);
-  ArrayList(const ArrayList<T>& other);
-  const ArrayList<T>& operator=(const ArrayList<T>&);
+  ArrayList(size_t capacityVar = 100) : size_{0}, capacity_{capacityVar} {
+    elements_ = new T[capacity_];
+  }
+
+  ArrayList(const ArrayList& other)
+      : size_{other.size_}, capacity_{other.capacity_} {
+    elements_ = new T[capacity_];
+    std::copy(other.elements_, other.elements_ + size_, elements_);
+  }
+
+  ArrayList(ArrayList&& other)
+      : elements_{other.elements_},
+        size_{other.size_},
+        capacity_{other.capacity_} {
+    other.elements_ = nullptr;
+  }
+
+  ArrayList& operator=(const ArrayList& other) {
+    if (*this != &other) {
+      size_ = other.size();
+      capacity_ = other.capacity();
+      elements_ = new T[capacity_];
+      std::copy(other.elements_, other.elements_ + size_, elements_);
+    }
+    return *this;
+  }
+
+  ArrayList& operator=(ArrayList&& other) {
+    elements_ = other.elements_;
+    size_ = other.size();
+    capacity_ = other.capacity();
+    other.elements_ = nullptr;
+    return *this;
+  }
+
   bool empty() const;
   bool full() const;
   int size() const { return size_; }
   int capacity() const { return capacity_; }
   void print() const;
-  T& back() const { return elements_[size_]; }
-  T& at(int index);
-  T& operator[](int index);
-  ~ArrayList(void) { delete[] elements_; }
+  void reserve();
+  T& back() const { return elements_[size_ - 1]; }
+  T& at(int index) {
+    if (index < 0 || index > size_) throw std::out_of_range("Nope!");
+    return elements_[index];
+  }
+  T& operator[](int index) { return elements_[index]; }
+  ~ArrayList() { delete[] elements_; }
 
   // Zadatak 1
   ArrayList<T>& push_back(const T& value);
@@ -36,126 +72,79 @@ class ArrayList {
   // Zadatak 5
   int find(const T& value);  // Vraca index elementa
   ArrayList<T>& replace(const T& oldValue, const T& newValue);
+
+  class iterator;
+  iterator begin() const { return iterator(elements_); }
+  iterator end() const { return iterator(elements_ + size_); }
 };
 
 template <typename T>
-T& ArrayList<T>::operator[](int index) {
-  if (index < 0 || index >= size_)
-    throw std::out_of_range("Index is out of range.");
-  else
-    return elements_[index];
-  elements_[index];
-}
-
-template <typename T>
-ArrayList<T>::ArrayList(int n) {
-  n < 0 ? capacity_ = 100 : capacity_ = n;
-  size_ = 0;
-  elements_ = new T[capacity_];
-}
-
-template <typename T>
-ArrayList<T>::ArrayList(const ArrayList<T>& other) {
-  capacity_ = other.capacity();
-  size_ = other.size();
-  elements_ = new T[capacity_];
-  for (int i = 0; i < size_; i++) elements_[i] = other.elements_[i];
-}
-
-template <typename T>
-const ArrayList<T>& ArrayList<T>::operator=(const ArrayList<T>& other) {
-  if (this != &other) {
-    delete[] elements_;
-    capacity_ = other.capacity();
-    size_ = other.size();
-    elements_ = new T[capacity()];
-    for (int i = 1; i < size_; i++) elements_[i] = other.elements_[i];
-  }
-  return *this;
-}
-
-template <typename T>
 bool ArrayList<T>::empty() const {
-  return (size_ == 0);
+  if (size_)
+    return false;
+  else
+    return true;
 }
 
 template <typename T>
 bool ArrayList<T>::full() const {
-  return (size_ == capacity_);
+  if (size_ == capacity_)
+    return true;
+  else
+    return false;
 }
 
 template <typename T>
 void ArrayList<T>::print() const {
-  for (int i = 0; i < size_; i++) std::cout << elements_[i] << " ";
-  std::cout << std::endl;
+  for (int i = 0; i < size_; ++i) std::cout << elements_[i] << " ";
+  std::cout << '\n';
 }
 
 template <typename T>
-T& ArrayList<T>::at(int index) {
-  if (index < 0 || index >= size_)
-    throw std::out_of_range("Index is out of range.");
-  else
-    return elements_[index];
+void ArrayList<T>::reserve() {
+  capacity_ *= 2;
+  auto tmp = new T[capacity_];
+  std::copy(elements_, elements_ + size_, tmp);
+  delete[] elements_;
+  elements_ = tmp;
 }
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::push_back(const T& value) {
-  if (capacity_ == size_) {
-    capacity_ *= 2;
-    auto p = new T[capacity_];
-    delete[] elements_;
-    elements_ = p;
-  }
+  if (full()) reserve();
   elements_[size_++] = value;
   return *this;
 }
+
 template <typename T>
 ArrayList<T>& ArrayList<T>::pop_back() {
-  // --size_;
-  // auto p = new T[size_];
-  // std::copy(elements_,elements_+size_,p);
-  // delete [] elements_;
-  // elements_ = p;
-  // return *this;
   --size_;
   return *this;
 }
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::push_front(const T& value) {
-  if (capacity_ == size_) {
-    capacity_ *= 2;
-    auto p = new T[capacity_];
-    delete[] elements_;
-    elements_ = p;
-  }
-  ++size_;
+  if (full()) reserve();
   for (int i = size_; i > 0; --i) elements_[i] = elements_[i - 1];
   elements_[0] = value;
+  ++size_;
   return *this;
 }
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::pop_front() {
+  for (int i = 0; i < size_ - 1; ++i) elements_[i] = elements_[i + 1];
   --size_;
-  //auto p = new T[size_];
-  //std::copy(elements_ + 1, elements_ + size_ + 1, p);
-  //delete[] elements_;
-  //elements_ = p;
-  elements_+=1;
   return *this;
 }
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::insert(int index, const T& value) {
-  if (capacity_ == size_) {
-    capacity_ *= 2;
-    auto p = new T[capacity_];
-    delete[] elements_;
-    elements_ = p;
+  if (full()) reserve();
+  for (int i = size_; i > index; --i) {
+    elements_[i] = elements_[i - 1];
   }
-  size_++;
-  for (int i = size_; i > index; --i) elements_[i] = elements_[i - 1];
+  ++size_;
   elements_[index] = value;
   return *this;
 }
@@ -169,14 +158,52 @@ ArrayList<T>& ArrayList<T>::invert() {
 
 template <typename T>
 int ArrayList<T>::find(const T& value) {
+  int index = -1;
   for (int i = 0; i < size_; ++i)
-    if (elements_[i] == value) return i;
-  return -1;
-}  // Vraca index elementa
+    if (value == elements_[i]) return i;
+  return index;
+}
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::replace(const T& oldValue, const T& newValue) {
-  const int pos = find(oldValue);
-  elements_[pos] = newValue;
+  for (int i = 0; i < size_; ++i)
+    if (elements_[i] == oldValue) elements_[i] = newValue;
+  return *this;
+}
+
+template <typename T>
+class ArrayList<T>::iterator
+    : public std::iterator<std::random_access_iterator_tag, T> {
+  private:
+  T* ptr_;
+
+  public:
+  iterator(T* pel) : ptr_{pel} {}
+  // operator *, poredjenja, inkrement i dekrement u prefix i postfix
+
+  T& operator*() const { return *ptr_; }
+
+  iterator& operator++();
+  iterator operator++(int) {
+    iterator tmp = *this;
+    ++ptr_;
+    return tmp;
+  }
+  iterator& operator--() {
+    --ptr_;
+    return *this;
+  }
+  iterator operator--(int) {
+    iterator tmp = *this;
+    --ptr_;
+    return tmp;
+  }
+  bool operator!=(iterator other) const { return ptr_ != other.ptr_; }
+  bool operator==(iterator other) const { return ptr_ == other.ptr_; }
+};
+
+template <typename T>
+typename ArrayList<T>::iterator& ArrayList<T>::iterator::operator++() {
+  ++ptr_;
   return *this;
 }

@@ -1,13 +1,12 @@
-#include <iostream>
 #include "ArrayList.hpp"
+#include <iostream>
 
-int main(void)
-{
+int main(void) {
   std::cout << "Push back:" << std::endl;
   ArrayList<int> list1;
   list1.push_back(2).push_back(4).push_back(6);
   list1.print();
-  //
+
   std::cout << "Pop back:" << std::endl;
   list1.pop_back();
   list1.print();
@@ -33,10 +32,14 @@ int main(void)
   std::cout << "Result1: " << result1 << std::endl;
   auto result2 = list1.find(-50);
   std::cout << "Result2: " << result2 << std::endl;
-  //
+
   std::cout << "Replace:" << std::endl;
   list1.replace(25, 0);
   list1.print();
+
+  for (auto it = list1.begin(); it != list1.end(); ++it)
+    std::cout << *it << " ";
+  std::cout << '\n';
 
   return 0;
 }
