@@ -1,0 +1,35 @@
+1a) A = [2:1:5;9:-2:3;2.^[2:5];3.^[3:-1:0]]
+1b) C = fliplr(diag(diag(fliplr(B))))
+1c) X = prod(diag(fliplr(B),1))
+1d) za neku matricu E, 
+X = find(mod(E,2)==0) nadji indekse parnih elemenata
+Y = X(find(mod(X,2))) nadji neparne indekse
+E(Y)
+
+strpaj sve u jednu liniju
+
+1e)Z = diag(rot90(F,-1).*rot90(F))
+
+
+2
+a)
+n = input('Unesi broj(n>4 i n je neparno)->');
+if n<=4 || mod(n,2) == 0
+    error('Glup si')
+end
+
+A = zeros(n);
+A(2:end-1,2:end-1) = round(5*rand(n-2)+4);
+A = A - diag(diag(A));
+B = zeros(n);
+B(2:end-1,2:end-1) = diag((n-3)*ones(1,n-2));
+A = A+B;
+A(find(A==0)) = 2*n+1;
+
+b)
+x1 = sum(sum(A(2:end-1,2:end-1)));
+x2 = length(find((A>n) & mod(A,2)));
+x3 = length(find(A([2 3],:)<A(ceil(n^2/2))));
+X = [x1 x2 x3];
+
+
