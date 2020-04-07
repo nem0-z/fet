@@ -15,10 +15,10 @@ E = [1 3 3; 1 2 6;8 3 1]
 % X = prod(diag(fliplr(D),1))
 
 %d
-X = find(mod(E,2) == 0);
-Y = E(find(mod(find(mod(E,2) == 0),2)));
-
-
+% X = find(mod(E,2) == 0);
+% Y = E(find(mod(find(mod(E,2) == 0),2)));
+E(1:2:end)
+ans(find(mod(E(1:2:end),2)==0))
 
 %e
 %Z = diag(rot90(E,-1).*rot90(E))

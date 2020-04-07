@@ -56,6 +56,9 @@ public:
     {
         return ptr_ + other.ptr_;
     }
-    // int operator-(const_iterator lhs, iterator other);
-    // int operator+(const_iterator lhs, iterator other);
+
+    friend class iterator;
+
+    int operator-(const iterator& other);
+    int operator+(const iterator& other);
 };
