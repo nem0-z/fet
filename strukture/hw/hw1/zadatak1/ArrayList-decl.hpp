@@ -16,8 +16,8 @@ private:
 public:
     ArrayList(size_t capacityVar = 100);
     ArrayList(std::initializer_list<T>);
-    ArrayList(const ArrayList &other);
-    ArrayList(ArrayList &&other);
+    ArrayList(const ArrayList &);
+    ArrayList(ArrayList &&);
     ~ArrayList();
 
     class iterator;
@@ -38,8 +38,8 @@ public:
 
     void remove(const T &value);
     void remove(const typename ArrayList<T>::iterator &);
-    ArrayList &operator=(const ArrayList &other);
-    ArrayList &operator=(ArrayList &&other);
+    ArrayList &operator=(const ArrayList &);
+    ArrayList &operator=(ArrayList &&);
     ArrayList &push_back(const T &);
     ArrayList &pop_back();
     ArrayList &push_front(const T &);
@@ -47,10 +47,10 @@ public:
     ArrayList &insert(const int &, const T &);
     ArrayList &invert();
     ArrayList &replace(const T &, const T &);
-    iterator find(const T &);
+    iterator find(const T &) const;
 
     template <typename predicate>
-    iterator find_if(const predicate &);
+    iterator find_if(const predicate &) const;
     template <typename predicate>
     iterator remove_if(const predicate &);
     template <typename RandomAccessIter>

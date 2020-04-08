@@ -276,7 +276,7 @@ ArrayList<T> &ArrayList<T>::invert()
 
 //Find - O(n)
 template <typename T>
-typename ArrayList<T>::iterator ArrayList<T>::find(const T &value)
+typename ArrayList<T>::iterator ArrayList<T>::find(const T &value) const
 {
   for (auto it = begin(); it != end(); ++it)
   {
@@ -304,6 +304,8 @@ void ArrayList<T>::remove(const typename ArrayList<T>::iterator &pos)
 {
   if (empty())
     throw std::logic_error("Empty list.\n");
+  if (pos == end())
+    throw std::out_of_range("Oops, I am trying to access element at end() which is forbidden.\n");
   for (int i = pos - begin(); i < size_; ++i)
   {
     elements_[i] = elements_[i + 1];
@@ -321,7 +323,7 @@ void ArrayList<T>::remove(const T &value)
 
 template <typename T>
 template <typename predicate>
-typename ArrayList<T>::iterator ArrayList<T>::find_if(const predicate &pred)
+typename ArrayList<T>::iterator ArrayList<T>::find_if(const predicate &pred) const
 {
   for (auto it = begin(); it != end(); ++it)
   {
@@ -348,25 +350,25 @@ typename ArrayList<T>::iterator ArrayList<T>::remove_if(const predicate &pred)
 
 // Methods underneath are just overloads for different iterator types, O(1)
 template <typename T>
-int ArrayList<T>::const_iterator::operator+(const typename ArrayList<T>::iterator &rhs)
+int ArrayList<T>::const_iterator::operator+(const typename ArrayList<T>::iterator &rhs) const
 {
   return static_cast<int>(ptr_ + rhs.ptr_);
 }
 
 template <typename T>
-int ArrayList<T>::const_iterator::operator-(const typename ArrayList<T>::iterator &rhs)
+int ArrayList<T>::const_iterator::operator-(const typename ArrayList<T>::iterator &rhs) const
 {
   return static_cast<int>(ptr_ - rhs.ptr_);
 }
 
 template <typename T>
-int ArrayList<T>::iterator::operator+(const typename ArrayList<T>::const_iterator &rhs)
+int ArrayList<T>::iterator::operator+(const typename ArrayList<T>::const_iterator &rhs) const
 {
   return static_cast<int>(ptr_ + rhs.ptr_);
 }
 
 template <typename T>
-int ArrayList<T>::iterator::operator-(const typename ArrayList<T>::const_iterator &rhs)
+int ArrayList<T>::iterator::operator-(const typename ArrayList<T>::const_iterator &rhs) const
 {
   return static_cast<int>(ptr_ - rhs.ptr_);
 }

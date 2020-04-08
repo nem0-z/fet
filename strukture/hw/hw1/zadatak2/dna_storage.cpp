@@ -9,7 +9,6 @@ DNAStorage::DNAStorage(const DNAStorage &other)
       mol_{new char[size_]}
 {
   std::copy(other.mol_, other.mol_ + size_, mol_);
-  std::memset(mol_, 0, size_);
 }
 DNAStorage::DNAStorage(DNAStorage &&other)
     : size_{other.size_}, mol_{other.mol_}
@@ -38,11 +37,7 @@ void DNAStorage::print(std::ostream &stream) const
   std::string s1{};
   while (i < size_)
   {
-    while (mol_[i] != 0)
-    {
-      s1.push_back(mol_[i]);
-      ++i;
-    }
+    findMols(s1,i);
     if (!s1.empty())
     {
       stream << pos << "-" << i - 1 << ": " << s1 << '\n';
@@ -50,9 +45,8 @@ void DNAStorage::print(std::ostream &stream) const
     }
     else
     {
-      while (mol_[i] == 0)
-        ++i;
-      stream << pos << "-" << i - 1 << ": NULL\n";
+    countNulls(i);
+    stream << pos << "-" << i - 1 << ": NULL\n";
     }
     pos = i;
   }
@@ -88,7 +82,7 @@ void DNAStorage::insert(int pos, std::string lanac)
   {
     if (item == 'A' || item == 'G' || item == 'C' || item == 'T')
       ++charsToAdd;
-  } //Count valid inputs
+  } //Count valid inputs - needed for possible new allocation
 
   if (!charsToAdd)
     return;
@@ -96,12 +90,16 @@ void DNAStorage::insert(int pos, std::string lanac)
   if (charsToAdd > size_ - pos)
     reserve(pos + charsToAdd);
 
-  for (int i = 0; i < charsToAdd; ++i)
+  //We will skip invalid inputs and chain together valid ones
+  //example:
+  //for input: AGfooTCbarAA 
+  //AGTCAA of length 6 will be saved
+  for (int i = 0; i < lanac.size(); ++i)
   {
     if (lanac[i] == 'A' || lanac[i] == 'G' || lanac[i] == 'C' || lanac[i] == 'T')
       mol_[pos++] = lanac[i];
     else
-      break;
+      continue;
   }
 }
 
@@ -129,11 +127,7 @@ void DNAStorage::store(std::string filename)
   std::string s1{};
   while (i < size_)
   {
-    while (mol_[i] != 0)
-    {
-      s1.push_back(mol_[i]);
-      ++i;
-    }
+    findMols(s1,i);
     if (!s1.empty())
     {
       output << pos << " " << s1 << '\n';
@@ -141,8 +135,7 @@ void DNAStorage::store(std::string filename)
     }
     else
     {
-      while (mol_[i] == 0)
-        ++i;
+      countNulls(i);
     }
     pos = i;
   }
@@ -169,6 +162,20 @@ void DNAStorage::reserve(const int &toReserve)
   std::copy(mol_, mol_ + size_, temp);
   delete[] mol_;
   mol_ = temp;
-  std::memset(mol_ + size_, 0, toReserve - size_); //Newly allocated memory
+  std::memset(mol_ + size_, 0, toReserve - size_); //Initalize newly allocated memory
   size_ = toReserve;
+}
+
+void DNAStorage::findMols(std::string& str, int& counter) const {
+
+    while (mol_[counter] != 0)
+    {
+      str.push_back(mol_[counter]);
+      ++counter;
+    }
+}
+
+void DNAStorage::countNulls(int& counter) const {
+  while(mol_[counter] == 0)
+    ++counter;
 }

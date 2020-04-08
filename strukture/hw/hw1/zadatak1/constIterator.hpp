@@ -59,6 +59,6 @@ public:
 
     friend class iterator;
 
-    int operator-(const iterator& other);
-    int operator+(const iterator& other);
+    int operator-(const iterator &other) const;
+    int operator+(const iterator &other) const;
 };

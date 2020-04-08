@@ -36,8 +36,8 @@ public:
     }
     bool operator!=(const iterator &other) const { return ptr_ != other.ptr_; }
     bool operator==(const iterator &other) const { return ptr_ == other.ptr_; }
-    iterator operator+(const int &val) { return iterator(ptr_ + val); }
-    iterator operator-(const int &val) { return iterator(ptr_ - val); }
+    iterator operator+(const int &val) const { return iterator(ptr_ + val); }
+    iterator operator-(const int &val) const { return iterator(ptr_ - val); }
     iterator &operator+=(const int &val)
     {
         ptr_ += val;
@@ -59,6 +59,6 @@ public:
 
     friend class const_iterator;
 
-    int operator-(const const_iterator &other);
-    int operator+(const const_iterator &other);
+    int operator-(const const_iterator &other) const;
+    int operator+(const const_iterator &other) const;
 };

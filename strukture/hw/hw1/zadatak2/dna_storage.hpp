@@ -1,15 +1,14 @@
 #pragma once
 #include <algorithm>
+#include <cstring>
+#include <fstream>
 #include <iosfwd>
 #include <iostream>
-#include <fstream>
 #include <utility>
 #include <vector>
-#include <cstring>
 
-class DNAStorage
-{
-public:
+class DNAStorage {
+  public:
   DNAStorage();
   DNAStorage(const DNAStorage &);
   DNAStorage(DNAStorage &&);
@@ -27,9 +26,11 @@ public:
   // file sa imenom filename
   void load(std::string filename);
 
-private:
+  private:
   int size_;
   char *mol_;
   bool empty() const { return size_ == 0; }
   void reserve(const int &);
+  void findMols(std::string &, int &) const;
+  void countNulls(int&) const;
 };
