@@ -9,7 +9,8 @@ private:
 public:
     iterator(T *pel) : ptr_{pel} {}
 
-    T &operator*() const { return *ptr_; }
+    T &operator*() { return *ptr_; }
+    const T &operator*() const { return *ptr_; }
 
     iterator &operator++()
     {
@@ -35,8 +36,8 @@ public:
     }
     bool operator!=(const iterator &other) const { return ptr_ != other.ptr_; }
     bool operator==(const iterator &other) const { return ptr_ == other.ptr_; }
-    iterator operator+(const int &val) { return iterator(ptr_ + val); }
-    iterator operator-(const int &val) { return iterator(ptr_ - val); }
+    iterator operator+(const int &val) const { return iterator(ptr_ + val); }
+    iterator operator-(const int &val) const { return iterator(ptr_ - val); }
     iterator &operator+=(const int &val)
     {
         ptr_ += val;
@@ -55,6 +56,9 @@ public:
     {
         return ptr_ + other.ptr_;
     }
-    // int operator-(iterator lhs, const_iterator other);
-    // int operator+(iterator lhs, const_iterator other);
+
+    friend class const_iterator;
+
+    int operator-(const const_iterator &other) const;
+    int operator+(const const_iterator &other) const;
 };

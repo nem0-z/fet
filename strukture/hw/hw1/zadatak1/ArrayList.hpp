@@ -1,68 +1,374 @@
-#pragma once
-#include <initializer_list>
-#include <stdexcept>
-#include <iterator>
-#include <utility>
-#include <functional>
-
-template <typename T>
-class ArrayList
-{
-private:
-    size_t size_;
-    size_t capacity_;
-    T *elements_;
-
-public:
-    ArrayList(size_t capacityVar = 100);
-
-    ArrayList(std::initializer_list<T>);
-
-    ArrayList(const ArrayList &other);
-
-    ArrayList(ArrayList &&other);
-
-    ArrayList &operator=(const ArrayList &other);
-
-    ArrayList &operator=(ArrayList &&other);
-
-    ~ArrayList();
-
-    class iterator;
-    class const_iterator;
-
-    bool empty() const;
-    bool full() const;
-    inline int size() const;
-    inline int capacity() const;
-    void print() const;
-    void reserve();
-    T &back() const;
-    T &front() const;
-    const T &at(int) const;
-    T &at(int);
-    T &operator[](int);
-    const T &operator[](int) const;
-
-    ArrayList<T> &push_back(const T &);
-    ArrayList<T> &pop_back();
-    ArrayList<T> &push_front(const T &);
-    ArrayList<T> &pop_front();
-    ArrayList<T> &insert(const int &, const T &);
-    template <typename RandomAccessIter>
-    void insert(const RandomAccessIter &, const T &);
-    ArrayList<T> &invert();
-    iterator find(const T &);
-    ArrayList<T> &replace(const T &, const T &);
-    void remove(typename ArrayList<T>::iterator);
-    iterator find_if(const std::function<bool(T)> &);
-    iterator remove_if(const std::function<bool(T)> &);
-
-    const_iterator cbegin() const;
-    const_iterator cend() const;
-    iterator begin() const;
-    iterator end() const;
-};
-
+#include "ArrayList-decl.hpp"
 #include "iterator.hpp"
 #include "constIterator.hpp"
+
+//Default constructor - O(1)
+template <typename T>
+ArrayList<T>::ArrayList(size_t capacityVar)
+    : size_{0},
+      capacity_{capacityVar},
+      elements_{new T[capacity_]}
+{
+}
+
+//Initializer list constructor - O(n)
+template <typename T>
+ArrayList<T>::ArrayList(std::initializer_list<T> initList)
+    : size_{initList.size()},
+      capacity_{2 * initList.size()},
+      elements_{new T[capacity_]}
+{
+  std::copy(initList.begin(), initList.end(), elements_);
+}
+
+//Copy constructor - O(n)
+template <typename T>
+ArrayList<T>::ArrayList(const ArrayList &other)
+    : size_{other.size_},
+      capacity_{other.capacity_},
+      elements_{new T[capacity_]}
+{
+  std::copy(other.elements_, other.elements_ + size_, elements_);
+}
+
+//Move constructor - O(1)
+template <typename T>
+ArrayList<T>::ArrayList(ArrayList &&other)
+    : size_{other.size_},
+      capacity_{other.capacity_},
+      elements_{other.elements_}
+{
+  other.elements_ = nullptr;
+}
+
+//Copy assignment operator - O(n)
+template <typename T>
+ArrayList<T> &ArrayList<T>::operator=(const ArrayList &other)
+{
+  if (this != &other)
+  {
+    delete[] elements_;
+    size_ = other.size();
+    capacity_ = other.capacity();
+    elements_ = new T[capacity_];
+    std::copy(other.elements_, other.elements_ + size_, elements_);
+  }
+  return *this;
+}
+
+//Move assignment operator - O(1)
+template <typename T>
+ArrayList<T> &ArrayList<T>::operator=(ArrayList &&other)
+{
+  if (this != &other)
+  {
+    delete[] elements_;
+    elements_ = other.elements_;
+    size_ = other.size();
+    capacity_ = other.capacity();
+    other.elements_ = nullptr;
+  }
+  return *this;
+}
+
+//Destructor - O(n)
+template <typename T>
+ArrayList<T>::~ArrayList() { delete[] elements_; }
+
+//Size - O(1)
+template <typename T>
+inline int ArrayList<T>::size() const
+{
+  return size_;
+}
+
+//Capacity- O(1)
+template <typename T>
+inline int ArrayList<T>::capacity() const
+{
+  return capacity_;
+}
+
+//Operator[]- O(1)
+template <typename T>
+const T &ArrayList<T>::operator[](int index) const
+{
+  return elements_[index];
+}
+
+//Operator[] - O(1)
+template <typename T>
+T &ArrayList<T>::operator[](int index)
+{
+  return elements_[index];
+}
+
+//At - O(1)
+template <typename T>
+const T &ArrayList<T>::at(int index) const
+{
+  if (index < 0 || index >= size_)
+    throw std::out_of_range("Index out of range.\n");
+  return elements_[index];
+}
+
+//At - O(1)
+template <typename T>
+T &ArrayList<T>::at(int index)
+{
+  if (index < 0 || index >= size_)
+    throw std::out_of_range("Index out of range.\n");
+  return elements_[index];
+}
+
+//Empty - O(1)
+template <typename T>
+bool ArrayList<T>::empty() const
+{
+  return size_ == 0;
+}
+
+//Full - O(1)
+template <typename T>
+bool ArrayList<T>::full() const
+{
+  return size_ == capacity_;
+}
+
+//Back - O(1)
+template <typename T>
+T &ArrayList<T>::back() const { return elements_[size_ - 1]; }
+
+//Front - O(1)
+template <typename T>
+T &ArrayList<T>::front() const { return *elements_; }
+
+//Cbegin - O(1)
+template <typename T>
+typename ArrayList<T>::const_iterator ArrayList<T>::cbegin() const
+{
+  return const_iterator(elements_);
+}
+
+//Cend - O(1)
+template <typename T>
+typename ArrayList<T>::const_iterator ArrayList<T>::cend() const
+{
+  return const_iterator(elements_ + size_);
+}
+
+//Begin - O(1)
+template <typename T>
+typename ArrayList<T>::iterator ArrayList<T>::begin() const
+{
+  return iterator(elements_);
+}
+
+//End - O(1)
+template <typename T>
+typename ArrayList<T>::iterator ArrayList<T>::end() const
+{
+  return iterator(elements_ + size_);
+}
+
+//Print - O(n)
+template <typename T>
+void ArrayList<T>::print() const
+{
+  for (auto it = begin(); it != end(); ++it)
+    std::cout << *it << " ";
+  std::cout << '\n';
+}
+
+//Reserve- O(n)
+template <typename T>
+void ArrayList<T>::reserve()
+{
+  capacity_ *= 2;
+  auto tmp = new T[capacity_];
+  std::copy(elements_, elements_ + size_, tmp);
+  delete[] elements_;
+  elements_ = tmp;
+}
+
+//Push back - O(1) unless reserve is called, then O(n)
+template <typename T>
+ArrayList<T> &ArrayList<T>::push_back(const T &value)
+{
+  if (full())
+    reserve();
+  elements_[size_++] = value;
+  return *this;
+}
+
+//Pop back - O(1)
+template <typename T>
+ArrayList<T> &ArrayList<T>::pop_back()
+{
+  if (!empty())
+  {
+    --size_;
+  }
+  return *this;
+}
+
+//Push front - O(n)
+template <typename T>
+ArrayList<T> &ArrayList<T>::push_front(const T &value)
+{
+  if (full())
+    reserve();
+  for (int i = size_; i > 0; --i)
+    elements_[i] = elements_[i - 1];
+  elements_[0] = value;
+  ++size_;
+  return *this;
+}
+
+//Pop front - O(n)
+template <typename T>
+ArrayList<T> &ArrayList<T>::pop_front()
+{
+  if (!empty())
+  {
+    for (int i = 0; i < size_ - 1; ++i)
+      elements_[i] = elements_[i + 1];
+    pop_back();
+  }
+  return *this;
+}
+
+//Insert - O(n)
+template <typename T>
+ArrayList<T> &ArrayList<T>::insert(const int &index, const T &value)
+{
+  if (index < 0 || index > size_)
+    throw std::out_of_range("Out of range index.\n");
+  if (full())
+    reserve();
+  for (int i = size_; i > index; --i)
+  {
+    elements_[i] = elements_[i - 1];
+  }
+  ++size_;
+  elements_[index] = value;
+  return *this;
+}
+
+//Insert - this will just call O(n) insert from above
+//Used for calculating index
+template <typename T>
+template <typename RandomAccessIter>
+void ArrayList<T>::insert(const RandomAccessIter &pos, const T &value)
+{
+  int index = pos - cbegin();
+  insert(index, value);
+}
+
+//Invert - O(n)
+template <typename T>
+ArrayList<T> &ArrayList<T>::invert()
+{
+  for (int i = 0; i < size_ / 2; ++i)
+    std::swap(elements_[i], elements_[size_ - 1 - i]);
+  return *this;
+}
+
+//Find - O(n)
+template <typename T>
+typename ArrayList<T>::iterator ArrayList<T>::find(const T &value) const
+{
+  for (auto it = begin(); it != end(); ++it)
+  {
+    if (*it == value)
+      return it;
+  }
+  return end();
+}
+
+//Replace - O(n)
+template <typename T>
+ArrayList<T> &ArrayList<T>::replace(const T &oldValue, const T &newValue)
+{
+  for (int i = 0; i < size_; ++i)
+  {
+    if (elements_[i] == oldValue)
+      elements_[i] = newValue;
+  }
+  return *this;
+}
+
+//Remove- O(n)
+template <typename T>
+void ArrayList<T>::remove(const typename ArrayList<T>::iterator &pos)
+{
+  if (empty())
+    throw std::logic_error("Empty list.\n");
+  if (pos == end())
+    throw std::out_of_range("Oops, I am trying to access element at end() which is forbidden.\n");
+  for (int i = pos - begin(); i < size_; ++i)
+  {
+    elements_[i] = elements_[i + 1];
+  }
+  pop_back();
+}
+
+//Remove - this will just call O(n) remove from above with found element
+template <typename T>
+void ArrayList<T>::remove(const T &value)
+{
+  ArrayList<T>::iterator it = find(value);
+  remove(it);
+}
+
+template <typename T>
+template <typename predicate>
+typename ArrayList<T>::iterator ArrayList<T>::find_if(const predicate &pred) const
+{
+  for (auto it = begin(); it != end(); ++it)
+  {
+    if (pred(*it))
+      return it;
+  }
+  return end();
+}
+
+template <typename T>
+template <typename predicate>
+typename ArrayList<T>::iterator ArrayList<T>::remove_if(const predicate &pred)
+{
+  for (auto it = begin(); it != end(); ++it)
+  {
+    if (pred(*it))
+    {
+      remove(it);
+      return it;
+    }
+  }
+  return end();
+}
+
+// Methods underneath are just overloads for different iterator types, O(1)
+template <typename T>
+int ArrayList<T>::const_iterator::operator+(const typename ArrayList<T>::iterator &rhs) const
+{
+  return static_cast<int>(ptr_ + rhs.ptr_);
+}
+
+template <typename T>
+int ArrayList<T>::const_iterator::operator-(const typename ArrayList<T>::iterator &rhs) const
+{
+  return static_cast<int>(ptr_ - rhs.ptr_);
+}
+
+template <typename T>
+int ArrayList<T>::iterator::operator+(const typename ArrayList<T>::const_iterator &rhs) const
+{
+  return static_cast<int>(ptr_ + rhs.ptr_);
+}
+
+template <typename T>
+int ArrayList<T>::iterator::operator-(const typename ArrayList<T>::const_iterator &rhs) const
+{
+  return static_cast<int>(ptr_ - rhs.ptr_);
+}
