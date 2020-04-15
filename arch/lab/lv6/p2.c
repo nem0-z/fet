@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 /* Funkcija partition koja prima 3 parametra */
 /* 1.pointer na pocetak niza */
 /* 2.broj elemenata niza */
@@ -14,7 +13,9 @@ void swap(int* a, int* b) {
   *b = temp;
 }
 
-/* static void partition_impl(int*, int*, int(*predicate)(int)); */
+static void partition_impl(int*, int*, int(*predicate)(int));
+
+
 
 void partition(int * niz, int size, int (*predicate)(int));
 
