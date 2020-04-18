@@ -8,15 +8,15 @@ private:
     class Node
     {
     public:
-        Elem _data;
-        Node *_next = nullptr;
-        Node *_prev = nullptr;
+        Elem data_;
+        Node *next_ = nullptr;
+        Node *prev_ = nullptr;
 
-        Node(Elem data = 0) : _data{data}, _next{nullptr}, _prev{nullptr} {}
+        Node(Elem data = 0) : data_{data} {}
     };
-    uint32_t _size;
-    Node *_head;
-    Node *_tail;
+    uint32_t size_;
+    Node *head_;
+    Node *tail_;
 
 public:
     StdList();
@@ -35,28 +35,93 @@ public:
     StdList &pop_back();
     StdList &pop_front();
 
-    Elem &at(uint32_t);
-    const Elem &at(uint32_t) const;
-
     inline bool empty() const;
     inline uint32_t size() const;
 
     void print() const;
     void clear();
+
+    class iterator;
+    class const_iterator;
+
+    iterator begin() { return iterator(nullptr, head_); }
+    iterator end() { return iterator(tail_, nullptr); }
+
+    const_iterator cbegin() { return const_iterator(nullptr, head_); }
+    const_iterator cend() { return const_iterator(tail_, nullptr); }
+
+    template <typename U>
+    void transform(U unary_);
+
+    template <typename U>
+    iterator find(U predicate);
+
+    iterator find(const Elem &item);
+
+    void erase(iterator position);
+
+    void splice(iterator position, StdList &other);
+
+    void insert(iterator position, const Elem &item);
 };
+
+template <typename Elem>
+StdList<Elem> &StdList<Elem>::pop_back()
+{
+    if (!empty())
+    {
+        if (size_ == 1)
+        {
+            delete tail_;
+            tail_ = nullptr;
+            head_ = nullptr;
+        }
+        Node *tmp = tail_->prev_;
+        delete tail_;
+        tail_ = tmp;
+        tail_->next_ = nullptr;
+    }
+    --size_;
+    return *this;
+}
+
+template <typename Elem>
+StdList<Elem> &StdList<Elem>::pop_front()
+{
+    if (!empty())
+    {
+        if (size_ == 1)
+        {
+            delete head_;
+            head_ = nullptr;
+            tail_ = nullptr;
+        }
+        else
+        {
+            Node *tmp = head_->next_;
+            delete head_;
+            head_ = tmp;
+            head_->prev_ = nullptr;
+        }
+    }
+    --size_;
+    return *this;
+}
 
 template <typename Elem>
 void StdList<Elem>::print() const
 {
     if (empty())
     {
+        std::cout << "Empty list!\n"
+                  << std::endl;
         return;
     }
-    Node *tmp = _head;
+    Node *tmp = head_;
     while (tmp)
     {
-        std::cout << tmp->_data << " ";
-        tmp = tmp->_next;
+        std::cout << tmp->data_ << " ";
+        tmp = tmp->next_;
     }
     std::cout << '\n';
 }
@@ -64,25 +129,46 @@ void StdList<Elem>::print() const
 template <typename Elem>
 void StdList<Elem>::clear()
 {
-    Node *tmp = _head;
+    Node *tmp = head_;
 
-    while (_head)
+    while (head_)
     {
-        tmp = _head->_next;
-        delete _head;
-        _head = tmp;
+        tmp = head_->next_;
+        delete head_;
+        head_ = tmp;
     }
-    _size = 0;
-    _head = nullptr;
-    _tail = nullptr;
+    size_ = 0;
+    head_ = nullptr;
+    tail_ = nullptr;
 }
 
 template <typename Elem>
-StdList<Elem>::StdList() : _size{0}, _head{new Node}, _tail{new Node} {}
+StdList<Elem>::StdList() : size_{0}, head_{nullptr}, tail_{nullptr} {}
 
 template <typename Elem>
-StdList<Elem>::StdList(const StdList &other)
+StdList<Elem>::StdList(const StdList &other) : size_{other.size_}
 {
+    if (!other.empty())
+    {
+        head_ = tail_ = new Node(other.head_->data_);
+        Node *tmp = other.head_->next_;
+
+        while (tmp)
+        {
+            Node *newNode = new Node(tmp->data_);
+            newNode->prev_ = tail_;
+            tail_->next_ = newNode;
+            tail_ = newNode;
+            tmp = tmp->next_;
+        }
+    }
+}
+
+template <typename Elem>
+StdList<Elem>::StdList(StdList &&other) : size_{other.size_}, head_{other.head_}, tail_{other.tail_}
+{
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
 }
 
 template <typename Elem>
@@ -92,10 +178,36 @@ StdList<Elem>::~StdList()
 }
 
 template <typename Elem>
-inline uint32_t StdList<Elem>::size() const { return _size; }
+StdList<Elem> &StdList<Elem>::operator=(const StdList<Elem> &other)
+{
+    clear();
+    if (!other.empty() && this != &other)
+    {
+        return *this = StdList(other);
+    }
+    return *this;
+}
 
 template <typename Elem>
-inline bool StdList<Elem>::empty() const { return _size == 0; }
+StdList<Elem> &StdList<Elem>::operator=(StdList<Elem> &&other)
+{
+    if (!other.empty() && this != &other)
+    {
+        clear();
+        size_ = other.size_;
+        head_ = other.head_;
+        tail_ = other.tail_;
+        other.head_ = nullptr;
+        other.tail_ = nullptr;
+    }
+    return *this;
+}
+
+template <typename Elem>
+inline uint32_t StdList<Elem>::size() const { return size_; }
+
+template <typename Elem>
+inline bool StdList<Elem>::empty() const { return size_ == 0; }
 
 template <typename Elem>
 StdList<Elem> &StdList<Elem>::push_back(const Elem &item)
@@ -103,23 +215,159 @@ StdList<Elem> &StdList<Elem>::push_back(const Elem &item)
     Node *toAdd = new Node(item);
     if (empty())
     {
-        _head = toAdd;
-        _tail = toAdd;
+        head_ = tail_ = toAdd;
     }
-    else if (_size == 1)
+    else if (size_ == 1)
     {
-        _head->_next = toAdd;
-        _tail = toAdd;
-        _tail->_prev = _head;
+        head_->next_ = toAdd;
+        tail_ = toAdd;
+        tail_->prev_ = head_;
     }
     else
     {
-        _tail->_next = toAdd;
-        toAdd->_prev = _tail;
-        _tail = toAdd;
-        _tail->_next = nullptr;
+        tail_->next_ = toAdd;
+        toAdd->prev_ = tail_;
+        tail_ = toAdd;
     }
-
-    ++_size;
+    ++size_;
     return *this;
+}
+template <typename Elem>
+StdList<Elem> &StdList<Elem>::push_front(const Elem &item)
+{
+
+    Node *newNode = new Node(item);
+    if (empty())
+    {
+        head_ = tail_ = newNode;
+    }
+    else if (size_ == 1)
+    {
+        head_ = newNode;
+        head_->next_ = tail_;
+        tail_->prev_ = head_;
+    }
+    else
+    {
+        newNode->next_ = head_;
+        head_->prev_ = newNode;
+        head_ = newNode;
+    }
+    ++size_;
+    return *this;
+}
+
+#include "ListIterator.hpp"
+#include "ListConstIterator.hpp"
+
+template <typename Elem>
+template <typename U>
+void StdList<Elem>::transform(U unary_)
+{
+    StdList<Elem>::iterator it = begin();
+    while (it != end())
+    {
+        unary_(*it++);
+    }
+}
+
+template <typename Elem>
+template <typename U>
+typename StdList<Elem>::iterator StdList<Elem>::find(U predicate)
+{
+    auto it = begin();
+    while (it != end())
+    {
+        if (predicate(*it))
+            return it;
+        ++it;
+    }
+    return end();
+}
+
+template <typename Elem>
+typename StdList<Elem>::iterator StdList<Elem>::find(const Elem &item)
+{
+    Node *tmp = head_;
+    while (tmp)
+    {
+        if (tmp->data_ == item)
+            return iterator(tmp->prev_, tmp);
+        tmp = tmp->next_;
+    }
+    return end();
+}
+
+template <typename Elem>
+void StdList<Elem>::erase(typename StdList<Elem>::iterator position)
+{
+    if (position.isBegin())
+    {
+        pop_front();
+    }
+    else if (position.isEnd())
+    {
+        pop_back();
+    }
+    else
+    {
+        Node *toDelete = position.current;
+        toDelete->prev_->next_ = toDelete->next_;
+        toDelete->next_->prev_ = toDelete->prev_;
+        delete toDelete;
+        --size_;
+    }
+}
+
+template <typename Elem>
+void StdList<Elem>::splice(typename StdList<Elem>::iterator position, StdList<Elem> &other)
+{
+    if (!other.empty())
+    {
+        if (position.isBegin())
+        {
+            other.tail_->next_ = head_;
+            head_ = other.head_;
+        }
+        else if (position.isEnd())
+        {
+            tail_->next_ = other.head_;
+            tail_ = other.tail_;
+        }
+        else
+        {
+            Node *range1 = position.previous;
+            Node *range2 = position.current;
+            range2->prev_ = other.tail_->next_;
+            other.tail_->next_ = range2;
+            range1->next_ = other.head_;
+            other.head_->prev_ = range1;
+        }
+    }
+    size_ += other.size_;
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
+    other.size_ = 0;
+}
+
+template <typename Elem>
+void StdList<Elem>::insert(typename StdList<Elem>::iterator position, const Elem &item)
+{
+    if (!empty() && position.isBegin())
+    {
+        push_front(item);
+    }
+    // else if (!empty() && position.isEnd())
+    // {
+    //     push_back(item);
+    // }
+    else if (!empty())
+    {
+        Node *toAdd = new Node(item);
+        Node *addHere = position.current;
+        Node *concatenateTo = position.previous;
+        concatenateTo->next_ = toAdd;
+        toAdd->next_ = addHere;
+        ++size_;
+    }
 }
