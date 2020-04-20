@@ -1,164 +1,151 @@
 #pragma once
-#include "node.hpp"
 #include <cstddef>
+#include <iostream>
+#include "node.hpp"
 
 template <typename T>
-class stack
-{
-private:
-    Node<T> *first_ = nullptr;
-    size_t size_ = 0;
+class stack {
+  private:
+  Node<T> *first_ = nullptr;
+  size_t size_ = 0;
 
-public:
-    stack() = default;
-    stack(const stack &);
-    stack(stack &&);
-    ~stack();
+  public:
+  stack() = default;
+  stack(const stack &);
+  stack(stack &&);
+  ~stack();
 
-    stack &operator=(const stack &);
-    stack &operator=(stack &&);
+  stack &operator=(const stack &);
+  stack &operator=(stack &&);
 
-    void push(const T &);
-    T &top();
-    const T &top() const;
+  void push(const T &);
+  T &top();
+  const T &top() const;
 
-    size_t size() const;
-    bool empty() const;
-
-    void pop();
+  size_t size() const;
+  bool empty() const;
+  void print() const;
+  void pop();
 };
 
 template <typename T>
-stack<T>::stack(const stack<T> &other) : size_{other.size_}
-{
-    if (!empty())
-    {
-        first_ = new Node<T>(other.first_->value);
-        Node<T> *tmp = other.first_->next;
-        Node<T> *last = first_;
+void stack<T>::print() const {
+  Node<T> *tmp = first_;
+  while (tmp) {
+    std::cout << tmp->value << " ";
+    tmp = tmp->next;
+  }
+  std::cout << '\n';
+}
 
-        while (tmp)
-        {
-            last->next = new Node<T>(tmp->value);
-            tmp = tmp->next;
-            last = last->next;
-        }
+template <typename T>
+stack<T>::stack(const stack<T> &other) : size_{other.size_} {
+  if (!empty()) {
+    first_ = new Node<T>(other.first_->value);
+    Node<T> *tmp = other.first_->next;
+    Node<T> *last = first_;
+
+    while (tmp) {
+      last->next = new Node<T>(tmp->value);
+      tmp = tmp->next;
+      last = last->next;
     }
+  }
 }
 
 template <typename T>
-stack<T>::stack(stack<T> &&other) : size_{other.size_}, first_{other.first_}
-{
-    other.first_ = nullptr;
+stack<T>::stack(stack<T> &&other) : size_{other.size_}, first_{other.first_} {
+  other.first_ = nullptr;
 }
 
 template <typename T>
-stack<T> &stack<T>::operator=(const stack<T> &other)
-{
-    if (!empty())
-    {
-        while (first_)
-        {
-            Node<T> *tmp = first_;
-            first_ = first_->next;
-            delete tmp;
-        }
-    } //isto sve kao i copy constructor samo sto moramo brisati
-
-    if (!empty())
-    {
-        first_ = new Node<T>(other.first_->value);
-        Node<T> *tmp = other.first_->next;
-        Node<T> *last = first_;
-
-        while (tmp)
-        {
-            last->next = new Node<T>(tmp->value);
-            tmp = tmp->next;
-            last = last->next;
-        }
+stack<T> &stack<T>::operator=(const stack<T> &other) {
+  if (!empty()) {
+    while (first_) {
+      Node<T> *tmp = first_;
+      first_ = first_->next;
+      delete tmp;
     }
-    return *this;
-}
+  }  // isto sve kao i copy constructor samo sto moramo brisati
 
-template <typename T>
-stack<T> &stack<T>::operator=(stack<T> &&other)
-{
-    if (!empty())
-    {
-        while (first_)
-        {
-            Node<T> *tmp = first_;
-            first_ = first_->next;
-            delete tmp;
-        }
-    } //isto sve kao i move constructor samo sto moramo brisati
-    size_ = other.size_;
-    first_ = other.first_;
-    other.first_ = nullptr;
-    return *this;
-}
+  if (!empty()) {
+    first_ = new Node<T>(other.first_->value);
+    Node<T> *tmp = other.first_->next;
+    Node<T> *last = first_;
 
-template <typename T>
-stack<T>::~stack<T>()
-{
-
-    if (!empty())
-    {
-        while (first_)
-        {
-            Node<T> *tmp = first_;
-            first_ = first_->next;
-            delete tmp;
-        }
+    while (tmp) {
+      last->next = new Node<T>(tmp->value);
+      tmp = tmp->next;
+      last = last->next;
     }
+  }
+  return *this;
 }
 
 template <typename T>
-void stack<T>::push(const T &val)
-{
-    Node<T> *newNode = new Node<T>(val, first_);
-    first_ = newNode;
-    ++size_;
-    //first_ = new Node<T>(val,first_); //nais
-}
-
-//we add on stack from top
-//push 5, 10, 20
-//stack: 20,10,5
-
-template <typename T>
-T &stack<T>::top()
-{
-    return first_->value;
-}
-
-template <typename T>
-const T &stack<T>::top() const
-{
-    return first_->value;
-}
-
-template <typename T>
-size_t stack<T>::size() const
-{
-    return size_;
-}
-
-template <typename T>
-bool stack<T>::empty() const
-{
-    return size_ == 0;
-}
-
-template <typename T>
-void stack<T>::pop()
-{
-    if (!empty())
-    {
-        Node<T> *tmp = first_;
-        first_ = first_->next;
-        delete tmp;
-        --size_;
+stack<T> &stack<T>::operator=(stack<T> &&other) {
+  if (!empty()) {
+    while (first_) {
+      Node<T> *tmp = first_;
+      first_ = first_->next;
+      delete tmp;
     }
+  }  // isto sve kao i move constructor samo sto moramo brisati
+  size_ = other.size_;
+  first_ = other.first_;
+  other.first_ = nullptr;
+  return *this;
+}
+
+template <typename T>
+stack<T>::~stack<T>() {
+  if (!empty()) {
+    while (first_) {
+      Node<T> *tmp = first_;
+      first_ = first_->next;
+      delete tmp;
+    }
+  }
+}
+
+template <typename T>
+void stack<T>::push(const T &val) {
+  Node<T> *newNode = new Node<T>(val, first_);
+  first_ = newNode;
+  ++size_;
+  // first_ = new Node<T>(val,first_); //nais
+}
+
+// we add on stack from top
+// push 5, 10, 20
+// stack: 20,10,5
+
+template <typename T>
+T &stack<T>::top() {
+  return first_->value;
+}
+
+template <typename T>
+const T &stack<T>::top() const {
+  return first_->value;
+}
+
+template <typename T>
+size_t stack<T>::size() const {
+  return size_;
+}
+
+template <typename T>
+bool stack<T>::empty() const {
+  return size_ == 0;
+}
+
+template <typename T>
+void stack<T>::pop() {
+  if (!empty()) {
+    Node<T> *tmp = first_;
+    first_ = first_->next;
+    delete tmp;
+    --size_;
+  }
 }
