@@ -20,9 +20,9 @@ int main(void)
   s.add(15);
   std::cout << s.size() << std::endl;
   s.print();
-  // // Sadrzaj liste bi trebao da bude: 10 15 20 30
-  //
-  // // Testiramo ispis sa druge pozicije, ocekujemo 15
+  // Sadrzaj liste bi trebao da bude: 10 15 20 30
+
+  // Testiramo ispis sa druge pozicije, ocekujemo 15
   auto it = s.begin();
   ++it;
   std::cout << "Expected 15, actual: " << *it << std::endl;
@@ -39,15 +39,23 @@ int main(void)
   std::cout << "Found: " << *it << std::endl;
   s.remove(it);
   std::cout << "Expected 15, actual " << *(s.begin()) << std::endl;
+  // s.print();
   //
-  // // Testiramo pronalazak po kriteriju te brisanje tog clana.
-  // // Ispis sadrzaja liste bi trebao rezultirati sa:
-  // // 15
-  // // 20
-  // s.remove(s.find_if([](int item) { return item == 30; }));
-  // for (int item : s) {
-  //   std::cout << item << std::endl;
-  // }
+  // Testiramo pronalazak po kriteriju te brisanje tog clana.
+  // Ispis sadrzaja liste bi trebao rezultirati sa:
+  // 15
+  // 20
+  s.remove(s.find_if([](int item) { return item == 30; }));
+  for (int item : s) {
+    std::cout << item << " ";
+  }
+  std::cout<<std::endl;
+  // s.remove(s.begin());
+  // s.print();
+  // s.remove(--s.end());
+  // s.print();
+  // s.remove(--s.end());
+  // s.print();
 
   return 0;
 }

@@ -2,13 +2,9 @@
 #include <cstddef>
 #include <iostream>
 
-using std::cout;
-
 template <typename T>
-class sorted_list
-{
-
-public:
+class sorted_list {
+  public:
   sorted_list();
   sorted_list(const sorted_list &);
   sorted_list(sorted_list &&);
@@ -17,35 +13,30 @@ public:
   sorted_list &operator=(const sorted_list &);
   sorted_list &operator=(sorted_list &&);
 
-  class iterator; //bice friend i bidirekcioni je
+  class iterator;  // bice friend i bidirekcioni je
   iterator begin();
   iterator end();
-
-  // void add(const T &);
-  // void add(T &&); //probati sa forward referencom no?
-
-  template <typename F>
-  void add(F &&); //yup
-
-  iterator find(const T &); //vraca iterator na pronadjeni ako nije naso onda end
+  iterator find(const T &);
   template <typename UnaryOpt>
   iterator find_if(const UnaryOpt &);
 
-  void remove(const iterator &); //pazi na corner caseove
+  template <typename F>
+  void add(F &&);                 // yup
+  void remove(const iterator &);  // pazi na corner caseove
+  void print() const;             // debugging
 
   inline size_t size() const;
   inline bool empty() const;
   void clear();
 
-  T &front() const;
-  T &back() const;
+  inline T &front();
+  inline T &back();
+  inline const T &front() const;
+  inline const T &back() const;
 
-  void print() const; //debugging
-
-private:
-  class Node
-  {
-  public:
+  private:
+  class Node {
+public:
     T data_{};
     Node *next = nullptr;
     Node *prev = nullptr;
