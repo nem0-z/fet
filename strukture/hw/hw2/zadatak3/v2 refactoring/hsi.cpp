@@ -122,6 +122,7 @@ std::list<Station>::iterator checkId(std::list<Station> &stations, const std::st
         }
         return stations.end();
         //Else return end which signals that no station was found
+	input.close();
     }
     return it;
     //Ofcourse return iterator to matching station if we found it in our list in the first place
@@ -164,6 +165,7 @@ bool addStationInfo(std::list<Station> &stations, const std::string &location)
             //which is fine I guess since we can't use anything better RIP
         }
     }
+    input.close();
     //Check if location was found anyway to satisfy compiler in case it doesn't find anything
     return (parser.empty()) ? false : true;
 }
@@ -213,6 +215,7 @@ std::list<Station>::iterator addStationData(std::list<Station> &stations, const 
         }
     }
     stationIterator->data_ = data;
+    input.close();
     return stationIterator;
 }
 
