@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-    std::list<Station> stations;
+    std::vector<Station> stations;
     int year, month;
     while (1)
     {

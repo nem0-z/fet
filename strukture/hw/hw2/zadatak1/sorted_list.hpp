@@ -3,8 +3,9 @@
 #include <iostream>
 
 template <typename T>
-class sorted_list {
-  public:
+class sorted_list
+{
+public:
   sorted_list();
   sorted_list(const sorted_list &);
   sorted_list(sorted_list &&);
@@ -13,7 +14,7 @@ class sorted_list {
   sorted_list &operator=(const sorted_list &);
   sorted_list &operator=(sorted_list &&);
 
-  class iterator;  // bice friend i bidirekcioni je
+  class iterator;
   iterator begin();
   iterator end();
   iterator find(const T &);
@@ -21,9 +22,9 @@ class sorted_list {
   iterator find_if(const UnaryOpt &);
 
   template <typename F>
-  void add(F &&);                 // yup
-  void remove(const iterator &);  // pazi na corner caseove
-  void print() const;             // debugging
+  void add(F &&);
+  void remove(const iterator &);
+  void print() const;
 
   inline size_t size() const;
   inline bool empty() const;
@@ -34,9 +35,10 @@ class sorted_list {
   inline const T &front() const;
   inline const T &back() const;
 
-  private:
-  class Node {
-public:
+private:
+  class Node
+  {
+  public:
     T data_{};
     Node *next = nullptr;
     Node *prev = nullptr;

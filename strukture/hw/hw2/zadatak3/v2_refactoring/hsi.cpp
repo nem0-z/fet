@@ -42,17 +42,17 @@ void printMonth(int monthNr)
         cout << "Dec";
 }
 
-void printTemps(std::list<StationData>::const_iterator it)
+void printTemps(std::vector<StationData>::const_iterator it)
 {
-	using std::cout;
+    using std::cout;
     if (it->tMax_ == -273.15)
         printf("N/A\t\t");
     else
-		cout << it->tMax_ << "\t\t";
+        cout << it->tMax_ << "\t\t";
     if (it->tMin_ == -273.15)
         printf("N/A\n");
     else
-		cout << it->tMin_ << "\n";
+        cout << it->tMin_ << "\n";
 }
 
 Date toDate(const std::string &dateStr)
@@ -63,7 +63,7 @@ Date toDate(const std::string &dateStr)
     return newDate;
 }
 
-std::list<Station>::iterator findStation(std::list<Station> &stations)
+std::vector<Station>::iterator findStation(std::vector<Station> &stations)
 {
     std::string location;
     printf("Enter location where station is placed: ");
@@ -78,7 +78,7 @@ std::list<Station>::iterator findStation(std::list<Station> &stations)
     return it;
 }
 
-std::list<Station>::iterator findStation(std::list<Station> &stations, const std::string &location)
+std::vector<Station>::iterator findStation(std::vector<Station> &stations, const std::string &location)
 {
     //Try to find station in existing list of stations
     auto it = std::find_if(stations.begin(), stations.end(), [location](Station &st) { return st.location_ == location; });
@@ -93,7 +93,7 @@ std::list<Station>::iterator findStation(std::list<Station> &stations, const std
     return it;
 }
 
-std::list<Station>::iterator checkId(std::list<Station> &stations, const std::string &id)
+std::vector<Station>::iterator checkId(std::vector<Station> &stations, const std::string &id)
 {
     auto it = std::find_if(stations.begin(), stations.end(), [id](Station &st) { return st.id_ == id; });
     if (it == stations.end())
@@ -122,13 +122,13 @@ std::list<Station>::iterator checkId(std::list<Station> &stations, const std::st
         }
         return stations.end();
         //Else return end which signals that no station was found
-	input.close();
+        input.close();
     }
     return it;
     //Ofcourse return iterator to matching station if we found it in our list in the first place
 }
 
-bool addStationInfo(std::list<Station> &stations, const std::string &location)
+bool addStationInfo(std::vector<Station> &stations, const std::string &location)
 {
     std::ifstream input("stations.csv");
     Station newStation;
@@ -170,7 +170,7 @@ bool addStationInfo(std::list<Station> &stations, const std::string &location)
     return (parser.empty()) ? false : true;
 }
 
-std::list<Station>::iterator addStationData(std::list<Station> &stations, const std::string &location)
+std::vector<Station>::iterator addStationData(std::vector<Station> &stations, const std::string &location)
 {
     auto stationIterator = std::find_if(stations.begin(), stations.end(),
                                         [location](const Station &st) { return st.location_ == location; });
@@ -180,7 +180,7 @@ std::list<Station>::iterator addStationData(std::list<Station> &stations, const 
     //This is fine since this function won't be called unless input of location is valid
 
     StationData toAdd;
-    std::list<StationData> data;
+    std::vector<StationData> data;
     std::vector<std::string> parser;
 
     std::string line, token;
@@ -217,7 +217,7 @@ std::list<Station>::iterator addStationData(std::list<Station> &stations, const 
     return stationIterator;
 }
 
-void EditStation(std::list<Station> &stations)
+void EditStation(std::vector<Station> &stations)
 {
     std::string id;
     int year, month;
@@ -241,7 +241,7 @@ void EditStation(std::list<Station> &stations)
     EditStation(it, year, month, min, max);
 }
 
-void EditStation(std::list<Station>::iterator it, int year, int month, double min, double max)
+void EditStation(std::vector<Station>::iterator it, int year, int month, double min, double max)
 {
     auto findDate = std::find_if(it->data_.begin(), it->data_.end(),
                                  [year, month](StationData &st) { return st.date_.year_ == year && st.date_.month_ == month; });
@@ -279,7 +279,7 @@ void Station::AnnualInfo(int year) const
     auto it = std::find_if(data_.begin(), data_.end(), [year](const StationData &st) { return st.date_.year_ == year; });
     if (it == data_.end())
     {
-        printf("No record for this period.\n" );
+        printf("No record for this period.\n");
         return;
     }
     int i = 1;
@@ -318,6 +318,5 @@ void Station::MonthlyInfo(int year, int month) const
 void Station::StationInfo() const
 {
     std::cout << "StationID: " << id_ << '\n';
-    std::cout << "Lattitude: " << lattitude_ << "\nLongitude: " << longitude_ << "\nElevation: " << elevation_ << std::endl; 
-   
+    std::cout << "Lattitude: " << lattitude_ << "\nLongitude: " << longitude_ << "\nElevation: " << elevation_ << std::endl;
 }
