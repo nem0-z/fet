@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
         }
         else
         {
-            printf("Wrong input\n");
+            std::cout << "Wrong input" << std::endl;
         }
     }
 

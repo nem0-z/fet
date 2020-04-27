@@ -63,11 +63,12 @@ Date toDate(const std::string &dateStr)
     return newDate;
 }
 
-std::list<Station>::iterator findStation(std::list<Station> &stations)
+std::list<Station>::iterator findStation(std::list<Station> &stations, const char* loc)
 {
-    std::string location;
-    printf("Enter location where station is placed: ");
-    std::cin >> location;
+    //std::string location;
+    //printf("Enter location where station is placed: ");
+    //std::cin >> location;
+    std::string location = loc;
     auto it = findStation(stations, location);
     if (it == stations.end())
     {

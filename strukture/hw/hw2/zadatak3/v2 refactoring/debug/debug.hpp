@@ -42,7 +42,7 @@ public:
 int printMenu();
 void printMonth(int);
 void EditStation(std::list<Station> &);
-std::list<Station>::iterator findStation(std::list<Station> &);
+std::list<Station>::iterator findStation(std::list<Station> &,const char*);
 void printTemps(std::list<StationData>::const_iterator);
 Date toDate(const std::string &);
 //Stupid funs
