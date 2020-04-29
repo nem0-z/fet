@@ -7,6 +7,7 @@ str: .string "Min:%d\t\tMax:%d\n"
 min_max:
 
 addiu $sp,$sp,-64
+addi $t0, $t1, 1
 sw $ra,60($sp)
 sw $a3,56($sp)
 sw $a2,52($sp)
@@ -25,16 +26,21 @@ condition:
 sll $s0,$t0,1
 addu $s2,$a0,$s0
 beq $t0,$a1,print
+#nop
 lh $t1,($s2)
 slt $s1,$t1,$t2
 bne $s1,$0,min
+#nop
 slt $s2,$t3,$t1
 bne $s2,$0,max
+#nop
 j continue
+#nop
 
 min:
 addu $t2,$0,$t1
 j continue
+#nop
 
 max:
 addu $t3,$0,$t1
@@ -42,6 +48,7 @@ addu $t3,$0,$t1
 continue:
 addiu $t0,$t0,1
 j condition
+#nop
 
 print:
 la $a0,str
