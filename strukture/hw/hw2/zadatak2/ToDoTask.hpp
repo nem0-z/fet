@@ -4,8 +4,7 @@
 
 class ToDoTask {
   public:
-  
-  //Default constructor
+  // Default constructor
   ToDoTask() {
     id_ = generateId();
     printf("Task title: ");
@@ -14,31 +13,46 @@ class ToDoTask {
     printf("Task description: ");
     std::getline(std::cin, taskDescription_);
     printf("Priority: ");
-    scanf("%lu", &priority_);
+    std::cin >> priority_;
+    std::cout << "Task successfully added" << std::endl;
+    std::cin.clear();
   }
 
-  //Constructor with id only
-  //Mainly used as a dummy for comparing based on id
+  ToDoTask(const std::string& title, const std::string& desc, size_t prior):
+    taskTitle_{title},taskDescription_{desc},priority_{prior}
+  {
+    id_ = generateId();
+  }
+
+  // Constructor with id only
+  // Use as a dummy for comparing based on id
   ToDoTask(int id) : id_{id} {}
 
-  //Logical operators
-  bool operator<(const ToDoTask& other) const {
-    return priority_ < other.priority_;
+  // Logical operators
+  bool operator<=(const ToDoTask& other) const {
+    return priority_ >= other.priority_;
   }
-  bool operator>(const ToDoTask& other) const {
+  bool operator>=(const ToDoTask& other) const {
+    return priority_ <= other.priority_;
+  }
+  bool operator<(const ToDoTask& other) const {
     return priority_ > other.priority_;
   }
+  bool operator>(const ToDoTask& other) const {
+    return priority_ < other.priority_;
+  }
+  // Other way around because sorted_list sorts in ascending order
   bool operator==(const ToDoTask& other) const { return id_ == other.id_; }
 
   private:
-  int id_;
+  int id_ = 0;
   std::string taskTitle_;
   std::string taskDescription_;
-  size_t priority_;
-  //Friend function for printing out content of data structure
-  //Implementation included in ToDoTask.cpp file
+  size_t priority_ = 0;
+  // Friend function for printing out content of data structure
+  // Implementation included in ToDoTask.cpp file
   friend std::ostream& operator<<(std::ostream&, const ToDoTask&);
-  //Id generator
+  // Id generator
   int generateId() {
     static int counter = 0;
     return ++counter;

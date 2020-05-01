@@ -1,6 +1,6 @@
 #pragma once
-#include "sorted_list.hpp"
 #include "iterator.hpp"
+#include "sorted_list.hpp"
 
 template <typename T>
 typename sorted_list<T>::iterator sorted_list<T>::begin() {
@@ -92,7 +92,7 @@ void sorted_list<T>::add(F &&value) {
   // if higher than first
   if (empty()) {
     head_ = tail_ = toAdd;
-  } else if (value < front()) {
+  } else if (value <= front()) {
     head_->prev = toAdd;
     toAdd->next = head_;
     head_ = toAdd;

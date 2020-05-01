@@ -3,10 +3,8 @@
 #include <iostream>
 
 template <typename T>
-class sorted_list
-{
-
-public:
+class sorted_list {
+  public:
   sorted_list();
   sorted_list(const sorted_list &);
   sorted_list(sorted_list &&);
@@ -15,21 +13,17 @@ public:
   sorted_list &operator=(const sorted_list &);
   sorted_list &operator=(sorted_list &&);
 
-  class iterator; //bice friend i bidirekcioni je
+  class iterator;
   iterator begin();
   iterator end();
 
-  // void add(const T &);
-  // void add(T &&); //probati sa forward referencom no?
-
   template <typename F>
-  void add(F &&); //yup
-
-  iterator find(const T &); //vraca iterator na pronadjeni ako nije naso onda end
+  void add(F &&);
+  iterator find(const T &);
   template <typename UnaryOpt>
   iterator find_if(const UnaryOpt &);
 
-  void remove(const iterator &); //pazi na corner caseove
+  void remove(const iterator &);
   void removeId(int);
 
   inline size_t size() const;
@@ -39,12 +33,11 @@ public:
   T &front() const;
   T &back() const;
 
-  void print() const; //debugging
+  void print() const;  // debugging
 
-private:
-  class Node
-  {
-  public:
+  private:
+  class Node {
+public:
     T data_{};
     Node *next = nullptr;
     Node *prev = nullptr;

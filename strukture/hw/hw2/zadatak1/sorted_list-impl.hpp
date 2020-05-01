@@ -3,19 +3,44 @@
 #include "sorted_list.hpp"
 
 template <typename T>
+typename sorted_list<T>::iterator sorted_list<T>::begin() {
+  return iterator(nullptr, head_);
+}
+
+template <typename T>
+typename sorted_list<T>::iterator sorted_list<T>::end() {
+  return iterator(tail_, nullptr);
+}
+
+template <typename T>
+void sorted_list<T>::print() const {
+  if (empty()) {
+    std::cout << "Empty list.\n" << std::endl;
+    return;
+  }
+  Node *tmp = head_;
+  while (tmp) {
+    std::cout << tmp->data_ << " ";
+    tmp = tmp->next;
+  }
+  std::cout << '\n';
+}
+
+template <typename T>
 sorted_list<T>::sorted_list() = default;
 
 template <typename T>
 sorted_list<T>::sorted_list(const sorted_list &other) : size_{other.size_} {
   if (!other.empty()) {
-    head_ = new Node(other.head_->data_);
-    Node *otherTmp = other.head_->next;
+    Node *myHead = new Node(other.head_->data_);
+    head_ = myHead;
+    Node *moveOther = other.head_->next;
     Node *tmp = head_;
-    while (otherTmp) {
-      Node *toAdd = new Node(otherTmp->data_);
+    while (moveOther) {
+      Node *toAdd = new Node(moveOther->data_);
       tmp->next = toAdd;
       toAdd->prev = tmp;
-      otherTmp = otherTmp->next;
+      moveOther = moveOther->next;
       tmp = tmp->next;
     }
     tail_ = tmp->prev;
@@ -39,9 +64,9 @@ sorted_list<T>::~sorted_list() {
 
 template <typename T>
 sorted_list<T> &sorted_list<T>::operator=(const sorted_list<T> &other) {
-  if (this != &other) {
+  if (!other.empty() && this != &other) {
     clear();
-    *this = sorted_list(other);
+    return *this = sorted_list(other);
   }
   return *this;
 }
@@ -61,13 +86,37 @@ sorted_list<T> &sorted_list<T>::operator=(sorted_list<T> &&other) {
 }
 
 template <typename T>
-typename sorted_list<T>::iterator sorted_list<T>::begin() {
-  return iterator(nullptr, head_);
-}
-
-template <typename T>
-typename sorted_list<T>::iterator sorted_list<T>::end() {
-  return iterator(tail_, nullptr);
+template <typename F>
+void sorted_list<T>::add(F &&value) {
+  Node *toAdd = new Node(std::forward<T>(value));
+  // if higher than first
+  if (empty()) {
+    head_ = tail_ = toAdd;
+  } else if (value <= front()) {
+    head_->prev = toAdd;
+    toAdd->next = head_;
+    head_ = toAdd;
+  } else if (value > back()) {
+    tail_->next = toAdd;
+    toAdd->prev = tail_;
+    toAdd->next = nullptr;  // just in case
+    tail_ = toAdd;
+  } else {
+    Node *tmp = head_;
+    while (tmp) {
+      if (value > tmp->data_) {
+        tmp = tmp->next;
+      } else {
+        Node *prevNode = tmp->prev;
+        prevNode->next = toAdd;
+        toAdd->prev = prevNode;
+        toAdd->next = tmp;
+        tmp->prev = toAdd;
+        break;
+      }
+    }
+  }
+  ++size_;
 }
 
 template <typename T>
@@ -78,7 +127,7 @@ typename sorted_list<T>::iterator sorted_list<T>::find(const T &value) {
     ++it;
   }
   return end();
-}
+}  // vraca iterator na pronadjeni ako nije naso onda end
 
 template <typename T>
 template <typename UnaryOpt>
@@ -95,63 +144,12 @@ typename sorted_list<T>::iterator sorted_list<T>::find_if(
 }
 
 template <typename T>
-template <typename F>
-void sorted_list<T>::add(F &&value) {
-  Node *toAdd = new Node(std::forward<T>(value));
-
-  // If list is empty, add it as one and only element
-  if (empty()) {
-    head_ = tail_ = toAdd;
-  }
-
-  // If value is new minimum add it at the front
-  else if (value < front()) {
-    head_->prev = toAdd;
-    toAdd->next = head_;
-    head_ = toAdd;
-  }
-  // If value is new maximum add it at the back
-  else if (value > back()) {
-    tail_->next = toAdd;
-    toAdd->prev = tail_;
-    toAdd->next = nullptr;
-    tail_ = toAdd;
-  }
-
-  // Else iterate through list until we find place for it
-  else {
-    Node *tmp = head_;
-    while (tmp) {
-      // If greater then element just move on
-      if (value > tmp->data_) {
-        tmp = tmp->next;
-      } else {
-        Node *prevNode = tmp->prev;
-        prevNode->next = toAdd;
-        toAdd->prev = prevNode;
-        toAdd->next = tmp;
-        tmp->prev = toAdd;
-        break;
-      }
-    }
-  }
-  ++size_;
-}
-
-//
-template <typename T>
 void sorted_list<T>::remove(const typename sorted_list<T>::iterator &iter) {
-  // std::list lets us dereference end iterator
-  // We are better than std::list (we are not :D)
   if (iter.checkEnd()) throw std::out_of_range("Invalid iterator.");
-
-  // If size is 1 just clear so we don't bother with aftermath
   if (size_ == 1) {
     clear();
     return;
   }
-
-  // If removing begin then update head
   if (iter.checkBegin()) {
     Node *tmpHead = head_->next;
     delete head_;
@@ -161,7 +159,8 @@ void sorted_list<T>::remove(const typename sorted_list<T>::iterator &iter) {
     Node *prev = iter.prevIt;
     Node *current = iter.currentIt;
     Node *tmpNext = current->next;
-    // If removing --end() then update tail
+
+    // check if last element
     if (tmpNext) {
       prev->next = tmpNext;
       tmpNext->prev = prev;
@@ -172,20 +171,27 @@ void sorted_list<T>::remove(const typename sorted_list<T>::iterator &iter) {
     delete current;
   }
   --size_;
+}  // pazi na corner caseove
+
+template <typename T>
+void sorted_list<T>::removeId(int id) {
+  auto it = find(T{id});
+  if (it != end())
+    remove(it);
+  else {
+    std::cout << "Task not found." << std::endl;
+    return;
+  }
 }
 
 template <typename T>
-void sorted_list<T>::print() const {
-  if (empty()) {
-    printf("Empty list!\n");
-    return;
-  }
-  Node *tmp = head_;
-  while (tmp) {
-    std::cout << tmp->data_ << " ";
-    tmp = tmp->next;
-  }
-  printf("\n");
+T &sorted_list<T>::front() const {
+  return head_->data_;
+}
+
+template <typename T>
+T &sorted_list<T>::back() const {
+  return tail_->data_;
 }
 
 template <typename T>
@@ -212,24 +218,3 @@ void sorted_list<T>::clear() {
     size_ = 0;
   }
 }
-
-template <typename T>
-inline T &sorted_list<T>::front() {
-  return head_->data_;
-}
-
-template <typename T>
-inline T &sorted_list<T>::back() {
-  return tail_->data_;
-}
-
-template <typename T>
-inline const T &sorted_list<T>::front() const {
-  return head_->data_;
-}
-
-template <typename T>
-inline const T &sorted_list<T>::back() const {
-  return tail_->data_;
-}
-

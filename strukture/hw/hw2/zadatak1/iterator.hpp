@@ -46,14 +46,9 @@ class sorted_list<T>::iterator
     return other.currentIt != currentIt;
   }
 
-  bool checkBegin() const{
-    return currentIt != nullptr && prevIt == nullptr;
-  }
+  bool checkBegin() const { return currentIt != nullptr && prevIt == nullptr; }
 
-  bool checkEnd() const{
-    return currentIt == nullptr && prevIt != nullptr;
-  }
-
+  bool checkEnd() const { return currentIt == nullptr && prevIt != nullptr; }
 
   private:
   Node *prevIt = nullptr;

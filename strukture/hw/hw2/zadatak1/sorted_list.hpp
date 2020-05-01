@@ -3,9 +3,8 @@
 #include <iostream>
 
 template <typename T>
-class sorted_list
-{
-public:
+class sorted_list {
+  public:
   sorted_list();
   sorted_list(const sorted_list &);
   sorted_list(sorted_list &&);
@@ -17,28 +16,28 @@ public:
   class iterator;
   iterator begin();
   iterator end();
+
+  template <typename F>
+  void add(F &&);
   iterator find(const T &);
   template <typename UnaryOpt>
   iterator find_if(const UnaryOpt &);
 
-  template <typename F>
-  void add(F &&);
   void remove(const iterator &);
-  void print() const;
+  void removeId(int);
 
   inline size_t size() const;
   inline bool empty() const;
   void clear();
 
-  inline T &front();
-  inline T &back();
-  inline const T &front() const;
-  inline const T &back() const;
+  T &front() const;
+  T &back() const;
 
-private:
-  class Node
-  {
-  public:
+  void print() const;  // debugging
+
+  private:
+  class Node {
+public:
     T data_{};
     Node *next = nullptr;
     Node *prev = nullptr;
