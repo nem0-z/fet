@@ -37,13 +37,15 @@ public:
 
 int printMenu();
 void printMonth(int);
-void EditStation(std::vector<Station> &);
+void retardInput();
+void updateStation(std::vector<Station> &);
+void stationInfo(int, std::vector<Station> &);
 std::vector<Station>::iterator findStation(std::vector<Station> &);
-void printTemps(std::vector<StationData>::const_iterator);
-Date toDate(const std::string &);
+void printTemps(const std::vector<StationData>::const_iterator &);
+Date toDate(std::string &&);
 //Stupid funs
-void EditStation(std::vector<Station>::iterator, int, int, double, double);
-bool addStationInfo(std::vector<Station> &, const std::string &);
-std::vector<Station>::iterator findStation(std::vector<Station> &, const std::string &);
-std::vector<Station>::iterator addStationData(std::vector<Station> &, const std::string &);
-std::vector<Station>::iterator checkId(std::vector<Station> &, const std::string &);
+void editStation(std::vector<Station>::iterator, int, int, double, double);
+bool addStationInfo(std::vector<Station> &, std::string &&);
+std::vector<Station>::iterator findStation(std::vector<Station> &, std::string &&);
+std::vector<Station>::iterator addStationData(std::vector<Station> &, std::string &&);
+std::vector<Station>::iterator checkId(std::vector<Station> &, std::string &&);

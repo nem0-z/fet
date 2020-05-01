@@ -10,25 +10,12 @@ int main(int argc, char const *argv[])
         int choice = printMenu();
         if (choice == 1 || choice == 2)
         {
-            auto it = findStation(stations);
-            if (it == stations.end())
-                continue;
-            std::cout << "Enter year: ";
-            std::cin >> year;
-            if (choice == 1)
-            {
-                it->AnnualInfo(year);
-            }
-            else
-            {
-                std::cout << "Enter month: ";
-                std::cin >> month;
-                it->MonthlyInfo(year, month);
-            }
+            stationInfo(choice, stations);
         }
+
         else if (choice == 3)
         {
-            EditStation(stations);
+            updateStation(stations);
         }
         else if (choice == 4)
         {
@@ -36,7 +23,7 @@ int main(int argc, char const *argv[])
         }
         else
         {
-            std::cout << "Wrong input" << std::endl;
+            std::cout << "Bad input" << std::endl;
         }
     }
 
