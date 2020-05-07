@@ -21,11 +21,11 @@ public:
   // Logical operators
   bool operator<=(const ToDoTask &other) const
   {
-    return priority_ >= other.priority_;
+    return priority_ <= other.priority_;
   }
   bool operator>=(const ToDoTask &other) const
   {
-    return priority_ <= other.priority_;
+    return priority_ >= other.priority_;
   }
   bool operator<(const ToDoTask &other) const
   {
