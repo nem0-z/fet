@@ -1,23 +1,4 @@
-#pragma once
-#include "stack.hpp"
-#include <sstream>
-#include <vector>
-#include <string>
-
-class PostfixCalc
-{
-public:
-    void start();
-
-private:
-    stack<int> operands_;
-    void input();
-    void evaluate(const char);
-    void result();
-    void magic();
-    bool isNum(const std::string &);
-    bool isOperand(const char);
-};
+#include "calculator.hpp"
 
 void PostfixCalc::magic()
 {
@@ -62,8 +43,8 @@ void PostfixCalc::evaluate(const char opType)
 {
     if (operands_.size() >= 2)
     {
-        int op1 = operands_.pop();
         int op2 = operands_.pop();
+        int op1 = operands_.pop();
         int res = 0;
         if (opType == '+')
             res = op1 + op2;

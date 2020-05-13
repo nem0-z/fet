@@ -114,3 +114,4 @@ else
         [a,b],ekstrem
     end
 end
+
