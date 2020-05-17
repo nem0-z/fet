@@ -7,7 +7,7 @@ P = [3 5 -6];
 Q = [5 -2 0 4];
 S = [1 0 0];
 J = [1 2 2 3];
-polinomi(P);
+polinomi(P,Q);
 
 %prvi zadatak
 function rez = polinomi(P1,P2)
@@ -42,19 +42,27 @@ function rez = polinomi(P1,P2)
             error('Ja radim samo sa polinomima');
         end
         proizvod = conv(P1,P2);
-        [kolicnik,ostatak] = deconv(P2,P1);
         red1 = length(P1)-1;
         red2 = length(P2)-1;
         if red1 == red2
+            
+            [kolicnik,ostatak] = deconv(P2,P1);
             razlika = P1 - P2;
+            
         elseif red1 < red2
+            
+           [kolicnik,ostatak] = deconv(P2,P1);
            diff = red2-red1; 
            P1 = [zeros(1,diff) P1];
            razlika = P2 - P1;
+           
         elseif red2 < red1
+            
+            [kolicnik,ostatak] = deconv(P1,P2);
             diff = red1-red2;
             P2 = [zeros(1,diff) P2];
             razlika = P1 - P2;
+    
         end
         zbir = P1 + P2;
         disp(['Zbir = ' num2str(zbir)]);

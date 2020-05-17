@@ -4,7 +4,7 @@ clc
 
 
 T = struct('Oznaka',{'A','B','C','D','E','F'},...
-            'x',{4,3,1,1,5,2},'y',{4,2,6,2,6,0});
+            'x',{-1,3,1,0,5,-2},'y',{2,3,4,-2,6,0});
         
 c = struktura(T)
 
@@ -46,9 +46,9 @@ function rez = struktura(S)
     fprintf("\nTacke na rubu pravougaonika: ");
     for i = 1 : length(S)
         if (S(i).x == minx && S(i).y ~= miny && S(i).y ~= maxy)...
-                || (S(i).x == maxx && S(i).y ~= miny && S(i).y ~= maxy )...
+                || (S(i).x == maxx && S(i).y ~= miny && S(i).y ~= maxy)...
                 || (S(i).y == miny && S(i).x ~= minx && S(i).x ~= maxx)...
-                || (S(i).y == maxy && S(i).x ~= minx && S(i).x ~= maxx)...
+                || (S(i).y == maxy && S(i).x ~= minx && S(i).x ~= maxx)
            fprintf("%c",S(i).Oznaka);
         end
     end

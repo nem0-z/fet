@@ -38,15 +38,16 @@ function math(znak)
         hold on;
         
         ha = limit(f,inf);
-        va = solve(f==0);
+        va = solve(x==0);
         limit(f,x,va,'right');
         plot([-1 10],[ha ha],'g'); hold on;
         plot([va va],[-4 4],'g'); hold on;
         
         f1 = diff(f);
         f1 = simplify(f1);
-        ef = solve(f1==0);
-        plot(double(ef),double(subs(f,ef)),'ko');
+        x0 = solve(f1);
+        y0 = subs(f,{x},x0);
+        plot(x0,y0,'ko');
     else
         R = [110 2 0;
              100 3 0;
