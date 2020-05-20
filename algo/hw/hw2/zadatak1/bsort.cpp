@@ -14,7 +14,7 @@ void printArr(It begin, It end)
 auto makeArr(void)
 {
     std::vector<int> v;
-    int i = 20;
+    int i = 200;
     while (i--)
         v.push_back(i);
     std::random_shuffle(v.begin(), v.end());
@@ -31,8 +31,10 @@ void bubblesort(It begin, It end)
         j = --end;
         while (i != j)
         {
-            if (*i++ > *i)
-                std::swap(*i, *(--i));
+          i1 = i;
+          i2 = ++i;
+            if (*i1 > *i2)
+                std::swap(*i1, *i2);
         }
     }
 }

@@ -32,13 +32,9 @@ void merge(It s1, It e1, It s2, It e2, It dest)
             *dest++ = *s2++;
     }
     while (s1 != e1)
-    {
         *dest++ = *s1++;
-    }
     while (s2 != e2)
-    {
         *dest++ = *s2++;
-    }
 }
 
 template <typename It>

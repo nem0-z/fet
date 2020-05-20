@@ -14,7 +14,7 @@ void printArr(It begin, It end)
 auto makeArr(void)
 {
     std::vector<int> v;
-    int i = 20;
+    int i = 200;
     while (i--)
         v.push_back(i);
     std::random_shuffle(v.begin(), v.end());
