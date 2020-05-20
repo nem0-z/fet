@@ -4,15 +4,17 @@
 #include <string>
 #include <vector>
 
-class Tim {
-  public:
+class Tim
+{
+public:
   std::string naziv;
   int bodovi;
-  int postignutiGolovi;
   int primljeniGolovi;
+  int postignutiGolovi;
 };
 
-std::ostream& operator<<(std::ostream& out, const Tim& tim) {
+std::ostream &operator<<(std::ostream &out, const Tim &tim)
+{
   out << tim.naziv << "\t" << tim.bodovi << "\t" << tim.primljeniGolovi
       << "\t\t" << tim.postignutiGolovi << "\t\t"
       << tim.postignutiGolovi - tim.primljeniGolovi << std::endl;
@@ -20,17 +22,21 @@ std::ostream& operator<<(std::ostream& out, const Tim& tim) {
 }
 
 template <typename It>
-void printArr(It begin, It end) {
+void printArr(It begin, It end)
+{
   std::cout << "Ekipa\tBodovi\tPrimljeni\tPostignuti\tGol razlika\n";
   std::cout << std::string(50, '-') << std::endl;
-  while (begin != end) std::cout << *begin++ << " ";
+  while (begin != end)
+    std::cout << *begin++ << " ";
   std::cout << std::endl;
 }
 
-auto makeArr(void) {
+auto makeArr(void)
+{
   std::vector<Tim> v;
   int i = 66;
-  while (i <= 90) {
+  while (i <= 90)
+  {
     Tim t;
     t.naziv = (char)i;
     t.bodovi = rand() % 100 + 10;
@@ -48,51 +54,65 @@ auto makeArr(void) {
   return v;
 }
 
-namespace zad6 {
-template <typename It, typename Pred>
-It partition(It begin, It end, Pred p) {
-  It pivot = --end;
-  while (begin <= end) {
-    if (begin > --end) break;
-    // cheeky decrement end and check for overlap
-    while (p(*begin, *pivot) && begin != pivot) ++begin;
-    while (!p(*end, *pivot) && end != begin) --end;
-    if (begin < end) std::swap(*begin++, *end);
+namespace zad6
+{
+  template <typename It, typename Pred>
+  It partition(It begin, It end, Pred p)
+  {
+    It pivot = --end;
+    while (begin <= end)
+    {
+      if (begin > --end)
+        break;
+      // cheeky decrement end and check for overlap
+      while (p(*begin, *pivot) && begin != pivot)
+        ++begin;
+      while (!p(*end, *pivot) && end != begin)
+        --end;
+      if (begin < end)
+        std::swap(*begin++, *end);
+    }
+    std::swap(*begin, *pivot);
+    return begin;
   }
-  std::swap(*begin, *pivot);
-  return begin;
-}
 
-template <typename It, typename Pred>
-void insertionsort(It begin, It end, Pred p) {
-  for (It dummyBegin = begin, dummyEnd = --end; begin != dummyEnd;) {
-    It i = begin;
-    It j = ++begin;
-    while (p(*j, *i) && j != dummyBegin) std::swap(*j--, *i--);
+  template <typename It, typename Pred>
+  void insertionsort(It begin, It end, Pred p)
+  {
+    It dummyBegin, dummyEnd, i, j;
+    for (dummyBegin = begin, dummyEnd = --end; begin != dummyEnd;)
+    {
+      It i = begin;
+      It j = ++begin;
+      while (p(*j, *i) && j != dummyBegin)
+        std::swap(*j--, *i--);
+    }
   }
-}
-template <typename It, typename Pred>
-void quicksort(It begin, It end, Pred p) {
-  const int size = end - begin;
-  if (size <= 1) return;
-  It partition_point = zad6::partition(begin, end, p);
-  quicksort(begin, partition_point, p);
-  quicksort(++partition_point, end, p);
-}
-}  // namespace zad6
+  template <typename It, typename Pred>
+  void quicksort(It begin, It end, Pred p)
+  {
+    const int size = end - begin;
+    if (size <= 1)
+      return;
+    It partition_point = zad6::partition(begin, end, p);
+    quicksort(begin, partition_point, p);
+    quicksort(++partition_point, end, p);
+  }
+} // namespace zad6
 
-void sortTeams(std::vector<Tim>& v) {
-  zad6::quicksort(v.begin(), v.end(), [](const Tim& t1, const Tim& t2) {
+void sortTeams(std::vector<Tim> &v)
+{
+  zad6::quicksort(v.begin(), v.end(), [](const Tim &t1, const Tim &t2) {
     return t1.naziv < t2.naziv;
   });
-  zad6::insertionsort(v.begin(), v.end(), [](const Tim& t1, const Tim& t2) {
+  zad6::insertionsort(v.begin(), v.end(), [](const Tim &t1, const Tim &t2) {
     return t1.postignutiGolovi > t2.postignutiGolovi;
   });
-  zad6::insertionsort(v.begin(), v.end(), [](const Tim& t1, const Tim& t2) {
+  zad6::insertionsort(v.begin(), v.end(), [](const Tim &t1, const Tim &t2) {
     return t1.postignutiGolovi - t1.primljeniGolovi >
            t2.postignutiGolovi - t2.primljeniGolovi;
   });
-  zad6::insertionsort(v.begin(), v.end(), [](const Tim& t1, const Tim& t2) {
+  zad6::insertionsort(v.begin(), v.end(), [](const Tim &t1, const Tim &t2) {
     return t1.bodovi > t2.bodovi;
   });
   std::cout
@@ -107,7 +127,8 @@ void sortTeams(std::vector<Tim>& v) {
       << std::endl;
 }
 
-int main(void) {
+int main(void)
+{
   std::vector<Tim> v = makeArr();
   sortTeams(v);
   std::cout << "After sorting: " << std::endl;

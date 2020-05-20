@@ -31,8 +31,8 @@ void bubblesort(It begin, It end)
         j = --end;
         while (i != j)
         {
-          i1 = i;
-          i2 = ++i;
+            i1 = i;
+            i2 = ++i;
             if (*i1 > *i2)
                 std::swap(*i1, *i2);
         }

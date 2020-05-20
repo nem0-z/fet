@@ -25,10 +25,11 @@ auto makeArr(void)
 template <typename It>
 void insertionsort(It begin, It end)
 {
-    for (It dummyBegin = begin, dummyEnd = --end; begin != dummyEnd;)
+	It dummyBegin,dummyEnd,i,j;
+    for (dummyBegin = begin, dummyEnd = --end; begin != dummyEnd;)
     {
-        It i = begin;
-        It j = ++begin;
+        i = begin;
+        j = ++begin;
         while (*j < *i && j != dummyBegin)
             std::swap(*j--, *i--);
     }
