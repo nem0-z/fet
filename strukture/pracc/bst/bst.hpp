@@ -1,112 +1,227 @@
 #pragma once
+#include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
-#include <cstddef>
 
-template <typename T>
-class BST
-{
+template <typename Value>
+class set {
+  public:
+  set();
+  set(const set&);
+  set(set&&);
+  ~set();
+
+  set& operator=(const set&);
+  set& operator=(set&&);
+
+  size_t size() const { return size_; }
+  bool empty() const { return root_ == nullptr; }
+
+  template <typename U>
+  void insert(U&&);
+  bool find(const Value&) const;
+  void erase(const Value&);
+  void print() const;
+
+  private:
+  class Node {
 public:
-    BST();
-    // BST(const BST &);
-    // BST(BST &&);
-    // ~BST();
-
-    // BST &operator=(const BST &);
-    // BST &operator=(BST &&);
+    Value data;
+    Node* leftChild;
+    Node* rightChild;
 
     template <typename U>
-    bool insert(U &&); //nek vrati bool da li je uspjesno ili ne
-    void print() const;
-    bool find(const T &);
-    bool empty() const
-    {
-        return size_ == 0;
-    }
-    size_t size() const
-    {
-        return size_;
-    }
-
-private:
-    class Node
-    {
-    public:
-        Node *leftChild;
-        Node *rightChild;
-        T data;
-        template <typename U>
-        Node(U &&value) : data{std::forward<U>(value)},
-                          leftChild{nullptr}, rightChild{nullptr} {}
-    };
-    Node *root_;
-    size_t size_ = 0;
-    template <typename U>
-    bool addNode(Node *, U &&);
-    void printNode(Node *) const;
+    Node(U&& v)
+        : data{std::forward<U>(v)}, leftChild{nullptr}, rightChild{nullptr} {}
+  };
+  Node* root_;
+  size_t size_;
+  void insertNode(Node*, Node*);
+  void deleteNode(Node*, const Value&);
+  void printInorder(Node*) const;
+  void printPostorder(Node*) const;
+  void printPreorder(Node*) const;
+  bool findNode(Node*, const Value&) const;
+  void insertCopyNode(Node*&, Node*);
+  void clear(Node*);
 };
 
-template <typename T>
-void BST<T>::printNode(Node *node) const
-{
-    if (node->leftChild)
-        printNode(node->leftChild);
-    std::cout << "Value: " << node->data << std::endl;
-    if (node->rightChild)
-        printNode(node->rightChild);
+
+template <typename Value>
+set<Value>::set() : root_{nullptr}, size_{0} {}
+
+template <typename Value>
+void set<Value>::insertCopyNode(Node*& copyHere, Node* copyThis) {
+  if (!copyThis) return;
+  Node* newNode = new Node(copyThis->data);
+  copyHere = newNode;
+  insertCopyNode(copyHere->leftChild, copyThis->leftChild);
+  insertCopyNode(copyHere->rightChild, copyThis->rightChild);
 }
 
-template <typename T>
-void BST<T>::print() const
-{
-    if (!empty())
-        printNode(root_);
+template <typename Value>
+set<Value>::set(const set& other) : size_{other.size_} {
+  // preorder
+  if (!other.empty()) insertCopyNode(root_, other.root_);
 }
 
-template <typename T>
-BST<T>::BST() : root_{nullptr} {}
+template <typename Value>
+set<Value>::set(set&& other) : root_{other.root_}, size_{other.size_} {
+  other.root_ = nullptr;
+}
 
-template <typename T>
+template <typename Value>
+set<Value>::~set() {
+  clear(root_);
+  root_ = nullptr;
+  size_ = 0;
+}
+
+template <typename Value>
 template <typename U>
-bool BST<T>::insert(U &&value)
-{
-    if (empty())
-    {
-        root_ = new Node(std::forward<U>(value));
-        ++size_;
-        return true;
-    }
-    else
-        return addNode(root_, value);
+void set<Value>::insert(U&& val) {
+  Node* newNode = new Node(std::forward<U>(val));
+  if (empty()) {
+    root_ = newNode;
+    ++size_;
+  } else {
+    insertNode(root_, newNode);
+  }
+}
+template <typename Value>
+void set<Value>::insertNode(Node* root, Node* newNode) {
+  if (root->data == newNode->data) return;
+  if (newNode->data < root->data) {
+    if (root->leftChild == nullptr) {
+      root->leftChild = newNode;
+      ++size_;
+    } else
+      insertNode(root->leftChild, newNode);
+  } else {
+    if (root->rightChild == nullptr) {
+      root->rightChild = newNode;
+      ++size_;
+    } else
+      insertNode(root->rightChild, newNode);
+  }
 }
 
-template <typename T>
-template <typename U>
-bool BST<T>::addNode(Node *node, U &&value)
-{
-    bool flag = false;
-    if (value < node->data)
-    {
-        if (node->leftChild)
-            addNode(node->leftChild, value);
-        else
-        {
-            node->leftChild = new Node(std::forward<U>(value));
-            ++size_;
-            flag = 1;
-        }
-    }
-    else
-    {
-        if (node->rightChild)
-            addNode(node->rightChild, value);
-        else
-        {
-            node->rightChild = new Node(std::forward<U>(value));
-            ++size_;
-            flag = 1;
-        }
-    }
-    return flag;
+template <typename Value>
+void set<Value>::print() const {
+  if (!empty()) {
+    printInorder(root_);
+    std::cout << std::endl;
+  } else
+    std::cout << "Empty tree" << std::endl;
 }
+
+template <typename Value>
+void set<Value>::printInorder(Node* root) const {
+  if (root == nullptr) return;
+  printInorder(root->leftChild);
+  std::cout << root->data << " ";
+  printInorder(root->rightChild);
+}
+
+template <typename Value>
+void set<Value>::printPreorder(Node* root) const {
+  if (root == nullptr) return;
+  std::cout << root->data << " ";
+  printPreorder(root->leftChild);
+  printPreorder(root->rightChild);
+}
+
+template <typename Value>
+void set<Value>::printPostorder(Node* root) const {
+  if (root == nullptr) return;
+  printPostorder(root->leftChild);
+  printPostorder(root->rightChild);
+  std::cout << root->data << " ";
+}
+
+template <typename Value>
+bool set<Value>::find(const Value& toFind) const {
+  if (empty())
+    throw std::runtime_error("");
+  else
+    return findNode(root_, toFind);
+}
+
+template <typename Value>
+bool set<Value>::findNode(Node* node, const Value& toFind) const {
+  if (node == nullptr) return false;
+  if (node->data == toFind) return true;
+  if (toFind < node->data)
+    return findNode(node->leftChild, toFind);
+  else
+    return findNode(node->rightChild, toFind);
+  return false;
+}
+
+template <typename Value>
+void set<Value>::erase(const Value& toDelete) {
+  if (empty()) throw std::runtime_error("");
+  Node* current = root_;
+  Node* parent = current;
+  while (current) {
+    if (current->data == toDelete) break;
+    parent = current;
+    if (toDelete < current->data) {
+      current = current->leftChild;
+    } else {
+      current = current->rightChild;
+    }
+  }
+  // current is my Node where toDelete is stored
+  if (!current) return;
+
+  // 2 children:
+  if (current->leftChild && current->rightChild) {
+    Node* tmp = current;
+    parent = current;
+    current = current->leftChild;
+    while (current->rightChild) {
+      parent = current;
+      current = current->rightChild;
+    }
+    tmp->data = std::move(current->data);
+  }
+  // 0 children:
+  if (!current->leftChild && !current->rightChild) {
+    if (parent->leftChild == current)
+      parent->leftChild = nullptr;
+    else
+      parent->rightChild = nullptr;
+    delete current;
+  }
+  // 1 child:
+  else if (current->leftChild && !current->rightChild) {
+    // 1 child on the left
+    if (parent->leftChild == current) {
+      parent->leftChild = current->leftChild;
+    } else
+      parent->rightChild = current->leftChild;
+    delete current;
+  } else {
+    // 1 child on the right
+    if (parent->rightChild == current)
+      parent->rightChild = current->rightChild;
+    else
+      parent->leftChild = current->rightChild;
+    delete current;
+  }
+  --size_;
+}
+
+template <typename Value>
+void set<Value>::clear(Node* root) {
+  if (!root) return;
+  clear(root->leftChild);
+  clear(root->rightChild);
+  delete root;
+}
+// template <typename Value>
+// template <typename Value>
+// template <typename Value>
