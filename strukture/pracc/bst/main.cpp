@@ -22,6 +22,7 @@ int main(void) {
   d.print();
   std::cout << d.size() << std::endl;
   return 0;
+  s.print();
 }
 
 //     40

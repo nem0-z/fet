@@ -25,8 +25,7 @@ class hashTable {
   Value& operator[](const Key& k) {
     size_t index = hash(k);
     auto lista = table_[index];
-    for(const auto& item:lista)
-      std::cout << item.second << " ";
+    for (const auto& item : lista) std::cout << item.second << " ";
     std::cout << std::endl;
   }
 
