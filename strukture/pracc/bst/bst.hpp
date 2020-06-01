@@ -48,7 +48,6 @@ public:
   void clear(Node*);
 };
 
-
 template <typename Value>
 set<Value>::set() : root_{nullptr}, size_{0} {}
 
