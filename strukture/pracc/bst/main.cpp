@@ -3,6 +3,7 @@
 
 int main(void) {
   set<int> s;
+  std::vector<int> v;
   s.insert(40);
   s.insert(30);
   s.insert(50);
@@ -22,6 +23,7 @@ int main(void) {
   d.print();
   std::cout << d.size() << std::endl;
   return 0;
+  s.print();
   s.print();
 }
 

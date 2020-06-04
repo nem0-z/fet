@@ -4,14 +4,14 @@
 
 using namespace std;
 
-int main(void)
-{
-  ListStack<int> s; 
+int main(void) {
+  ListStack<int> s;
   s.push(2);
   s.push(3);
   s.push(4);
   int num = 0;
   s.push(num);
+  s.pop();
   // s.push(num+1);
   // s.push(num);
   // s.push(num+10);

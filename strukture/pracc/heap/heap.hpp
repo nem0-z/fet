@@ -1,5 +1,6 @@
 #pragma once
 #include <cstddef>
+#include <initializer_list>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
@@ -8,9 +9,10 @@ template <typename T>
 class heap {
   public:
   heap();
+  heap(const std::initializer_list<T>&);
   heap(const heap&);
   heap(heap&&);
-  // ~heap();
+  ~heap();
 
   heap& operator=(const heap&);
   heap& operator=(heap&&);
@@ -23,16 +25,30 @@ class heap {
   T pop();
 
   void print() const;
+  void make_heap();
 
   private:
   T* ptr_;
   size_t size_;
   void srediNadole(int);
+  void srediNadoleIterativno(int);
   void srediNagore(int);
 };
 
 template <typename T>
 heap<T>::heap() : ptr_{new T[100]}, size_{0} {}
+
+template <typename T>
+heap<T>::heap(const std::initializer_list<T>& initList)
+    : size_{initList.size()}, ptr_{new T[100]} {
+  std::copy(initList.begin(), initList.end(), ptr_ + 1);
+  make_heap();
+}
+
+template <typename T>
+heap<T>::~heap() {
+  delete[] ptr_;
+}
 
 template <typename T>
 template <typename U>
@@ -60,22 +76,43 @@ T heap<T>::pop() {
 
 template <typename T>
 void heap<T>::srediNadole(int index) {
-  if (index >= size_) return;
+  if (2 * index > size_) return;
   int leftChildIndex = 2 * index;
   int rightChildIndex = 2 * index + 1;
-  int greaterChildIndex;
+  int greaterChildIndex = rightChildIndex;
   if (ptr_[leftChildIndex] > ptr_[rightChildIndex])
     greaterChildIndex = leftChildIndex;
-  else
-    greaterChildIndex = rightChildIndex;
-  if (ptr_[index] < ptr_[greaterChildIndex])
+  if (ptr_[index] < ptr_[greaterChildIndex]) {
+    print();
     std::swap(ptr_[index], ptr_[greaterChildIndex]);
-  else
-    srediNadole(index * 2);
+  }
+  srediNadole(greaterChildIndex);
 }
 
+template <typename T>
+void heap<T>::srediNadoleIterativno(int index) {
+  while (2 * index <= size_) {
+    int child = 2 * index;
+    if (ptr_[child] < ptr_[child + 1]) ++child;
+    if (ptr_[index] > ptr_[child])
+      break;
+    else {
+      std::swap(ptr_[index], ptr_[child]);
+      print();
+    }
+    index = child;
+  }
+}
 template <typename T>
 void heap<T>::print() const {
   for (int i = 1; i <= size_; ++i) std::cout << ptr_[i] << " ";
   std::cout << std::endl;
+}
+
+template <typename T>
+void heap<T>::make_heap() {
+  for (int i = size_ / 2; i >= 1; --i) {
+    // srediNadoleIterativno(i);
+    srediNadole(i);
+  }
 }
