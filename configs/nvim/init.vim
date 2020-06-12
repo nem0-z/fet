@@ -1,10 +1,4 @@
 let mapleader = "\<Space>"
-set nocompatible
-filetype off
-
-" =============================================================================
-" # PLUGINS
-" =============================================================================
 " VIM enhancements
 if &compatible
   set nocompatible
@@ -16,6 +10,8 @@ if dein#load_state('~/.cache/dein')
   call dein#begin('~/.cache/dein')
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
   call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+  call dein#add('roxma/nvim-yarp')
+  call dein#add('roxma/vim-hug-neovim-rpc')
   call dein#add('justinmk/vim-sneak')
   call dein#add('octol/vim-cpp-enhanced-highlight')
   call dein#add('mhinz/vim-grepper')
@@ -35,14 +31,11 @@ if dein#load_state('~/.cache/dein')
   call dein#add('rhysd/vim-clang-format')
   call dein#add('honza/vim-snippets')
   call dein#add('dracula/vim')
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
-
+  call dein#add('jiangmiao/auto-pairs')
   call dein#end()
   call dein#save_state()
 endif
+
 
 
 filetype plugin indent on
@@ -192,7 +185,7 @@ function! s:show_documentation()
     execute 'h '.expand('<cword>')
   else
     call CocAction('doHover')
-  endif
+  f
 endfunction
 
 " Highlight symbol under cursor on CursorHold
@@ -368,6 +361,7 @@ nnoremap <silent> g* g*zz
 nnoremap ? ?\v
 nnoremap / /\v
 cnoremap %s/ %sm/
+" inoremap {<CR> {<CR>}<C-o>1
 
 " =============================================================================
 " # GUI settings
