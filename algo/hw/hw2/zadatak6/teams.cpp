@@ -39,7 +39,7 @@ auto makeArr(void)
   {
     Tim t;
     t.naziv = (char)i;
-    t.bodovi = rand() % 100 + 10;
+    t.bodovi = rand() % 100;
     t.primljeniGolovi = rand() % 10;
     t.postignutiGolovi = rand() % 10;
     v.push_back(t);
