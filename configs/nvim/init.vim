@@ -279,19 +279,6 @@ nmap <leader>; :Buffers<CR>
 " Quick-save
 nmap <leader>w :w<CR>
 
-" rust.vim
-let g:rustfmt_command = "rustfmt +nightly"
-let g:rustfmt_emit_files = 1
-let g:rustfmt_fail_silently = 0
-let g:rust_clip_command = 'xclip -selection clipboard'
-let $RUST_SRC_PATH = systemlist("rustc --print sysroot")[0] . "/lib/rustlib/src/rust/src"
-
-" Golang
-let g:go_play_open_browser = 0
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "goimports"
-let g:go_bin_path = expand("~/dev/go/bin")
-
 " =============================================================================
 " # Editor settings
 " =============================================================================
@@ -469,6 +456,10 @@ noremap M :!make -k -j4<cr>
 map <F1> <Esc>
 imap <F1> <Esc>
 
+"copy/paste clipboard
+" vnoremap <leader>y "*y
+" vnoremap <leader>p "*p
+
 " <Tab> trigger completion
 " use <tab> for trigger completion and navigate to next complete item
 function! s:check_back_space() abort
@@ -502,10 +493,6 @@ endif
 
 " Auto-make less files on save
 autocmd BufWritePost *.less if filereadable("Makefile") | make | endif
-
-" Follow Rust code style rules
-au Filetype rust source ~/.config/nvim/spacetab.vim
-au Filetype rust set colorcolumn=100
 
 " Help filetype detection
 autocmd BufRead *.plot set filetype=gnuplot
