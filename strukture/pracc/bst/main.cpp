@@ -3,27 +3,16 @@
 
 int main(void) {
   set<int> s;
-  std::vector<int> v;
-  s.insert(40);
-  s.insert(30);
-  s.insert(50);
-  s.insert(35);
+  s.insert(7);
+  s.insert(4);
+  s.insert(5);
+  s.insert(3);
+  s.insert(1);
   s.insert(2);
-  s.insert(55);
-  s.insert(33);
+  // s.insert(20);
+  // s.insert(16);
   s.print();
-  // std::cout << s.find(15) << std::endl;
-  // std::cout << s.find(4) << std::endl;
-  // std::cout << s.find(15) << std::endl;
-  // s.insert(150);
-  s.print();
-  s.erase(40);
-  s.print();
-  set<int> d = s;
-  d.print();
-  std::cout << d.size() << std::endl;
-  return 0;
-  s.print();
+  s.erase(2);
   s.print();
 }
 

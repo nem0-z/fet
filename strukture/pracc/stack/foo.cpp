@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "ArrayStack.hpp"
 #include "ListStack.hpp"
 
@@ -7,6 +8,7 @@ using namespace std;
 int main(void) {
   ListStack<int> s;
   s.push(2);
+  s.pop();
   s.push(3);
   s.push(4);
   int num = 0;

@@ -2,29 +2,12 @@
 #include <algorithm>
 #include <cstddef>
 #include <iostream>
+#include <stack>
 #include <stdexcept>
 #include <utility>
 
 template <typename Value>
 class set {
-  public:
-  set();
-  set(const set&);
-  set(set&&);
-  ~set();
-
-  set& operator=(const set&);
-  set& operator=(set&&);
-
-  size_t size() const { return size_; }
-  bool empty() const { return root_ == nullptr; }
-
-  template <typename U>
-  void insert(U&&);
-  bool find(const Value&) const;
-  void erase(const Value&);
-  void print() const;
-
   private:
   class Node {
 public:
@@ -46,7 +29,43 @@ public:
   bool findNode(Node*, const Value&) const;
   void insertCopyNode(Node*&, Node*);
   void clear(Node*);
+
+  public:
+  set();
+  set(const set&);
+  set(set&&);
+  ~set();
+
+  set& operator=(const set&);
+  set& operator=(set&&);
+
+  size_t size() const { return size_; }
+  bool empty() const { return root_ == nullptr; }
+
+  template <typename U>
+  void insert(U&&);
+  bool find(const Value&) const;
+  void erase(const Value&);
+  void print() const;
+  void orderi();
 };
+
+template <typename Value>
+void set<Value>::orderi() {
+  Node* test = root_;
+  std::stack<Node*> s;
+  s.push(test);
+  while(!s.empty()){
+    std::cout << s.top()->data << std::endl;
+    s.pop();
+    if(test->leftChild)
+      s.push(test->leftChild);
+    if(test->rightChild)
+      s.push(test->rightChild);
+    if(!s.empty())
+    test = s.top();
+  }
+}
 
 template <typename Value>
 set<Value>::set() : root_{nullptr}, size_{0} {}
@@ -110,7 +129,9 @@ void set<Value>::insertNode(Node* root, Node* newNode) {
 template <typename Value>
 void set<Value>::print() const {
   if (!empty()) {
-    printInorder(root_);
+    // printInorder(root_);
+    // printPreorder(root_);
+    printPostorder(root_);
     std::cout << std::endl;
   } else
     std::cout << "Empty tree" << std::endl;
@@ -162,6 +183,17 @@ bool set<Value>::findNode(Node* node, const Value& toFind) const {
 template <typename Value>
 void set<Value>::erase(const Value& toDelete) {
   if (empty()) throw std::runtime_error("");
+  if(toDelete == root_->data){
+    Node* tmp = root_;
+    if(root_->leftChild && !root_->rightChild){
+      root_ = root_->leftChild;
+    }
+    if(root_->rightChild && !root_->leftChild){
+      root_ = root_->rightChild;
+    }
+    delete tmp;
+    return;
+  }
   Node* current = root_;
   Node* parent = current;
   while (current) {
@@ -221,5 +253,3 @@ void set<Value>::clear(Node* root) {
   clear(root->rightChild);
   delete root;
 }
-// template <typename Value>
-// template <typename Value>

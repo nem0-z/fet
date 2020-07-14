@@ -15,7 +15,8 @@ private:
     };
     Node *head;
     Node *last;
-    size_t size_ = 0; //why did we do this?? you knew when you did it, do you know now?
+    size_t size_ = 0; //why did we do this?? you knew when you did it, do you know now? uhm no need for that actually
+			//you were just stupid
 
 public:
     ForwardList();
@@ -106,9 +107,10 @@ ForwardList<T> &ForwardList<T>::insert(int index, const T &val)
 template <typename T>
 void ForwardList<T>::clear()
 {
+    Node* tmp = head;
     while (head)
     {
-        Node *tmp = head->next;
+        tmp = tmp->next;
         delete head;
         head = tmp;
     }
@@ -168,7 +170,7 @@ ForwardList<T> &ForwardList<T>::push_back(const T &val)
     Node *newNode = new Node(val);
     if (empty())
     {
-        head = newNode;
+        head = last = newNode;
     }
     else
     {

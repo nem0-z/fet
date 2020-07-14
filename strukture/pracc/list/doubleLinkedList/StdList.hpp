@@ -10,7 +10,7 @@ public:
     Node *next_ = nullptr;
     Node *prev_ = nullptr;
 
-    Node(Elem data = 0) : data_{data} {}
+    Node(Elem data = Elem{}) : data_{data} {}
   };
   uint32_t size_;
   Node *head_;
@@ -196,10 +196,6 @@ StdList<Elem> &StdList<Elem>::push_back(const Elem &item) {
   Node *toAdd = new Node(item);
   if (empty()) {
     head_ = tail_ = toAdd;
-  } else if (size_ == 1) {
-    head_->next_ = toAdd;
-    tail_ = toAdd;
-    tail_->prev_ = head_;
   } else {
     tail_->next_ = toAdd;
     toAdd->prev_ = tail_;
@@ -306,12 +302,9 @@ void StdList<Elem>::insert(typename StdList<Elem>::iterator position,
     push_front(item);
   else if (!empty() && position.isBegin()) {
     push_front(item);
-  }
-  else if (!empty() && position.isEnd())
-  {
-      push_back(item);
-  }
-  else if (!empty()) {
+  } else if (!empty() && position.isEnd()) {
+    push_back(item);
+  } else if (!empty()) {
     Node *toAdd = new Node(item);
     Node *prev = position.previous;
     Node *next = position.current;

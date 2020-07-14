@@ -83,7 +83,6 @@ void heap<T>::srediNadole(int index) {
   if (ptr_[leftChildIndex] > ptr_[rightChildIndex])
     greaterChildIndex = leftChildIndex;
   if (ptr_[index] < ptr_[greaterChildIndex]) {
-    print();
     std::swap(ptr_[index], ptr_[greaterChildIndex]);
   }
   srediNadole(greaterChildIndex);
@@ -98,7 +97,7 @@ void heap<T>::srediNadoleIterativno(int index) {
       break;
     else {
       std::swap(ptr_[index], ptr_[child]);
-      print();
+      //print();
     }
     index = child;
   }
