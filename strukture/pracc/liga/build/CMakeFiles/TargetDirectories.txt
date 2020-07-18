@@ -1,4 +1,0 @@
-/home/zlatan/fet/strukture/pracc/liga/build/CMakeFiles/edit_cache.dir
-/home/zlatan/fet/strukture/pracc/liga/build/CMakeFiles/rebuild_cache.dir
-/home/zlatan/fet/strukture/pracc/liga/build/CMakeFiles/core.dir
-/home/zlatan/fet/strukture/pracc/liga/build/CMakeFiles/liga.dir
