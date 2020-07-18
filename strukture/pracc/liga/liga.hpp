@@ -14,9 +14,8 @@
 #include <utility>
 #include <vector>
 
-class Solution
-{
-private:
+class Solution {
+  private:
   // struct declarations
   struct Team;
   struct Referee;
@@ -26,23 +25,20 @@ private:
   struct MatchesDB;
 
   // struct definitions
-  struct Date
-  {
+  struct Date {
     int day;
     int month;
     int year;
     void print() const;
   };
-  struct MatchesDB
-  {
+  struct MatchesDB {
     std::queue<Match> unplayedMatches;
     std::stack<Match> playedMatches;
     std::deque<Match> allMatches;
     void addMatch(const Match &);
     void playMatch(const Match &);
   };
-  struct Team
-  {
+  struct Team {
     std::string name = "N/A";
     std::string country = "N/A";
     std::string city = "N/A";
@@ -50,14 +46,12 @@ private:
     int points = 0;
     MatchesDB matches;
   };
-  struct Referee
-  {
+  struct Referee {
     std::string name = "N/A";
     std::string surname = "N/A";
     std::string country = "N/A";
   };
-  struct Match
-  {
+  struct Match {
     Team *home;
     Team *away;
     Referee *mainRef;
@@ -67,8 +61,7 @@ private:
     bool played = false;
     void print() const;
   };
-  struct League
-  {
+  struct League {
     std::string name = "N/A";
     std::string country = "N/A";
     std::unordered_map<std::string, Team> *teams;
@@ -108,6 +101,6 @@ private:
   void leagueInfo();
   void matchesInfo() const;
 
-public:
-  void start();
+  public:
+  void solve();
 };

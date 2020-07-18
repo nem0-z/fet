@@ -1,7 +1,7 @@
 #include "liga.hpp"
 
 int main(int argc, char const *argv[]) {
-  Solution app;
-  app.start();
+  Solution s;
+  s.solve();
   return 0;
 }
