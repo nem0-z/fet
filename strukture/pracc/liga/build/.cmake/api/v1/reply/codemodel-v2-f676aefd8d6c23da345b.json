@@ -40,14 +40,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "core::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-core-Debug-df63c90f4a6b5a7d819d.json",
+					"jsonFile" : "target-core-Debug-e450d1549e6d185ae521.json",
 					"name" : "core",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "liga::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-liga-Debug-568a06c8e867003e3bb4.json",
+					"jsonFile" : "target-liga-Debug-a67447482a3b888f7abe.json",
 					"name" : "liga",
 					"projectIndex" : 0
 				}
@@ -63,6 +63,6 @@
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 0
+		"minor" : 1
 	}
 }

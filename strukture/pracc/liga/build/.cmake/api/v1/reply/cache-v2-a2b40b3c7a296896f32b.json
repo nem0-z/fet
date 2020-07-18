@@ -79,7 +79,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "16"
+			"value" : "18"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "3"
+			"value" : "0"
 		},
 		{
 			"name" : "CMAKE_COMMAND",
@@ -103,7 +103,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/bin/cmake"
+			"value" : "/snap/cmake/487/bin/cmake"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/bin/cpack"
+			"value" : "/snap/cmake/487/bin/cpack"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/bin/ctest"
+			"value" : "/snap/cmake/487/bin/ctest"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -867,7 +867,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/share/cmake-3.16"
+			"value" : "/snap/cmake/487/share/cmake-3.18"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",

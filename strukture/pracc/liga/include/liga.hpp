@@ -31,6 +31,7 @@ private:
     int day;
     int month;
     int year;
+    void print() const;
   };
   struct MatchesDB
   {

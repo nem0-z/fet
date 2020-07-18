@@ -2,34 +2,46 @@
 
 #include <iostream>
 
-void Solution::Match::print() const {
+void Solution::Date::print() const
+{
+  std::cout << day << "-" << month << "-" << year
+            << std::endl;
+}
+void Solution::Match::print() const
+{
   std::cout << "Home team: " << home->name << std::endl;
   std::cout << "Away team: " << away->name << std::endl;
   std::cout << "Head referee: " << mainRef->name << " " << mainRef->surname
             << std::endl;
   std::cout << "Assistant referee: " << assistantRef->name << " "
             << assistantRef->surname << std::endl;
-  std::cout << "Date: " << date.day << "-" << date.month << "-" << date.year
-            << std::endl;
+  std::cout << "Date: ";
+  date.print();
   std::cout << "Played: " << (played ? "Yes\n" : "No\n") << std::endl;
+  if (played)
+    std::cout << "Result: " << result << std::endl;
 }
-void Solution::MatchesDB::addMatch(const Match &match) {
+void Solution::MatchesDB::addMatch(const Match &match)
+{
   unplayedMatches.push(match);
-  allMatches.emplace_back(match);
+  allMatches.emplace_back(std::move(match));
 }
-void Solution::MatchesDB::playMatch(const Match &match) {
+void Solution::MatchesDB::playMatch(const Match &match)
+{
   playedMatches.push(match);
-  allMatches.pop_front();
-  allMatches.emplace_back(match);
+  allMatches.emplace_back(std::move(match));
   unplayedMatches.pop();
+  allMatches.pop_front();
 }
-int Solution::retardInput() const {
+int Solution::retardInput() const
+{
   std::cin.clear();
   std::cin.ignore(1000, '\n');
   std::cout << "Wrong input!" << std::endl;
   return -1;
 }
-int Solution::printMenu() const {
+int Solution::printMenu() const
+{
   using std::cin;
   using std::cout;
   using std::endl;
@@ -46,8 +58,10 @@ int Solution::printMenu() const {
   cout << "Your choice: ";
   return (cin >> choice ? choice : retardInput());
 }
-void Solution::choice(int userChoice) {
-  if (userChoice != -1 || userChoice != 9) {
+void Solution::choice(int userChoice)
+{
+  if (userChoice != -1 || userChoice != 9)
+  {
     if (userChoice == 1)
       addTeam();
     else if (userChoice == 2)
@@ -67,7 +81,8 @@ void Solution::choice(int userChoice) {
   }
 }
 
-Solution::Date Solution::date() {
+Solution::Date Solution::date()
+{
   Date d;
   time_t now = time(0);
   tm *ltm = localtime(&now);
@@ -77,30 +92,36 @@ Solution::Date Solution::date() {
   return d;
 }
 
-void Solution::updateDate(int &day, int &month, int &year) {
+void Solution::updateDate(int &day, int &month, int &year)
+{
   day += 7;
-  if (day >= 28) {
+  if (day >= 28)
+  {
     ++month;
     day = 1;
-    if (month >= 12) {
+    if (month >= 12)
+    {
       month = 1;
       ++year;
     }
   }
 }
 
-int Solution::randomRef(const std::string &country) {
+int Solution::randomRef(const std::string &country)
+{
   return rand() % referees_[country].size();
 }
 
-void Solution::updateRef(int &ref1, int &ref2) {
-  if (ref1 == referees_.size())
+void Solution::updateRef(int &ref1, int &ref2)
+{
+  if (ref1 == referees_.size() - 1)
     ref2 = ref1 - 1;
   else
-    ref2 = ref2 + 1;
+    ref2 = ref1 + 1;
 }
 
-void Solution::addTeam() {
+void Solution::addTeam()
+{
   using std::cin;
   using std::cout;
   using std::endl;
@@ -117,7 +138,8 @@ void Solution::addTeam() {
   auto success = teams_[team.country].insert({team.name, std::move(team)});
   cout << (success.second ? "Team added!" : "Can't add this team!") << endl;
 }
-void Solution::addReferee() {
+void Solution::addReferee()
+{
   using std::cin;
   using std::cout;
   using std::endl;
@@ -137,14 +159,18 @@ void Solution::addReferee() {
       [&](const Referee &other) {
         return ref.name == other.name && ref.surname == other.surname;
       });
-  if (existingRef == referees_[ref.country].end()) {
+  if (existingRef == referees_[ref.country].end())
+  {
     referees_[ref.country].emplace_back(std::move(ref));
     cout << "Referee added!" << endl;
-  } else {
+  }
+  else
+  {
     cout << "Can't add this referee!" << endl;
   }
 }
-void Solution::addLeague() {
+void Solution::addLeague()
+{
   using std::cin;
   using std::cout;
   using std::endl;
@@ -154,13 +180,15 @@ void Solution::addLeague() {
   cout << "Country: ";
   cin >> league.country;
   if (teams_.find(league.country) == teams_.end() ||
-      teams_[league.country].size() < 2) {
+      teams_[league.country].size() < 2)
+  {
     cout << "There have to be atleast 2 available teams in the country!"
          << endl;
     return;
   }
   auto refs = referees_.find(league.country);
-  if (refs == referees_.end() || refs->second.size() < 2) {
+  if (refs == referees_.end() || refs->second.size() < 2)
+  {
     cout << "There have to be atleast 2 available referees in the country!"
          << endl;
     return;
@@ -174,12 +202,15 @@ void Solution::addLeague() {
   int day = currentDate.day;
 
   // generate schedule
-  for (auto &t1 : *league.teams) {
+  for (auto &t1 : *league.teams)
+  {
     Team *home = &t1.second;
-    for (auto &t2 : *league.teams) {
+    for (auto &t2 : *league.teams)
+    {
       Team *away = &t2.second;
 
-      if (home->name == away->name) continue;
+      if (home->name == away->name)
+        continue;
 
       Match newMatch;
       // set opponents
@@ -193,7 +224,8 @@ void Solution::addLeague() {
       // pick referees randomly
       int ref1 = randomRef(league.country);
       int ref2 = randomRef(league.country);
-      if (ref1 == ref2) updateRef(ref1, ref2);
+      if (ref1 == ref2)
+        updateRef(ref1, ref2);
       newMatch.mainRef = &refs->second[ref1];
       newMatch.assistantRef = &refs->second[ref2];
 
@@ -209,7 +241,8 @@ void Solution::addLeague() {
 }
 
 std::unordered_map<std::string, Solution::League>::iterator
-Solution::getLeague() {
+Solution::getLeague()
+{
   using std::cin;
   using std::cout;
   using std::endl;
@@ -228,7 +261,8 @@ Solution::getLeague() {
   return findLeague;
 }
 std::unordered_map<std::string, Solution::Team>::const_iterator
-Solution::getTeam() const {
+Solution::getTeam() const
+{
   using std::cin;
   using std::cout;
   using std::endl;
@@ -246,17 +280,20 @@ Solution::getTeam() const {
     throw std::runtime_error("No team found with that name!\n");
   return team;
 }
-void Solution::playMatch() {
+void Solution::playMatch()
+{
   using std::cin;
   using std::cout;
   using std::endl;
   std::string result;
-  try {
+  try
+  {
     auto findLeague = getLeague();
 
     // fetch next scheduled match in league table
     auto &leagueSched = findLeague->second.matches;
-    if (leagueSched.unplayedMatches.empty()) {
+    if (leagueSched.unplayedMatches.empty())
+    {
       cout << "No scheduled matches to play!" << endl;
       return;
     }
@@ -280,7 +317,8 @@ void Solution::playMatch() {
     cout << "Enter result in form: home-away, e.g. 3-1" << endl;
     cin >> result;
     if (!std::isdigit(result[0]) || !std::isdigit(result[2]) ||
-        result.size() > 3 || result[1] != '-') {
+        result.size() > 3 || result[1] != '-')
+    {
       cout << "Wrong input!" << endl;
       return;
     }
@@ -288,12 +326,17 @@ void Solution::playMatch() {
     // parse result
     const int homeGoals = result[0] - 48;
     const int awayGoals = result[2] - 48;
-    if (homeGoals > awayGoals) {
+    if (homeGoals > awayGoals)
+    {
       homeTeam.points += 3;
-    } else if (homeGoals == awayGoals) {
+    }
+    else if (homeGoals == awayGoals)
+    {
       homeTeam.points += 1;
       awayTeam.points += 1;
-    } else {
+    }
+    else
+    {
       awayTeam.points += 3;
     }
 
@@ -304,19 +347,24 @@ void Solution::playMatch() {
     match.home->matches.playMatch(pendingMatch);
     match.away->matches.playMatch(pendingMatch);
     leagueSched.playMatch(pendingMatch);
-  } catch (const std::runtime_error &err) {
+  }
+  catch (const std::runtime_error &err)
+  {
     cout << err.what();
     return;
   }
 }
-void Solution::annulMatch() {
+void Solution::annulMatch()
+{
   using std::cin;
   using std::cout;
   using std::endl;
-  try {
+  try
+  {
     // find league and last played match
     auto findLeague = getLeague();
-    if (findLeague->second.matches.playedMatches.empty()) {
+    if (findLeague->second.matches.playedMatches.empty())
+    {
       cout << "No played matches available!" << endl;
       return;
     }
@@ -328,31 +376,42 @@ void Solution::annulMatch() {
     const std::string &result = lastMatch.result;
     const int homeGoals = result[0] - 48;
     const int awayGoals = result[2] - 48;
-    if (homeGoals > awayGoals) {
+    if (homeGoals > awayGoals)
+    {
       homeTeam->points -= 3;
-    } else if (homeGoals == awayGoals) {
+    }
+    else if (homeGoals == awayGoals)
+    {
       homeTeam->points -= 1;
       awayTeam->points -= 1;
-    } else {
+    }
+    else
+    {
       awayTeam->points -= 3;
     }
-    if (homeTeam->points < 0) homeTeam->points = 0;
-    if (awayTeam->points < 0) awayTeam->points = 0;
+    if (homeTeam->points < 0)
+      homeTeam->points = 0;
+    if (awayTeam->points < 0)
+      awayTeam->points = 0;
 
     // results are reverted so remove it from played matches collection
     findLeague->second.matches.playedMatches.pop();
     homeTeam->matches.playedMatches.pop();
     awayTeam->matches.playedMatches.pop();
-  } catch (const std::runtime_error &err) {
+  }
+  catch (const std::runtime_error &err)
+  {
     cout << err.what();
     return;
   }
 }
-void Solution::teamInfo() const {
+void Solution::teamInfo() const
+{
   using std::cin;
   using std::cout;
   using std::endl;
-  try {
+  try
+  {
     auto team = getTeam();
     cout << "\nName: " << team->second.name << endl;
     cout << "Country: " << team->second.country << endl;
@@ -363,50 +422,69 @@ void Solution::teamInfo() const {
     if (team->second.matches.allMatches.empty())
       cout << "No scheduled matches!" << endl;
     else
-      for (const auto &m : team->second.matches.allMatches) m.print();
-  } catch (const std::runtime_error &err) {
+      for (const auto &m : team->second.matches.allMatches)
+        m.print();
+  }
+  catch (const std::runtime_error &err)
+  {
     cout << err.what();
     return;
   }
 }
-void Solution::leagueInfo() {
+void Solution::leagueInfo()
+{
   using std::cin;
   using std::cout;
   using std::endl;
-  try {
+  try
+  {
     auto findLeague = getLeague();
-    cout << "\t\t\tTeam\t\t\tPoints\n" << endl;
-    cout << std::string(80,'-') << endl;
-    for (const auto &team : *findLeague->second.teams) {
+    cout << "\t\t\tTeam\t\t\tPoints\n"
+         << endl;
+    cout << std::string(80, '-') << endl;
+    for (const auto &team : *findLeague->second.teams)
+    {
       cout << "\t\t\t" << team.second.name << "\t\t\t" << team.second.points
            << endl;
     }
-  } catch (const std::runtime_error &err) {
+  }
+  catch (const std::runtime_error &err)
+  {
     cout << err.what();
     return;
   }
 }
-void Solution::matchesInfo() const {
+void Solution::matchesInfo() const
+{
   using std::cout;
   using std::endl;
-  if (!leagues_.empty()) {
-    for (const auto &l : leagues_) {
-      for (const auto &league : l.second) {
+  if (!leagues_.empty())
+  {
+    for (const auto &l : leagues_)
+    {
+      for (const auto &league : l.second)
+      {
         cout << "League: " << league.second.name << endl;
         cout << "Country: " << league.second.country << endl;
         cout << "\t\tMATCHES" << endl;
-        for (const auto &m : league.second.matches.allMatches) m.print();
+        for (const auto &m : league.second.matches.allMatches)
+          m.print();
       }
     }
-  } else {
+  }
+  else
+  {
     cout << "No scheduled matches" << endl;
   }
 }
 
-void Solution::start() {
-  while (true) {
+void Solution::start()
+{
+  while (true)
+  {
     int userChoice = printMenu();
     choice(userChoice);
-    if (userChoice == 9) break;
+    if (userChoice == 9)
+      break;
   }
 }
