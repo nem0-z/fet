@@ -1,0 +1,13 @@
+[
+{
+  "directory": "/home/zlatan/fet/strukture/pracc/liga/build",
+  "command": "/bin/clang++-10   -I../include  -g   -std=gnu++17 -o CMakeFiles/liga.dir/main.cpp.o -c /home/zlatan/fet/strukture/pracc/liga/main.cpp",
+  "file": "/home/zlatan/fet/strukture/pracc/liga/main.cpp"
+},
+
+{
+  "directory": "/home/zlatan/fet/strukture/pracc/liga/build",
+  "command": "/bin/clang++-10   -I../include  -g   -std=gnu++17 -o CMakeFiles/core.dir/src/liga.cpp.o -c /home/zlatan/fet/strukture/pracc/liga/src/liga.cpp",
+  "file": "/home/zlatan/fet/strukture/pracc/liga/src/liga.cpp"
+}
+]
