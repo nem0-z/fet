@@ -2,20 +2,16 @@
 #include <ctype.h>
 
 #include <algorithm>
-#include <cstddef>
 #include <ctime>
-#include <deque>
-#include <list>
-#include <queue>
-#include <stack>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-class Solution {
-  private:
+class Solution
+{
+private:
   // class declarations
   class Team;
   class Referee;
@@ -25,19 +21,21 @@ class Solution {
   class Schedule;
 
   // class definitions
-  class Date {
-public:
+  class Date
+  {
+  public:
     void getDate();
     void updateDate();
     void print() const;
 
-private:
+  private:
     int day;
     int month;
     int year;
   };
-  class Schedule {
-public:
+  class Schedule
+  {
+  public:
     std::vector<Match> allMatches;
     int unplayedMatches_ = 0;
     int playedMatches_ = -1;
@@ -46,8 +44,9 @@ public:
     void annul();
     bool matchAvailable() const;
   };
-  class Team {
-public:
+  class Team
+  {
+  public:
     std::string name = "N/A";
     std::string country = "N/A";
     std::string city = "N/A";
@@ -55,14 +54,16 @@ public:
     int points = 0;
     Schedule matches;
   };
-  class Referee {
-public:
+  class Referee
+  {
+  public:
     std::string name = "N/A";
     std::string surname = "N/A";
     std::string country = "N/A";
   };
-  class Match {
-public:
+  class Match
+  {
+  public:
     Team *home;
     Team *away;
     Referee *mainRef;
@@ -73,8 +74,9 @@ public:
     bool revert = false;
     void print() const;
   };
-  class League {
-public:
+  class League
+  {
+  public:
     std::string name = "N/A";
     std::string country = "N/A";
     std::unordered_map<std::string, Team> *teams;
@@ -117,6 +119,6 @@ public:
   void leagueInfo();
   void matchesInfo() const;
 
-  public:
+public:
   void solve();
 };
