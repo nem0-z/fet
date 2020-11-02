@@ -2,3 +2,5 @@
 /TIK/predavanja
 /Databases/predavanja
 *.pdf
+/TIK/lab/.idea
+/TIK/lab/venv
