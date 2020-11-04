@@ -41,6 +41,7 @@ SELECT mbrStud, ocjena, datIspit, CURRENT_DATE(), DATEDIFF(CURRENT_DATE(),datIsp
 
 #13
 SELECT * FROM stud WHERE datRodStud=DATE_SUB(CURRENT_DATE(),INTERVAL 25 YEAR);
+#SELECT DATE_SUB('2009-02-29',INTERVAL 10 YEAR);
 
 #14
 SELECT sifNastavnik, mbrStud, ocjena, DATEDIFF('2009-01-01',datIspit) FROM ispit;
