@@ -23,7 +23,7 @@ int median(int [], int);
 
 int main(void)
 {
-  int arr[] = {1, 19, 350, 740, 1522, 2020};
+  int arr[] = {1, 19, 350, 121, 740, 1522};
   int res = median(arr, SIZE(arr));
   printf("Median is: %d\n", res);
   return 0;

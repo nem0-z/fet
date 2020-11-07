@@ -4,51 +4,39 @@
 median:
   pushl %ebp
   movl %esp, %ebp
-  
-  movl $1, %edx #counter
-  movl 8(%ebp), %ecx #arr
-  pushl %esi #preserve %esi
-  movl 12(%ebp), %esi #size
+  # arr -> 8(%ebp)
+  # size -> 12(%ebp)
+  movl $1, %eax #counter
+  movl 8(%ebp), %edx #array*
 
-#edx = esi
-loop:
-  cmp %esi, %edx
-  je continue
-  pushl %ebx
-  movl -4(%ecx, %edx, 4), %ebx
-  cmp (%ecx, %edx, 4), %ebx 
-  popl %ebx
-  jg fallback
-  inc %edx
+loop: #exit wen? i >= size
+  cmp 12(%ebp), %eax
+  jge result
+  movl (%edx, %eax, 4), %ecx #arr[i], exit if arr[i-1] > arr[i]
+  cmp %ecx, -4(%edx, %eax, 4)
+  jg not_sorted
+  inc %eax
   jmp loop
 
-continue:
-  #check if size is even or odd number
-  pushl %ebx
-  movl %esi, %ebx
-  andl $1, %ebx
-  popl %ebx
-  je even
-
-odd:
-  sar $1, %esi 
-  movl (%ecx, %esi, 4), %eax
+result: #first check size if even or odd
+  movl 12(%ebp), %ecx
+  movl %ecx, %eax
+  sar $1, %ecx
+  andl $1, %eax
+  cmp $1, %eax
+  jne even
+  movl (%edx, %ecx, 4), %eax
   jmp end
 
 even:
-  sar $1, %esi 
-  movl (%ecx, %esi, 4), %eax
-  subl $1, %esi
-  addl (%ecx, %esi, 4), %eax
+  movl (%edx, %ecx, 4), %eax
+  addl -4(%edx, %ecx, 4), %eax
   sar $1, %eax
   jmp end
-  
 
-fallback:
+not_sorted:
   movl $-1, %eax
-
 end:
-  popl %esi #get %esi back
-  leave
+  popl %ebp
   ret
   
