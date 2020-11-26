@@ -1,0 +1,21 @@
+Kada dohvatamo nesto na nacin da eliminisemo ono sto nam ne treba,
+data treba koristiti podupite, ne mozemo sa spajanjem msm nedje veze,
+i to su oni podupiti tipa WHERE NOT IN/EXISTS (PODUPIT) 
+
+- nekorelirani podupit > korelirani podupit 
+(izvrsava se uvijek samo jednom) > (izvrsava se onoliko puta koliko ima redova u glavnom upitu)
+
+!!!!!BITNO BRAAATEEEE
+Pokusavati rjesiti sve samo sa joinovima (brze od podupita u vecini slucajeva)
+  -if not:Pokusavati udrobiti nekorelirane podupite
+      -if not:Pokusavati udrobiti korelirane podupite
+
+-ANY,ALL
+
+-korelirani podupit je u sustini onaj unutar kojeg imamo neko poredjenje/vezu
+s necim iz glavnog upita i to bas ne valja
+  npr. select * from stud where pbrStan not in (select pbr from mjesto ***where pbr != stud.pbrStan***)
+        *msm ovaj podupit nema veze sa zivotom ok al et primjer
+          
+-Dovrsi one presjeke unije razlike u mysqlu
+

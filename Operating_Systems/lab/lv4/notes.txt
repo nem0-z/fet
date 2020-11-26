@@ -1,0 +1,19 @@
+entry.S
+-------
+_start dobije vrijednost 2GB + 1MB - KERNBASE = 1MB
+
+%cr3 drzi fizicku adresu page directoryja (unutar pde su fizicke adrese ptova)
+
+*entrypgdir.c
+
+i prvi pde i onaj na KERNBASE+4MB ustvari pokazuju na isti pte,
+sto govori da ce se mapirati u isti frame
+
+da bi aktivirali paging enablamo bite cr0_pe, cr0_pg, cr0_wp
+
+aktivirali smo paging ali nam je eip idalje dole na 1MB, medjutim mi bi sad da gor idemo
+mov $relocated, %eax
+jmp *%eax **ovo iz nekog razloga pukne eip na KERNBASE + stagod, uprati u gdbu
+
+
+

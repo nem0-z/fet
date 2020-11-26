@@ -52,6 +52,14 @@ SELECT mbrStud, imeStud, prezStud FROM stud
 WHERE mbrStud NOT IN (SELECT mbrStud FROM ispit
 WHERE WEEKDAY(datIspit) = WEEKDAY(datRodStud));
 
+SELECT mbrStud, imeStud, prezStud FROM stud
+WHERE NOT EXISTS
+(SELECT 1 FROM ispit WHERE ispit.mbrStud = stud.mbrStud
+AND WEEKDAY(datIspit) = WEEKDAY(datRodStud)) #stavimo 1 jer nas u sustini boli briga *sta* je vratio
+                                             #bitno nam je da li postoji ikakav red
+                                             #mozemo na kraju dodati i 'limit 1' sto znaci cim nadjes 1 red bjezi
+                                             #dovoljan nam je 1 red da skontamo jel ima ista ili nema nikako
+
 #10
 SELECT sifNastavnik, imeNastavnik, prezNastavnik FROM nastavnik
 INNER JOIN mjesto ON nastavnik.pbrStan = mjesto.pbr
@@ -75,6 +83,13 @@ AND mbrStud != stud.mbrStud));
 #12
 
 #a) b c, m k
+CREATE TEMPORARY TABLE A1 AS
+SELECT DISTINCT r12, r13 FROM r1;
+CREATE TEMPORARY TABLE A2 AS
+SELECT DISTINCT r31, r32 FROM r3;
+SELECT A1.* FROM A1
+INNER JOIN A2 ON A1.r12 = A2.r31
+AND A1.r13 = A2.r32;
 
 #b) d e
 
@@ -95,7 +110,59 @@ AND mbrStud != stud.mbrStud));
 # a m k 5 f
 # a m k 11 e
 
+CREATE TEMPORARY TABLE D1 AS
+SELECT * FROM r1 JOIN r2;
+
+CREATE TEMPORARY TABLE D2 AS
+SELECT * FROM r1 INNER JOIN r3
+ON r1.r12 = r3.r31 AND r1.r13 = r3.r32;
+
+SELECT * FROM D1
+WHERE NOT EXISTS
+(SELECT * FROM D2
+WHERE D1.r11 = D2.r11
+AND D1.r12 = D2.r12
+AND D1.r13 = D2.r13
+AND D1.r21 = D2.r33);
+
+
 #e) m k
+
+CREATE TEMPORARY TABLE r1(
+r11 char,
+r12 char,
+r13 char
+);
+CREATE TEMPORARY TABLE r2(
+r21 integer,
+r22 char
+);
+CREATE TEMPORARY TABLE r3(
+r31 char,
+r32 char,
+r33 integer,
+r34 char
+);
+
+INSERT INTO r1 VALUES
+('a','b','c'),
+('a','d','k'),
+('a','e','m'),
+('a','m','k');
+
+INSERT INTO r2 VALUES
+(5,'f'),
+(7,'g'),
+(11,'e'),
+(11,'g');
+
+INSERT INTO r3 VALUES
+('b','c',5,'f'),
+('m','k',7,'g'),
+('m','n',9,'e'),
+('m','k',11,'g');
+
+
 
 
 
