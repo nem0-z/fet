@@ -26,20 +26,11 @@ REQUEST: METHOD URI VERSION NEWLINE HEADERS {
     }
 ;
 
-URI: SLASH DIR {
-        $$ = (char *)malloc(sizeof(char)*(1+strlen($2)+1));
-        sprintf($$, "/%s", $2);
+URI: SLASH ID URI {
+        $$ = (char *)malloc(sizeof(char)*(1+strlen($2)+strlen($3)+1));
+        sprintf($$, "/%s%s", $2, $3);
     }
-;
-
-DIR: ID SLASH {
-        $$ = (char *)malloc(sizeof(char)*(strlen($1)+2));
-        sprintf($$, "%s/", $1);
-    }
-    |ID {
-        $$ = $1;
-    }
-    | {
+    |{
         $$ = "";
     }
 ;
@@ -69,6 +60,7 @@ void yyerror (char const *s) {
 }
 
 int main() {
+    /* yydebug=1; */
 	yyin = stdin;
 
 	do {
