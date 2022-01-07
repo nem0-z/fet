@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1636921709 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca2\t1\main.cpp
+	<tchar.h>
+	<windows.h>
+	<iostream>
+	<string>
+	<time.h>
+

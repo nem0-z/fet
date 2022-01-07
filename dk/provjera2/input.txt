@@ -1,0 +1,11 @@
+title = "TOML Example"
+
+[default]
+debug = true
+deploy = false
+version = "0.2.3"
+
+[extra_list_parse]
+parse = "bash"
+time = 10020
+ip = 192.255.1.2

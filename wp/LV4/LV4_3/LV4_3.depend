@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1605005693 source:c:\users\edin\documents\fet\wp\lv4_3\main.cpp
+	<tchar.h>
+	<windows.h>
+

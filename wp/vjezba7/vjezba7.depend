@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1638860216 source:c:\users\zlatan\documents\zlatan\f3t\wp\vjezba7\main.cpp
+	<tchar.h>
+	<windows.h>
+	<iostream>
+

@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1636922537 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca2\t2\main.cpp
+	<tchar.h>
+	<windows.h>
+	<fstream>
+	<string>
+	<iostream>
+	<vector>
+	<sstream>
+	<queue>
+

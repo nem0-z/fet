@@ -1,0 +1,16 @@
+
+#include "resources.h"
+MOJMENI MENU
+BEGIN
+POPUP "&File"
+BEGIN
+MENUITEM "&Open...", 1001
+MENUITEM "&Save...", 1002
+MENUITEM SEPARATOR
+MENUITEM "E&xit", 1200
+END
+POPUP "&Help"
+BEGIN
+MENUITEM "&About", 1300
+END
+END

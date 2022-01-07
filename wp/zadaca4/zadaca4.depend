@@ -1,0 +1,38 @@
+# depslib dependency file v1.0
+1639940202 source:c:\users\zlatan\documents\zlatan\f3t\oop\zadaca4\main.cpp
+	<tchar.h>
+	<windows.h>
+	<iostream>
+	"resources.h"
+
+1639940101 c:\users\zlatan\documents\zlatan\f3t\oop\zadaca4\resources.h
+
+1639940117 source:c:\users\zlatan\documents\zlatan\f3t\oop\zadaca4\resources.rc
+	"resources.h"
+
+1639988785 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca4\main.cpp
+	<tchar.h>
+	<windows.h>
+	<iostream>
+	"resources.h"
+	"Equation.h"
+	"Helper.h"
+
+1639988734 c:\users\zlatan\documents\zlatan\f3t\wp\zadaca4\resources.h
+
+1639940385 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca4\resources.rc
+	"resources.h"
+
+1639987758 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca4\equation.cpp
+	"Equation.h"
+
+1639987735 c:\users\zlatan\documents\zlatan\f3t\wp\zadaca4\equation.h
+
+1639988858 c:\users\zlatan\documents\zlatan\f3t\wp\zadaca4\helper.h
+	<windows.h>
+	"resources.h"
+	"Equation.h"
+
+1639988860 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca4\helper.cpp
+	"Helper.h"
+

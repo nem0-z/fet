@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1641076722 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca5\main.cpp
+	<tchar.h>
+	<windows.h>
+	<list>
+	<algorithm>
+	<iostream>
+
+1641075273 source:c:\users\zlatan\documents\zlatan\f3t\wp\zadaca5\resources.rc
+	<windows.h>
+

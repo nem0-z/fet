@@ -1,0 +1,42 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/zlatan/fet/kompajler_dizajn/lab_2/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210905.0/
+ID	main.cpp	/^#define ID /;"	d	file:
+INTEGER	main.cpp	/^#define INTEGER /;"	d	file:
+INVALID	main.cpp	/^#define INVALID /;"	d	file:
+InputBuffer	main.cpp	/^  InputBuffer(std::string const& input) : text(input) {}$/;"	f	struct:InputBuffer	file:
+InputBuffer	main.cpp	/^struct InputBuffer {$/;"	s	file:
+KEYWORD	main.cpp	/^#define KEYWORD /;"	d	file:
+OPERATOR	main.cpp	/^#define OPERATOR /;"	d	file:
+TagToString	main.cpp	/^const char* TagToString(int tag) {$/;"	f	typeref:typename:const char *
+Token	main.cpp	/^struct Token {$/;"	s	file:
+WS	main.cpp	/^#define WS /;"	d	file:
+backtrack	main.cpp	/^  void backtrack() { currentPosition = lexemeBegin; }$/;"	f	struct:InputBuffer	typeref:typename:void	file:
+consumedLength	main.cpp	/^  size_t consumedLength() { return currentPosition - lexemeBegin; }$/;"	f	struct:InputBuffer	typeref:typename:size_t	file:
+currentPosition	main.cpp	/^  int currentPosition = 0;$/;"	m	struct:InputBuffer	typeref:typename:int	file:
+getElse	main.cpp	/^Token getElse(InputBuffer& buf) {$/;"	f	typeref:typename:Token
+getId	main.cpp	/^Token getId(InputBuffer& buf) {$/;"	f	typeref:typename:Token
+getIf	main.cpp	/^Token getIf(InputBuffer& buf) {$/;"	f	typeref:typename:Token
+getInteger	main.cpp	/^Token getInteger(InputBuffer& buf) { return Token{0}; }$/;"	f	typeref:typename:Token
+getKeyword	main.cpp	/^Token getKeyword(InputBuffer& buf) {$/;"	f	typeref:typename:Token
+getLexeme	main.cpp	/^  std::string getLexeme() const {$/;"	f	struct:InputBuffer	typeref:typename:std::string	file:
+getNext	main.cpp	/^  char getNext() { return text[currentPosition++]; }$/;"	f	struct:InputBuffer	typeref:typename:char	file:
+getReady	main.cpp	/^  void getReady() { lexemeBegin = currentPosition; }$/;"	f	struct:InputBuffer	typeref:typename:void	file:
+getWs	main.cpp	/^Token getWs(InputBuffer& buf) {$/;"	f	typeref:typename:Token
+lexeme	main.cpp	/^  std::string lexeme;$/;"	m	struct:Token	typeref:typename:std::string	file:
+lexemeBegin	main.cpp	/^  int lexemeBegin = 0;$/;"	m	struct:InputBuffer	typeref:typename:int	file:
+main	main.cpp	/^int main() {$/;"	f	typeref:typename:int
+notEmpty	main.cpp	/^  bool notEmpty() const { return currentPosition < text.size(); }$/;"	f	struct:InputBuffer	typeref:typename:bool	file:
+operator !	main.cpp	/^  bool operator!() { return tag != 0; }$/;"	f	struct:Token	typeref:typename:bool	file:
+operator bool	main.cpp	/^  explicit operator bool() { return tag; }$/;"	f	struct:Token	file:
+peekNext	main.cpp	/^  char peekNext() { return text[currentPosition]; }$/;"	f	struct:InputBuffer	typeref:typename:char	file:
+tag	main.cpp	/^  int tag;$/;"	m	struct:Token	typeref:typename:int	file:
+text	main.cpp	/^  std::string text;$/;"	m	struct:InputBuffer	typeref:typename:std::string	file:

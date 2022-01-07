@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1641288515 source:c:\users\zlatan\documents\zlatan\f3t\wp\zlatan_radovanovic_provjera4\main.cpp
+	<tchar.h>
+	<windows.h>
+	<list>
+	<algorithm>
+

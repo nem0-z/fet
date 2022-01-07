@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1640075607 source:c:\users\zlatan\documents\zlatan\f3t\wp\provjera4\resources.rc
+	"resources.h"
+
+1640076248 c:\users\zlatan\documents\zlatan\f3t\wp\provjera4\resources.h
+
+1640079055 source:c:\users\zlatan\documents\zlatan\f3t\wp\provjera4\main.cpp
+	<tchar.h>
+	<windows.h>
+	<iostream>
+	<vector>
+	"resources.h"
+

@@ -1,0 +1,16 @@
+#include "resources.h"
+
+MyMenu MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Exit", MENU_EXIT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About", MENU_ABOUT
+    END
+END
+
+IDC_CURSOR CURSOR "cursor.cur"
+IDI_ICON ICON "icon.ico"

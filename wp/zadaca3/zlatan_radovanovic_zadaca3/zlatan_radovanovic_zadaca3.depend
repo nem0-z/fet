@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1638198206 source:c:\documents and settings\wp\my documents\ri204\zlatan_radovanovic_zadaca3\main.cpp
+	<tchar.h>
+	<windows.h>
+	"my_header.hpp"
+
+1638216538 c:\documents and settings\wp\my documents\ri204\zlatan_radovanovic_zadaca3\my_header.hpp
+	<tchar.h>
+	<windows.h>
+	<iostream>
+	<list>
+
+1638216466 source:c:\documents and settings\wp\my documents\ri204\zlatan_radovanovic_zadaca3\my_header.cpp
+	"my_header.hpp"
+

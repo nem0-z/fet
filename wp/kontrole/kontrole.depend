@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1639508545 source:c:\users\zlatan\documents\zlatan\f3t\wp\kontrole\main.cpp
+	<tchar.h>
+	<windows.h>
+	<string>
+	"resources.h"
+
+1639508529 c:\users\zlatan\documents\zlatan\f3t\wp\kontrole\resources.h
+
