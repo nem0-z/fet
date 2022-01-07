@@ -5,6 +5,7 @@ LEX=flex
 all: problem1
 
 debug: DBGBISONFLAGS= -t -Wcounterexamples
+debug: CFLAGS+= -DDBGBISON
 debug: problem1
 
 
@@ -12,7 +13,7 @@ problem1: request.o
 	ln -nfs $< $@
 
 %.o: %.lex.c %.tab.c %.tab.h
-	$(CC) -o $@ $^ -lfl
+	$(CC) $(CFLAGS) -o $@ $^ -lfl
 
 %.lex.c: %.l
 	$(LEX) -o $(patsubst %.l,%.lex.c,$<) $<

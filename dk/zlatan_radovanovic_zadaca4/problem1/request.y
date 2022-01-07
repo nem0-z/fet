@@ -60,7 +60,9 @@ void yyerror (char const *s) {
 }
 
 int main() {
-    /* yydebug=1; */
+#ifdef DBGBISON
+    yydebug=1;
+#endif
 	yyin = stdin;
 
 	do {
