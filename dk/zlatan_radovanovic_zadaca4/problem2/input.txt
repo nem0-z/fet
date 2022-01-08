@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-Date: "Sat, 09 Oct 2020 14:28:02 CET"
-Server: "Apache"
-Last-Modified: "Sun, 02 Aug 2017 12:58:02 CET"
-ETag: "345345-123bas-1231b67856bc"
-Accept-Ranges: "bytes"
-Content-Length: "29769"
-Content-Type: "text/html"
