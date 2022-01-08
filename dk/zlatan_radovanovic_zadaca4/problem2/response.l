@@ -1,24 +1,25 @@
 %option noyywrap
 %{
     #include<stdio.h>
-    #include "request.tab.h"
+    #include "response.tab.h"
     char *strclone(char *str);
 %}
 
 num                                     [0-9]+(\.[0-9]{1,2})?
 letter                                  [a-zA-Z]
 letternum                               [a-zA-Z0-9\-]
+word                                    {letter}+
 id                                      {letter}{letternum}*
 string                                  \"[^"]*\"
 
 %%
 
-(GET|HEAD|POST|PUT|DELETE|OPTIONS)      { yylval = strclone(yytext); return METHOD; }
 HTTP\/{num}                             { yylval = strclone(yytext); return VERSION; }
+{word}                                  { yylval = strclone(yytext); return WORD; }
 {id}                                    { yylval = strclone(yytext); return ID; }
-"/"                                     { return SLASH; }
-"\n"                                    { return NEWLINE; }
 {string}                                { yylval = strclone(yytext); return STRING; }
+{num}                                   { yylval = strclone(yytext); return NUMBER; }
+"\n"                                    { return NEWLINE; }
 ":"                                     { return COLON; }
 [ \t\n]+                                       ;
 . {
