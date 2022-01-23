@@ -1,0 +1,1 @@
+print foo_ + 5, "bar = " & bar1, 10.0

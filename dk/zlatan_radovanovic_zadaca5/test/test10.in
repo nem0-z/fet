@@ -1,0 +1,8 @@
+a = cos(0.0)
+print a
+b = cosdeg(360.0)
+print b
+c = sin(0.0)
+print c
+d = sindeg(180)
+print d

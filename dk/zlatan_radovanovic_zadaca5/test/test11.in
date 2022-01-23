@@ -1,0 +1,4 @@
+foo_ = bar1  = 3
+print foo_
+print bar1
+
