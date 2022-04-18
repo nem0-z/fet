@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <span id="a">Braaateeee</span>
+  <div id="a">
+    <div id="sinisa">
+      <p>Paragraf 1</p>
+      <ul>
+        <li>Jedan</li>
+        <li>Dva</li>
+      </ul>
+      <p id="a">Paragraf 2</p>
+      <!-- <p id="a">Paragraf 7</p> -->
+    </div>
+    <p>Paragraf 3</p>
+  </div>
+  <p id="p4">Paragraf 4</p>
+  <script>
+    console.clear();
+    var obj = document.getElementById("a");
+    console.log(obj.textContent);
+    var obj1 = document.querySelectorAll("p#a");
+    for (const node of obj1) {
+        console.log(node.innerHTML);
+    }
+    const foo = document.querySelector("div#sinisa");
+    const list = foo.querySelectorAll("ul")[0];
+    console.log(list.innerHTML);
+    console.log(document.querySelector("div+p").innerHTML);
+    console.log(document.querySelector("div>p").innerHTML);
+  </script>
+</body>
+</html>
