@@ -1,30 +1,32 @@
 function TimedCache(expiration) {
-    this.cache = [];
+    var cache = {};
 
     this.put = function(cacheKey, data) {
-        this.cache[cacheKey] = data;
+        const key = String(cacheKey);
+        cache[key] = data;
         setTimeout(() => {
-            delete this.cache[cacheKey];
+            delete cache[key];
         }, expiration * 1000);
     }
 
     this.get = function(cacheKey) {
-        return this.cache[cacheKey] === undefined ? null : this.cache[cacheKey];
+        const key = String(cacheKey);
+        return cache[key] || null;
     }
 
     this.clear = function() {
-        this.cache = [];
+        cache = {};
     }
 }
 
-const tc = new TimedCache(5);
-tc.put("foo", 35);
-console.log(tc.get("foo"));
+const tc = new TimedCache(2);
 
+tc.put("foo", "This is foo.");
 setTimeout(() => {
-    console.log(tc.get("foo"));
-}, 4000); 
+    console.log('Foo value(after 2.02s): ' + tc.get("foo"));
+}, 2002);
 
+tc.put("bar", "This is bar.");
 setTimeout(() => {
-    console.log(tc.get("foo"));
-}, 2000); 
+    console.log('Bar value(after 1.98s): ' + tc.get("bar"));
+}, 1998);
