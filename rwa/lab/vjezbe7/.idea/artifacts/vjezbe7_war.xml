@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vjezbe7:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>vjezbe7</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="vjezbe7-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="vjezbe7:war exploded" />
+    </root>
+  </artifact>
+</component>
