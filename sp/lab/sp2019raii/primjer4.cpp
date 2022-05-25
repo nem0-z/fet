@@ -11,7 +11,7 @@ class DoublyLinkedList {
       std::shared_ptr<DNode> next_;
       std::weak_ptr<DNode> previous_;
 
-      DNode(const Element& element, std::weak_ptr<DNode> previous, 
+      DNode(const Element& element, std::weak_ptr<DNode> previous,
           std::shared_ptr<DNode> next)
         : element_{element},
         previous_{previous},

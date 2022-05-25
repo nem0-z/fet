@@ -35,8 +35,8 @@ class DoublyLinkedList {
         head_ = std::make_unique<DNode>(value, nullptr, std::move(head_));
       }
 
-      std::cout<< "Tail is nullptr: " << (tail_==nullptr) << std::endl;
-      std::cout << "Head is nullptr: " << (head_==nullptr) << std::endl;
+      std::cout<< "Tail is nullptr: " << std::boolalpha << (tail_==nullptr) << std::endl;
+      std::cout << "Head is nullptr: " << std::boolalpha << (head_==nullptr) << std::endl;
     }
 
     void insertBack(const Element& value)
@@ -49,8 +49,8 @@ class DoublyLinkedList {
         tail_ = std::make_unique<DNode>(value, std::move(tail_), nullptr);
       }
 
-      std::cout<< "Tail is nullptr: " << (tail_==nullptr) << std::endl;
-      std::cout << "Head is nullptr: " << (head_==nullptr) << std::endl;
+      std::cout<< "Tail is nullptr: " << std::boolalpha << (tail_==nullptr) << std::endl;
+      std::cout << "Head is nullptr: " << std::boolalpha << (head_==nullptr) << std::endl;
     }
 };
 

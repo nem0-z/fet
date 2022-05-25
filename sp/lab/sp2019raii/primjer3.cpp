@@ -11,7 +11,7 @@ class DoublyLinkedList {
       std::shared_ptr<DNode> next_;
       std::shared_ptr<DNode> previous_;
 
-      DNode(const Element& element, std::shared_ptr<DNode> previous, 
+      DNode(const Element& element, std::shared_ptr<DNode> previous,
           std::shared_ptr<DNode> next)
         : element_{element},
         previous_{previous},
@@ -44,8 +44,8 @@ class DoublyLinkedList {
         head_->previous_ = temp;
         head_ = temp;
       }
+    std::cout << std::endl;
     }
-
 };
 
 int main(int argc, char *argv[])
