@@ -1,23 +1,26 @@
-// const mainContainer = document.querySelector('.container');
-//
-// const videoDiv = document.createElement('div');
-// videoDiv.setAttribute('class', 'video');
-//
-// const title = document.createElement('p');
-// title.innerText = 'LZN';
-//
-// const iframe = document.createElement('iframe');
-// iframe.setAttribute('src', 'https://www.youtube.com/embed/s5vNM-8sDhk');
-// iframe.setAttribute('frameborder', '0');
-//
-// const button = document.createElement('button');
-// button.innerText = 'VOTE';
-// button.setAttribute('class', 'vote');
-// button.setAttribute('id', 'first');
-//
-// videoDiv.appendChild(title);
-// videoDiv.appendChild(iframe);
-// videoDiv.appendChild(button);
+const voteFirst = document.getElementById("voteFirst");
+const voteSecond = document.getElementById("voteSecond");
 
-// mainContainer.appendChild(videoDiv);
+const handleVote = (ev) => {
+    ev.preventDefault();
+    const winnerButtonNode = ev.target;
+    const winnerButtonNodeId = winnerButtonNode.getAttribute("id");
+    const loserButtonNode = winnerButtonNodeId === "voteFirst" ? voteSecond : voteFirst ;
 
+    const winnerVideoId = winnerButtonNode.parentNode.getAttribute("id");
+    const loserVideoId = loserButtonNode.parentNode.getAttribute("id");
+
+    const api = "http://localhost:8080/hw2_war_exploded/api";
+    const endpoint = "vote"
+    const url = `${api}/${endpoint}?` + new URLSearchParams({
+        winner: winnerVideoId,
+        loser: loserVideoId,
+    });
+
+    fetch(url)
+        .then(res => res.status === 200 && location.reload())
+        .catch(e => console.error(e));
+}
+
+voteFirst.onclick = handleVote;
+voteSecond.onclick = handleVote;

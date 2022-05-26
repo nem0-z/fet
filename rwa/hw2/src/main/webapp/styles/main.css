@@ -7,31 +7,30 @@ html {
 }
 
 iframe {
-    width: 320px;
-    height: 200px;
+    width: 480px;
+    height: 360px;
     padding-bottom: 1em;
 }
 
-.container {
-    background-color: #555;
+.voting {
+    background-color: #666;
     overflow: auto;
     white-space: nowrap;
     border-radius: 10px;
-    /* margin-bottom: 5%; */
     margin: 2% 2%;
+    padding-bottom: 2%;
 }
 
-.container .video {
+.voting .video {
     display: inline-block;
-    color: white;
     text-align: center;
-    padding: 10px;
-    padding-bottom: 1em;
+    color: white;
     text-decoration: none;
+    padding: 0 5%;
 }
 
-.container .video:hover {
-    background-color: #666;
+.voting:hover {
+    background-color: #555;
 }
 
 .video p {
@@ -41,11 +40,10 @@ iframe {
 .vote {
     display: block;
     margin-left: 40%;
-    padding: 8px 20px;
+    padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-    color: #fff;
     background-color: lightskyblue;
     border: none;
     border-radius: 15px;
@@ -62,7 +60,6 @@ iframe {
 
 .header {
     overflow: hidden;
-    background-color: #f1f1f1;
     padding: 1%;
     background-color: #999;
     margin-top: -2%;

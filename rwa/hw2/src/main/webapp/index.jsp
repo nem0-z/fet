@@ -16,119 +16,25 @@
     <div class="header-right">
         <a class="active" href="index.jsp">Home</a>
         <a href="#">Voting</a>
-        <a href="rankings.html">Rankings</a>
+        <a href="#">Rankings</a>
     </div>
 </div>
 
-<div class="container">
+<div class="voting">
     <%
-        //fetch videos here
         ArrayList<VideoModel> randomTwoVideos = DBService.getRandomVideos(2);
+        int i = 0;
         for (VideoModel vm: randomTwoVideos) {
     %>
-        <div class="video">
+        <div class="video" style="float: <%= i == 0 ? "left" : "right"%>" id="<%= vm.getId()%>">
             <p><%= vm.getTitle() %></p>
-            <iframe src="<%= vm.getEmbedUrl() %>"></iframe>
-            <button class="vote" id="first">Vote</button>
+            <iframe src="https://www.youtube.com/embed/<%= vm.getEmbedUrl() %>" frameborder="0"></iframe>
+            <button class="vote" id="<%= i == 0 ? "voteFirst" : "voteSecond"%>">Vote</button>
         </div>
     <%
+            i++;
         }
     %>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/GgkASKg4fcE"></iframe>--%>
-<%--        <button class="vote" id="second">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/qb9craaTuPI" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/wiMcIXihIlU" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/5FnCqdGsnB4" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/uJThEnfd_Xo" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/TSHEgUGw5rU" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/vYwlo0gYF80" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/yO5KCAgcQ-w" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/qXlEvG6Vuz0" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/s5vNM-8sDhk" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/GgkASKg4fcE" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/qb9craaTuPI" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/wiMcIXihIlU" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/5FnCqdGsnB4" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/uJThEnfd_Xo" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/TSHEgUGw5rU" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/vYwlo0gYF80" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/yO5KCAgcQ-w" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
-<%--    <div class="video">--%>
-<%--        <p>LZN</p>--%>
-<%--        <iframe src="https://www.youtube.com/embed/qXlEvG6Vuz0" frameborder="0"></iframe>--%>
-<%--        <button class="vote">Vote</button>--%>
-<%--    </div>--%>
 </div>
 
 <div id="rankings">
@@ -139,38 +45,22 @@
             <p>Votes(positive/total)</p>
             <p>Rank</p>
         </div>
+        <%
+            ArrayList<VideoModel> topFiveVideos = DBService.getTopFiveVideos();
+            i = 1;
+            for (VideoModel vm: topFiveVideos) {
+        %>
         <div class="top5row">
-            <img src="https://img.youtube.com/vi/vYwlo0gYF80/0.jpg" alt=""></img>
-            <p class="headline">Lud Zbunjen Normalan</p>
-            <p class="votes">(5/10)</p>
-            <p class="rank">1</p>
+            <img src="https://img.youtube.com/vi/<%= vm.getEmbedUrl() %>/0.jpg" alt=""></img>
+            <p class="headline"><%= vm.getTitle() %></p>
+            <p class="votes">(<%= vm.getPositiveVotes()%>/<%= vm.getTotalVotes() %>)</p>
+            <p class="rank"><%= i++ %></p>
         </div>
-        <div class="top5row">
-            <img src="https://img.youtube.com/vi/5FnCqdGsnB4/0.jpg" alt=""></img>
-            <p class="headline">Lud Zbunjen Normalan</p>
-            <p class="votes">(2/10)</p>
-            <p class="rank">2</p>
-        </div>
-        <div class="top5row">
-            <img src="https://img.youtube.com/vi/qXlEvG6Vuz0/0.jpg" alt=""></img>
-            <p class="headline">Lud Zbunjen Normalan</p>
-            <p class="votes">(3/10)</p>
-            <p class="rank">3</p>
-        </div>
-        <div class="top5row">
-            <img src="https://img.youtube.com/vi/TSHEgUGw5rU/0.jpg" alt=""></img>
-            <p class="headline">Lud Zbunjen Normalan</p>
-            <p class="votes">(1/10)</p>
-            <p class="rank">4</p>
-        </div>
-        <div class="top5row">
-            <img src="https://img.youtube.com/vi/uJThEnfd_Xo/0.jpg" alt=""></img>
-            <p class="headline">Lud Zbunjen Normalan</p>
-            <p class="votes">(4/10)</p>
-            <p class="rank">5</p>
-        </div>
+        <%
+            }
+        %>
     </div>
 </div>
-<script type="text/javascript" src="./js/index.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>
