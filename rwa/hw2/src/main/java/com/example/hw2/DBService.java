@@ -3,6 +3,7 @@ package com.example.hw2;
 import jakarta.persistence.*;
 
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class DBService {
         }
     }
 
-    private static long getRowsCount() {
+    public static long getRowsCount() {
         long rows = 0;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -93,5 +94,24 @@ public class DBService {
         }
 
         return rows;
+    }
+
+    public static ArrayList<VideoModel> getVideosForRankingTable(int offset, int pageSize) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        ArrayList<VideoModel> videos = null;
+
+        try {
+            entityTransaction.begin();
+            Query query = entityManager.createQuery("SELECT v FROM VideoModel v ORDER BY v.rank DESC")
+                    .setMaxResults(pageSize)
+                    .setFirstResult(pageSize * offset);
+            videos = new ArrayList<VideoModel>(query.getResultList());
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+        }
+
+        return videos;
     }
 }

@@ -13,7 +13,7 @@ iframe {
 }
 
 .voting {
-    background-color: #666;
+    background-color: #777;
     overflow: auto;
     white-space: nowrap;
     border-radius: 10px;
@@ -30,7 +30,7 @@ iframe {
 }
 
 .voting:hover {
-    background-color: #555;
+    background-color: #666;
 }
 
 .video p {
@@ -84,7 +84,23 @@ iframe {
     float: right;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1350px) {
+    .voting {
+        width: 530px;
+    }
+
+    iframe {
+        width: 480px;
+        height: 350px;
+        padding-bottom: 1em;
+    }
+
+    .top5header {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 580px) {
     .header a {
         float: none;
         display: block;
@@ -93,6 +109,20 @@ iframe {
 
     .header-right {
         float: none;
+    }
+
+    .voting {
+        width: 435px;
+    }
+
+    iframe {
+        width: 380px;
+        height: 250px;
+        padding-bottom: 1em;
+    }
+
+    .top5header {
+        font-size: 18px;
     }
 }
 
@@ -109,14 +139,14 @@ iframe {
 
 .top5header {
     display: grid;
-    grid-template-columns: 4fr 1fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr 1fr;
     align-items: center;
     text-align: center;
 }
 
 .top5header p {
     font-weight: bold;
-    font-size: 30px;
+    font-size: 28px;
 }
 
 .top5row {
@@ -129,7 +159,7 @@ iframe {
 .top5row img {
     width: 240px;
     height: 200px;
-    padding: 20px;
+    padding: 20px 0 20px 20px;
 }
 
 .top5row:hover {
@@ -150,6 +180,11 @@ div#rankings > p {
 .footer {
     float: right;
     margin: 1%;
+}
+
+.footer a {
+    font-weight: bolder;
+    margin: 0 10px;
 }
 
 .footer a:link, .footer a:visited, .footer a:active {

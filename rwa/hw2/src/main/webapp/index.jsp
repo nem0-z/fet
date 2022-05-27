@@ -7,15 +7,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Video voting competition</title>
-    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="header">
-    <a href="index.jsp">Video voting competition</a>
+    <a href="${pageContext.request.contextPath}">Video voting competition</a>
     <div class="header-right">
-        <a class="active" href="index.jsp">Home</a>
-        <a href="#">Rankings</a>
+        <a class="active" href="${pageContext.request.contextPath}/routes/home">Home</a>
+        <a href="${pageContext.request.contextPath}/routes/rankings">Rankings</a>
         <a href="#">Share</a>
     </div>
 </div>
@@ -41,6 +41,7 @@
     <p>Top 5 videos</p>
     <div id="rankingsContainer">
         <div class="top5header">
+            <p></p>
             <p>Headline</p>
             <p>Votes(positive/total)</p>
             <p>Rank</p>
@@ -61,6 +62,6 @@
         %>
     </div>
 </div>
-<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js"></script>
 </body>
 </html>

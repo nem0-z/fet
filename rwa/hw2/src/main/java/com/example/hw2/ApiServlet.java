@@ -11,8 +11,10 @@ public class ApiServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final String contextPath = getServletContext().getContextPath();
         final String voteURI = contextPath + "/api/vote";
+        final String rankingsURI = contextPath + "/api/rankings";
 
-        if (request.getRequestURI().equals(voteURI)) {
+        String requestURI = request.getRequestURI();
+        if (requestURI.equals(voteURI)) {
             int winner = Integer.parseInt(request.getParameter("winner"));
             int loser = Integer.parseInt(request.getParameter("loser"));
 
