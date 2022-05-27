@@ -15,8 +15,8 @@
     <a href="index.jsp">Video voting competition</a>
     <div class="header-right">
         <a class="active" href="index.jsp">Home</a>
-        <a href="#">Voting</a>
         <a href="#">Rankings</a>
+        <a href="#">Share</a>
     </div>
 </div>
 

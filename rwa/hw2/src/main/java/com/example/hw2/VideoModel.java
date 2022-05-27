@@ -25,6 +25,10 @@ public class VideoModel {
     @Column(name = "positive_votes")
     private int positiveVotes;
 
+    @Basic
+    @Column(name = "rank")
+    private double rank;
+
     public int getId() {
         return id;
     }
@@ -71,6 +75,12 @@ public class VideoModel {
 
     public void setPositiveVotes(int positiveVotes) {
         this.positiveVotes = positiveVotes;
+    }
+
+    public double getRank() { return rank; }
+
+    public void setRank(double rank) {
+        this.rank = rank;
     }
 
     @Override

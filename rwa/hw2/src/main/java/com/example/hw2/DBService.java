@@ -38,7 +38,7 @@ public class DBService {
 
         try {
             entityTransaction.begin();
-            Query query = entityManager.createQuery("SELECT v FROM VideoModel v ORDER BY v.positiveVotes DESC").setMaxResults(5);
+            Query query = entityManager.createQuery("SELECT v FROM VideoModel v ORDER BY v.rank DESC").setMaxResults(5);
             videos = new ArrayList<VideoModel>(query.getResultList());
             entityTransaction.commit();
         } catch (Exception e) {
@@ -49,13 +49,15 @@ public class DBService {
         return videos;
     }
 
-    public static void incrementPositiveVotes(int id) {
+    public static void incrementPositiveAndTotalVotes(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
             entityTransaction.begin();
             VideoModel vm = entityManager.getReference(VideoModel.class, id);
             vm.setPositiveVotes(vm.getPositiveVotes() + 1);
+            vm.setTotalVotes(vm.getTotalVotes() + 1);
+            vm.setRank(Helper.ciLowerBound(vm.getPositiveVotes(), vm.getTotalVotes()));
             entityTransaction.commit();
         } catch (Exception e) {
             entityTransaction.rollback();
@@ -69,6 +71,7 @@ public class DBService {
             entityTransaction.begin();
             VideoModel vm = entityManager.getReference(VideoModel.class, id);
             vm.setTotalVotes(vm.getTotalVotes() + 1);
+            vm.setRank(Helper.ciLowerBound(vm.getPositiveVotes(), vm.getTotalVotes()));
             entityTransaction.commit();
         } catch (Exception e) {
             entityTransaction.rollback();

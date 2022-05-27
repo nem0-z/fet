@@ -16,8 +16,7 @@ public class ApiServlet extends HttpServlet {
             int winner = Integer.parseInt(request.getParameter("winner"));
             int loser = Integer.parseInt(request.getParameter("loser"));
 
-            DBService.incrementPositiveVotes(winner);
-            DBService.incrementTotalVotes(winner);
+            DBService.incrementPositiveAndTotalVotes(winner);
             DBService.incrementTotalVotes(loser);
         }
     }
