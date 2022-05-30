@@ -16,7 +16,7 @@
     <div class="header-right">
         <a class="active" href="${pageContext.request.contextPath}/routes/home">Home</a>
         <a href="${pageContext.request.contextPath}/routes/rankings">Rankings</a>
-        <a href="#">Share</a>
+        <a id="shareBtn" href="#">Share</a>
     </div>
 </div>
 
