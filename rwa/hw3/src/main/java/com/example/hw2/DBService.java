@@ -93,7 +93,22 @@ public class DBService {
             entityTransaction.commit();
         } catch (Exception e) {
             entityTransaction.rollback();
-            System.out.println(e.getMessage());
+        }
+
+        return rows;
+    }
+
+    public static long getUsersCount() {
+        long rows = 0;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        try {
+            entityTransaction.begin();
+            Query query = entityManager.createQuery("SELECT COUNT(v) FROM UsersModel v");
+            rows = (long) query.getSingleResult();
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
         }
 
         return rows;
@@ -137,28 +152,24 @@ public class DBService {
         return videos;
     }
 
-    public static boolean userExists(String username, String password) {
+
+    public static ArrayList<UsersModel> getUsersOrderedById(int offset, int pageSize) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
-        boolean exists = false;
+        ArrayList<UsersModel> users = null;
 
         try {
             entityTransaction.begin();
-            Query query = entityManager.createQuery("SELECT u FROM UsersModel u WHERE u.name = :username AND u.passwod = :password");
-            query.setParameter("username", username);
-            query.setParameter("password", password);
-            UsersModel user = (UsersModel) query.getSingleResult();
-            System.out.println(user);
-            if (user != null) {
-                exists = true;
-            }
-
+            Query query = entityManager.createQuery("SELECT u FROM UsersModel u ORDER BY u.id ASC")
+                    .setMaxResults(pageSize)
+                    .setFirstResult(pageSize * offset);
+            users = new ArrayList<UsersModel>(query.getResultList());
             entityTransaction.commit();
         } catch (Exception e) {
             entityTransaction.rollback();
         }
 
-        return exists;
+        return users;
     }
 
     public static UsersModel getUser(String username, String password) {
@@ -171,6 +182,24 @@ public class DBService {
             Query query = entityManager.createQuery("SELECT u FROM UsersModel u WHERE u.name = :username AND u.passwod = :password");
             query.setParameter("username", username);
             query.setParameter("password", password);
+            um = (UsersModel) query.getSingleResult();
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+        }
+
+        return um;
+    }
+
+    public static UsersModel getUser(int id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        UsersModel um = null;
+
+        try {
+            entityTransaction.begin();
+            Query query = entityManager.createQuery("SELECT u FROM UsersModel u WHERE u.id = :id");
+            query.setParameter("id", id);
             um = (UsersModel) query.getSingleResult();
             entityTransaction.commit();
         } catch (Exception e) {
@@ -205,7 +234,7 @@ public class DBService {
             entityTransaction.begin();
             if (newVideo) {
                 vm = new VideoModel();
-                vm.setId((int) DBService.getRowsCount() + 1);
+                vm.setId(getLatestId() + 1);
             } else {
                 vm = entityManager.getReference(VideoModel.class, Integer.parseInt(params.get("id")[0]));
             }
@@ -216,6 +245,33 @@ public class DBService {
             vm.setImgUrl(params.get("imageurl")[0]);
             if (newVideo) {
                 entityManager.persist(vm);
+            }
+
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+        }
+    }
+
+    public static void editUser(boolean newUser, Map<String, String[]> params) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        UsersModel um = null;
+
+        try {
+            entityTransaction.begin();
+            if (newUser) {
+                um = new UsersModel();
+                um.setId(getLatestUserId() + 1);
+            } else {
+                um = entityManager.getReference(UsersModel.class, Integer.parseInt(params.get("id")[0]));
+            }
+
+            um.setName(params.get("name")[0]);
+            um.setPasswod(params.get("password")[0]);
+            um.setRole(params.get("role")[0]);
+            if (newUser) {
+                entityManager.persist(um);
             }
 
             entityTransaction.commit();
@@ -239,5 +295,55 @@ public class DBService {
         } catch (Exception e) {
             entityTransaction.rollback();
         }
+    }
+
+    public static void deleteUser(int id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        try {
+            entityTransaction.begin();
+            UsersModel um = entityManager.find(UsersModel.class, id);
+            if (um != null) {
+                entityManager.remove(um);
+            }
+
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+        }
+    }
+    private static int getLatestId() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        int id = 0;
+
+        try {
+            entityTransaction.begin();
+            Query query = entityManager.createQuery("SELECT MAX(v.id) FROM VideoModel v");
+            id = (int) query.getSingleResult();
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+        }
+
+        return id;
+    }
+
+    private static int getLatestUserId() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        int id = 0;
+
+        try {
+            entityTransaction.begin();
+            Query query = entityManager.createQuery("SELECT MAX(u.id) FROM UsersModel u");
+            id = (int) query.getSingleResult();
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+        }
+
+        return id;
     }
 }

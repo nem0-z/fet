@@ -10,8 +10,9 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final String contextPath = getServletContext().getContextPath();
-        final String videos= contextPath + "/admin/videos";
+        final String videos = contextPath + "/admin/videos";
         final String videosEdit = contextPath + "/admin/videos/edit";
+        final String users = contextPath + "/admin/users";
         final String requestURI = request.getRequestURI();
         String route = "";
 
@@ -19,6 +20,8 @@ public class AdminServlet extends HttpServlet {
             route = "/videos.jsp";
         } else if (requestURI.equals(videosEdit)) {
             route = "/api/video/edit";
+        } else if (requestURI.equals(users)) {
+            route = "/users.jsp";
         }
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(route);

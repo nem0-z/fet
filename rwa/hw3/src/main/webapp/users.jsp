@@ -1,11 +1,13 @@
-<%@ page import="com.example.hw2.VideoModel" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.hw2.DBService" %>
 <%@ page import="com.example.hw2.Helper" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page import="com.example.hw2.VideoModel" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.hw2.UsersModel" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <title>Manage videos</title>
+    <meta charset="UTF-8">
+    <title>Video voting competition</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -18,15 +20,15 @@
     %>
     <a href="${pageContext.request.contextPath}/api/logout">LOG OUT (Logged in as: <%= user %> (<%= role %>))</a>
     <% } else { %>
-        <a href="${pageContext.request.contextPath}/login.jsp">LOG IN</a>
+    <a href="${pageContext.request.contextPath}/login.jsp">LOG IN</a>
     <% } %>
-<%--    <a href="${pageContext.request.contextPath}">Video voting competition</a>--%>
+    <%--    <a class="title" href="${pageContext.request.contextPath}">Video voting competition</a>--%>
     <div class="header-right">
         <a class="active" href="${pageContext.request.contextPath}/routes/home">Home</a>
         <a href="${pageContext.request.contextPath}/routes/rankings">Rankings</a>
-        <a href="#">Share</a>
+        <a id="shareBtn" href="#">Share</a>
         <%
-            if (request.getSession().getAttribute("username") != null) {
+            if (role != null && role.equals("admin") || true) {
         %>
         <a href="${pageContext.request.contextPath}/admin/videos">Videos</a>
         <a href="${pageContext.request.contextPath}/admin/users">Users</a>
@@ -35,30 +37,26 @@
         %>
     </div>
 </div>
-
 <div id="rankings">
-    <p>Manage videos</p>
-    <div id="rankingsContainer">
-        <button id="addnew">Add Video</button>
+    <p>Manage users</p>
+    <div id="usersContainer">
+        <button id="newuser">Add User</button>
         <div class="top5header">
-            <p>Thumbnail</p>
-            <p>Headline/Description</p>
-            <p></p>
-            <p></p>
+            <p>ID</p>
+            <p>Name</p>
+            <p>Role</p>
         </div>
         <%
-            final long rowsCount = DBService.getRowsCount();
+            final long rowsCount = DBService.getUsersCount();
             int rpage = Helper.getRpage(request);
             final double pageSize = 20;
-            ArrayList<VideoModel> videoModels = DBService.getVideosForRankingTableOrderedById(rpage - 1, (int) pageSize);
-            int i = 1;
-            for (VideoModel vm: videoModels) {
-                String imageUrl = vm.getImgUrl().isEmpty() ? "https://img.youtube.com/vi/" + vm.getEmbedUrl() + "/0.jpg" : vm.getImgUrl();
+            ArrayList<UsersModel> usersModels = DBService.getUsersOrderedById(rpage - 1, (int) pageSize);
+            for (UsersModel um: usersModels) {
         %>
         <div class="top5row">
-            <span style="display: none"><%= vm.getId()%></span>
-            <img src="<%= imageUrl %>" alt="Failed to load resource"></img>
-            <p class="headline"><%= vm.getTitle()%>:"<%= vm.getDescription()%>"</p>
+            <p class="headline"><%= um.getId() %></p>
+            <p class="headline"><%= um.getName() %></p>
+            <p class="headline"><%= um.getRole() %></p>
             <button id="manage-video-edit-btn" class="vote manage-video-btn">Edit</button>
             <button id="manage-video-delete-btn" class="vote manage-video-btn">Delete</button>
         </div>
@@ -81,6 +79,6 @@
         <p>Page <%= rpage%> of <%= (int) Math.ceil(rowsCount / pageSize)%></p>
     </div>
 </div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/videos.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 </body>
 </html>

@@ -30,6 +30,7 @@
             if (role != null && role.equals("admin")) {
         %>
         <a href="${pageContext.request.contextPath}/admin/videos">Videos</a>
+        <a href="${pageContext.request.contextPath}/admin/users">Users</a>
         <%
             }
         %>

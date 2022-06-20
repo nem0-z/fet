@@ -18,17 +18,17 @@ public class AuthFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-//        String currentUser = (String) httpServletRequest.getSession().getAttribute("username");
-//        String currentUserRole = (String) httpServletRequest.getSession().getAttribute("userrole");
-//        if (currentUser == null) {
-//            //not logged in
-//            httpServletRequest.getRequestDispatcher("/login.jsp").forward(request, response);
-//        } else if (currentUserRole.equals("admin")) {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String currentUser = (String) httpServletRequest.getSession().getAttribute("username");
+        String currentUserRole = (String) httpServletRequest.getSession().getAttribute("userrole");
+        if (currentUser == null) {
+            httpServletRequest.setAttribute("loginstatus", "needslogin");
+            httpServletRequest.getRequestDispatcher("/login.jsp").forward(request, response);
+        } else if (currentUserRole.equals("admin")) {
             chain.doFilter(request, response);
-//        } else {
-//            httpServletRequest.setAttribute("loginstatus", "hamal");
-//            httpServletRequest.getRequestDispatcher("/login.jsp").include(request, response);
-//        }
+        } else {
+            httpServletRequest.setAttribute("loginstatus", "hamal");
+            httpServletRequest.getRequestDispatcher("/login.jsp").include(request, response);
+        }
     }
 }

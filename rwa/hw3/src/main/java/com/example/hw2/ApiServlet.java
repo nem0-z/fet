@@ -20,6 +20,8 @@ public class ApiServlet extends HttpServlet {
         final String voteURI = contextPath + "/api/vote";
         final String videoEditURI = contextPath + "/api/video_edit";
         final String videoDeleteURI = contextPath + "/api/video_delete";
+        final String usersEditURI = contextPath + "/api/users_edit";
+        final String usersDeleteURI = contextPath + "/api/users_delete";
         final String logoutURI = contextPath + "/api/logout";
 
         String requestURI = request.getRequestURI();
@@ -39,6 +41,21 @@ public class ApiServlet extends HttpServlet {
             request.getSession().removeAttribute("username");
             request.getSession().removeAttribute("userrole");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } else if (requestURI.equals(usersEditURI)) {
+            String id = request.getParameter("id");
+            DBService.editUser((id == null || Integer.parseInt(id) == 0), request.getParameterMap());
+            request.getRequestDispatcher("/users.jsp").forward(request, response);
+        } else if (requestURI.equals(usersDeleteURI)) {
+            String id = request.getParameter("id");
+            String current = (String) request.getSession().getAttribute("username");
+            UsersModel user = DBService.getUser(Integer.parseInt(id));
+            if (current != null && user != null && current.equals(user.getName())) {
+                request.getSession().removeAttribute("username");
+                request.getSession().removeAttribute("userrole");
+            }
+
+            DBService.deleteUser(Integer.parseInt(request.getParameter("id")));
+            request.getRequestDispatcher("/users.jsp").forward(request, response);
         }
     }
 

@@ -29,6 +29,7 @@
       if (request.getSession().getAttribute("username") != null) {
     %>
     <a href="${pageContext.request.contextPath}/admin/videos">Videos</a>
+    <a href="${pageContext.request.contextPath}/admin/users">Users</a>
     <%
       }
     %>
