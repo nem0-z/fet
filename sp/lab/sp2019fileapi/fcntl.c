@@ -9,7 +9,8 @@ int main( int argc, char *argv[] ){
 		fprintf( stderr, "usage: %s <descriptor#>", argv[0] );
 		exit(1);
 	}
-	val = fcntl(atoi(argv[1]), F_GETFL, 0);
+	int fd = open("dup.txt", O_RDONLY, NULL);
+	val = fcntl(fd, F_GETFL, NULL);
 	if ( val < 0 ) {
 		perror( "fcntl error for fd" );
 		exit( 1 );

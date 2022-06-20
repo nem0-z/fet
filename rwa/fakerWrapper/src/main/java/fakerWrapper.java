@@ -19,8 +19,8 @@ public class fakerWrapper {
         videos.add("s5vNM-8sDhk");
         Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/rwa_hw?user=zlatan&password=test123");
 
-        for (int i = 0; i <= 1000; i++) {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO rwa_hw.VIDEOS values (?,?,?,?,?,?,?)");
+        for (int i = 1; i <= 25; i++) {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO rwa_hw.VIDEOS values (?,?,?,?,?,?,?,?)");
             int totalVotes = faker.number().numberBetween(15, 30);
             int positiveVotes = faker.number().numberBetween(5, 15);
             double rank = ciLowerBound(positiveVotes, totalVotes);
@@ -28,9 +28,10 @@ public class fakerWrapper {
             preparedStatement.setString(2, faker.artist().name() + "-" + i);
             preparedStatement.setString(3, faker.lorem().sentence());
             preparedStatement.setString(4, videos.get(i % 10));
-            preparedStatement.setInt(5, totalVotes);
-            preparedStatement.setInt(6, positiveVotes);
-            preparedStatement.setDouble(7, rank);
+            preparedStatement.setString(5, "");
+            preparedStatement.setInt(6, totalVotes);
+            preparedStatement.setInt(7, positiveVotes);
+            preparedStatement.setDouble(8, rank);
             preparedStatement.executeUpdate();
         }
     }

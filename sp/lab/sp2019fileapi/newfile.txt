@@ -1,0 +1,35 @@
+Child: 7576: i:0
+Child: 7576: i:0
+err 9
+Parent: i:0
+NEW FD 4
+--------------------
+Child: 7577: i:1
+Child: 7577: i:3
+err 0
+Parent: i:1
+NEW FD 5
+--------------------
+Child: 7578: i:2
+Child: 7578: i:6
+err 0
+Parent: i:2
+NEW FD 6
+--------------------
+Child: 7579: i:3
+Child: 7579: i:9
+err 0
+Parent: i:3
+NEW FD 7
+--------------------
+Child: 7580: i:4
+Child: 7580: i:12
+err 0
+Parent: i:4
+NEW FD 8
+--------------------
+Child: 7581: i:5
+Child: 7581: i:15
+err 0
+Parent: i:5
+NEW FD 9

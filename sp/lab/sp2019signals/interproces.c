@@ -26,7 +26,7 @@ int main()
 			//sleep(5);
 			printf("Child proces nesto radi\n");
 
-			kill(getppid(), SIGALRM);
+			kill(getppid(), SIGCHLD);
 			pause();
 			printf("Ovo se ne bi trebalo ispisati\n");
 			exit(0);

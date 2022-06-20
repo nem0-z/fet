@@ -12,7 +12,7 @@
 
 void fail(const char* str) {
     perror(str);
-    exit(1);
+    // exit(1);
 }
 
 int main() {

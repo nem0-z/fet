@@ -26,8 +26,9 @@ int main()
 	/* parent */
 	printf("Parent proces nesto radi\n");
 	sleep(3);
-	kill(pid, SIGKILL);
-	wait(&status);
+	kill(pid, SIGFPE);
+	// wait(&status);
+	sleep(2);
 	printf("Zavrseno.\n");
 	exit(0);
 }

@@ -17,17 +17,22 @@ int main() {
         fail("pipe greska");
 
     printf("Read: %d, Write: %d\n", fd[0], fd[1]);
+            dup2(fd[1], STDOUT_FILENO);
     if ((pid = fork()) < 0)
         fail("fork greska");
     else
         if (pid > 0) {
             close(fd[0]);
-            write(fd[1], "Pozdrav svima!\n", 15);
+            
+            printf("pox");
+            // write(fd[1], "Pozdrav svima!\n", 15);
         }
         else {
             close(fd[1]);
-            n = read(fd[0], linija, MAX);
-            write(STDOUT_FILENO, linija, n);
+            dup2(fd[0], STDIN_FILENO);
+            n = read(0, linija, MAX);
+            // scanf("%s", linija);
+            // write(STDOUT_FILENO, linija, n);
             printf("Process ID: %d\n", getpid());
         }
     return 0;

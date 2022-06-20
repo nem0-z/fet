@@ -4,7 +4,7 @@
   
 int main() 
 { 
-    int file_desc = open("dup.txt", O_WRONLY | O_APPEND); 
+    int file_desc = open("dup.txt", O_WRONLY | O_APPEND | O_CREAT, 0777); 
       
     if(file_desc < 0) 
         printf("Error opening the file\n"); 

@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 struct termios orig_termios;
-int ttyfd = STDIN_FILENO;
+int ttyfd = STDERR_FILENO;
 
 int tty_reset() {
     if (tcsetattr(ttyfd,TCSAFLUSH,&orig_termios) < 0)
@@ -24,7 +24,7 @@ void fatal(char *message) {
 void set_tty() {
     struct termios raw;
     raw = orig_termios;
-    raw.c_lflag &= ~(ECHO | ICANON | ISIG);
+    raw.c_lflag &= ~(ECHO | ISIG);
     raw.c_cc[VMIN] = 0;
     raw.c_cc[VTIME] = 10;
     if (tcsetattr(ttyfd,TCSAFLUSH,&raw) < 0)
