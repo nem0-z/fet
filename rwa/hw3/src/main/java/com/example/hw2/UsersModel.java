@@ -61,9 +61,7 @@ public class UsersModel {
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (passwod != null ? !passwod.equals(that.passwod) : that.passwod != null) return false;
-        if (role != null ? !role.equals(that.role) : that.role != null) return false;
-
-        return true;
+        return role != null ? role.equals(that.role) : that.role == null;
     }
 
     @Override

@@ -17,11 +17,11 @@ public class AdminServlet extends HttpServlet {
         String route = "";
 
         if (requestURI.equals(videos)) {
-            route = "/videos.jsp";
+            route = "/routes/videos";
         } else if (requestURI.equals(videosEdit)) {
             route = "/api/video/edit";
         } else if (requestURI.equals(users)) {
-            route = "/users.jsp";
+            route = "/routes/users";
         }
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(route);

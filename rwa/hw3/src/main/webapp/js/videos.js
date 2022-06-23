@@ -4,7 +4,7 @@ const editHandler = function(event) {
     event.preventDefault();
     const id = this.parentNode.firstElementChild.textContent;
     const contextPath = "http://localhost:8080/hw2_war_exploded/";
-    const resource = "video_edit.jsp"
+    const resource = "routes/video_edit"
     location.replace(`${contextPath}${resource}?id=${id}`);
 };
 
@@ -25,7 +25,7 @@ const addHandler = function(event) {
     event.preventDefault();
     const id = this.parentNode.firstElementChild.textContent;
     const contextPath = "http://localhost:8080/hw2_war_exploded/";
-    const resource = "video_edit.jsp"
+    const resource = "routes/video_edit"
     location.replace(`${contextPath}${resource}`);
 }
 

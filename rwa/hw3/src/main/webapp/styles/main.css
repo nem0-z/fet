@@ -52,7 +52,7 @@ iframe {
     font-family: 'Foo', 'Arial', 'Helvetica', 'sans-serif';
 }
 
-#addnew, #newuser, .myform button {
+#addnew, #newuser, .myform .submit {
     /*display: inline;*/
     margin: 1% 1%;
     padding: 1% 0;
@@ -256,10 +256,11 @@ div#rankings > p {
 }
 
 .myform input {
-    margin: 1%;
+    margin: 1em;
 }
 
-.myform .submit {
-    padding: 2%;
-    font-size: 30px;
+label {
+    display: inline-block;
+    width: 5em;
+    text-align: center;
 }

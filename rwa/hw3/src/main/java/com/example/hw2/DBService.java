@@ -2,12 +2,7 @@ package com.example.hw2;
 
 import jakarta.persistence.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DBService {
@@ -22,10 +17,30 @@ public class DBService {
         int generatedID = 0;
         try {
             entityTransaction.begin();
-            for (int i = 0; i < count; i++) {
+            while (videos.size() < count) {
                 generatedID = Helper.generateRandomInt(rowsCount, generatedID);
-                videos.add(entityManager.find(VideoModel.class, generatedID));
+                VideoModel vm = entityManager.find(VideoModel.class, generatedID);
+                if (vm != null) {
+                    videos.add(entityManager.find(VideoModel.class, generatedID));
+                }
             }
+            entityTransaction.commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+        }
+
+        return videos;
+    }
+
+    public static ArrayList<VideoModel> getAllVideos() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        ArrayList<VideoModel> videos = null;
+
+        try {
+            entityTransaction.begin();
+            Query query = entityManager.createQuery("SELECT v FROM VideoModel v");
+            videos = new ArrayList<VideoModel>(query.getResultList());
             entityTransaction.commit();
         } catch (Exception e) {
             entityTransaction.rollback();
@@ -245,6 +260,8 @@ public class DBService {
             vm.setImgUrl(params.get("imageurl")[0]);
             if (newVideo) {
                 entityManager.persist(vm);
+            } else {
+                entityManager.merge(vm);
             }
 
             entityTransaction.commit();
@@ -269,7 +286,7 @@ public class DBService {
 
             um.setName(params.get("name")[0]);
             um.setPasswod(params.get("password")[0]);
-            um.setRole(params.get("role")[0]);
+            um.setRole(params.get("roles")[0]);
             if (newUser) {
                 entityManager.persist(um);
             }

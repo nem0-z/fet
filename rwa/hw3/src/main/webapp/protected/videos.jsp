@@ -18,21 +18,13 @@
     %>
     <a href="${pageContext.request.contextPath}/api/logout">LOG OUT (Logged in as: <%= user %> (<%= role %>))</a>
     <% } else { %>
-        <a href="${pageContext.request.contextPath}/login.jsp">LOG IN</a>
+    <a href="${pageContext.request.contextPath}/login.jsp">LOG IN</a>
     <% } %>
-<%--    <a href="${pageContext.request.contextPath}">Video voting competition</a>--%>
     <div class="header-right">
         <a class="active" href="${pageContext.request.contextPath}/routes/home">Home</a>
         <a href="${pageContext.request.contextPath}/routes/rankings">Rankings</a>
-        <a href="#">Share</a>
-        <%
-            if (request.getSession().getAttribute("username") != null) {
-        %>
         <a href="${pageContext.request.contextPath}/admin/videos">Videos</a>
         <a href="${pageContext.request.contextPath}/admin/users">Users</a>
-        <%
-            }
-        %>
     </div>
 </div>
 
@@ -72,10 +64,10 @@
         boolean moreBack = rpage > 1;
     %>
     <div class="footer">
-        <a href="${pageContext.request.contextPath}/videos.jsp?rpage=<%= moreBack ? rpage-1 : rpage%>" <% if (!moreBack) out.print("style=\"pointer-events: none\""); %>>
+        <a href="${pageContext.request.contextPath}/routes/videos?rpage=<%= moreBack ? rpage-1 : rpage%>" <% if (!moreBack) out.print("style=\"pointer-events: none\""); %>>
             Back
         </a>
-        <a href="${pageContext.request.contextPath}/videos.jsp?rpage=<%= moreForward ? rpage+1 : rpage%>" <% if (!moreForward) out.print("style=\"pointer-events: none\""); %>>
+        <a href="${pageContext.request.contextPath}/routes/videos?rpage=<%= moreForward ? rpage+1 : rpage%>" <% if (!moreForward) out.print("style=\"pointer-events: none\""); %>>
             Next
         </a>
         <p>Page <%= rpage%> of <%= (int) Math.ceil(rowsCount / pageSize)%></p>

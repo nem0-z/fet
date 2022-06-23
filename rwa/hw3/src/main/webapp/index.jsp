@@ -21,7 +21,6 @@
     <% } else { %>
     <a href="${pageContext.request.contextPath}/login.jsp">LOG IN</a>
     <% } %>
-    <%--    <a class="title" href="${pageContext.request.contextPath}">Video voting competition</a>--%>
     <div class="header-right">
         <a class="active" href="${pageContext.request.contextPath}/routes/home">Home</a>
         <a href="${pageContext.request.contextPath}/routes/rankings">Rankings</a>

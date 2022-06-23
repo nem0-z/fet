@@ -1,5 +1,4 @@
 <%@ page import="com.example.hw2.DBService" %>
-<%@ page import="com.example.hw2.VideoModel" %>
 <%@ page import="com.example.hw2.UsersModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -18,11 +17,9 @@
   <% } else { %>
   <a href="${pageContext.request.contextPath}/login.jsp">LOG IN</a>
   <% } %>
-  <%--  <a href="${pageContext.request.contextPath}">Video voting competition</a>--%>
   <div class="header-right">
     <a class="active" href="${pageContext.request.contextPath}/routes/home">Home</a>
     <a href="${pageContext.request.contextPath}/routes/rankings">Rankings</a>
-    <a href="#">Share</a>
     <%
       if (request.getSession().getAttribute("username") != null) {
     %>
@@ -53,12 +50,11 @@
   <label for="password">Password:</label>
   <input name="password" id="password" type="password" value="<%= password %>" required><br>
 
-  <label for="role">Role:</label>
-  <input list="roles" name="role" id="role" type="text" value="<%= urole %>" required><br>
-  <datalist id="roles">
-    <option value="admin">
-    <option value="hamal">
-  </datalist>
+  <label for="roles">Role:</label>
+  <select name="roles" id="roles" style="margin: 1em">
+    <option value="admin">Admin</option>
+    <option value="hamal">Hamal</option>
+  </select><br>
 
   <input name="id" id="id" type="hidden" value="<%= id %>">
 

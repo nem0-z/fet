@@ -98,9 +98,7 @@ public class VideoModel {
         if (positiveVotes != that.positiveVotes) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (embedUrl != null ? !embedUrl.equals(that.embedUrl) : that.embedUrl != null) return false;
-
-        return true;
+        return embedUrl != null ? embedUrl.equals(that.embedUrl) : that.embedUrl == null;
     }
 
     @Override

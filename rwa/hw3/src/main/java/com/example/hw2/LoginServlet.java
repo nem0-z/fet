@@ -1,7 +1,5 @@
 package com.example.hw2;
 
-import org.eclipse.persistence.sessions.Session;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -18,7 +16,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             session.setAttribute("username", username);
             session.setAttribute("userrole", user.getRole());
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else {
             if (username != null && password != null) {
                 request.setAttribute("loginstatus", "fail");

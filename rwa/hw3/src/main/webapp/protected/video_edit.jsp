@@ -17,19 +17,11 @@
     <% } else { %>
     <a href="${pageContext.request.contextPath}/login.jsp">LOG IN</a>
     <% } %>
-    <%--  <a href="${pageContext.request.contextPath}">Video voting competition</a>--%>
     <div class="header-right">
         <a class="active" href="${pageContext.request.contextPath}/routes/home">Home</a>
         <a href="${pageContext.request.contextPath}/routes/rankings">Rankings</a>
-        <a href="#">Share</a>
-        <%
-            if (request.getSession().getAttribute("username") != null) {
-        %>
         <a href="${pageContext.request.contextPath}/admin/videos">Videos</a>
         <a href="${pageContext.request.contextPath}/admin/users">Users</a>
-        <%
-            }
-        %>
     </div>
 </div>
 <body>

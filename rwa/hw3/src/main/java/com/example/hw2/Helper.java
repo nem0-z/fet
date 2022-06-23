@@ -3,7 +3,6 @@ package com.example.hw2;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
 
 public class Helper {
     public static int generateRandomInt(int max, int previous) {

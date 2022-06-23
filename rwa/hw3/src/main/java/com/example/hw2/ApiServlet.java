@@ -1,16 +1,9 @@
 package com.example.hw2;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-
-import static com.example.hw2.DBService.entityManagerFactory;
 
 @WebServlet(name = "ApiServlet", value = "/api/*")
 public class ApiServlet extends HttpServlet {
@@ -33,18 +26,18 @@ public class ApiServlet extends HttpServlet {
         } else if (requestURI.equals(videoEditURI)) {
             String id = request.getParameter("id");
             DBService.editVideo((id == null || Integer.parseInt(id) == 0), request.getParameterMap());
-            request.getRequestDispatcher("/videos.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/routes/videos");
         } else if (requestURI.equals(videoDeleteURI)) {
             DBService.deleteVideo(Integer.parseInt(request.getParameter("id")));
-            request.getRequestDispatcher("/videos.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/routes/videos");
         } else if (requestURI.equals(logoutURI)) {
             request.getSession().removeAttribute("username");
             request.getSession().removeAttribute("userrole");
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else if (requestURI.equals(usersEditURI)) {
             String id = request.getParameter("id");
             DBService.editUser((id == null || Integer.parseInt(id) == 0), request.getParameterMap());
-            request.getRequestDispatcher("/users.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/routes/users");
         } else if (requestURI.equals(usersDeleteURI)) {
             String id = request.getParameter("id");
             String current = (String) request.getSession().getAttribute("username");
@@ -55,7 +48,7 @@ public class ApiServlet extends HttpServlet {
             }
 
             DBService.deleteUser(Integer.parseInt(request.getParameter("id")));
-            request.getRequestDispatcher("/users.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/routes/users");
         }
     }
 
