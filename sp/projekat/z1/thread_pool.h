@@ -69,7 +69,6 @@ class thread_pool {
 
     template<typename T>
       void async(T&& fun) {
-        std::lock_guard<std::mutex> lg{mtx_};
         tasks_[cnt_++ % thread_number_].push(std::forward<T>(fun));
       }
 
@@ -84,10 +83,9 @@ class thread_pool {
     }
 
     const size_t thread_number_;
-    int cnt_{0};
+    std::atomic<int> cnt_{0};
     std::vector<std::thread> threads_;
     std::vector<task_queue> tasks_;
-    std::mutex mtx_;
 };
 
 #endif /* ifndef thread_pool_ */

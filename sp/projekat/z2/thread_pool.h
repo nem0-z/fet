@@ -106,7 +106,7 @@ class thread_pool {
     }
 
     const size_t thread_number_;
-    int cnt_{0};
+    std::atomic<int> cnt_{0};
     std::vector<std::thread> threads_;
     std::vector<task_queue> tasks_;
     std::mutex mtx_;
