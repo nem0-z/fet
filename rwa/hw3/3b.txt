@@ -1,0 +1,17 @@
+- Odvojiti ranking u separatnu tabelu
+  * id (video/post), total_votes, positive_votes, rank
+
+- Reducirati tabelu VIDEOS na 
+  * id, title, desc, embed_url, img_url
+
+- Dodati novu POSTS tabelu u bazi u koju cemo spremati informacije o postovima 
+  * id, text posta, link na post, servis(fb, tweet, instagram, custom quote) 
+
+- Pri generisanju parova, nasumicno odabrati tabelu
+
+- U slucaju da se generise par iz POSTS tabele:
+  - Nasumicno odabrati jedan od servisa te dohvatiti 2 elementa sa istim servisom
+  - Umjesto <iframe> elementa za prikaz video playera, smjestiti text posta (zajedno sa linkom na post) u <div> element
+
+- Pri glasanju za jedan od elemenata, logika je ista osim sto ce se sada update-ati ranking tabela za id pobjednickog posta/videa
+
